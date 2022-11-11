@@ -136,3 +136,44 @@ deploy/docker/etl_service/*.pem
 
 # ignore jetbrains ide files
 .idea
+
+# Compiled output
+/code/sci-graph/ui/dist
+/code/sci-graph/ui/tmp
+/code/sci-graph/ui/out-tsc
+/code/sci-graph/ui/bazel-out
+
+# Node
+/code/sci-graph/ui/node_modules
+/code/sci-graph/ui/npm-debug.log
+/code/sci-graph/ui/yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+/code/sci-graph/ui/.vscode/*
+!/code/sci-graph/ui/.vscode/settings.json
+!/code/sci-graph/ui/.vscode/tasks.json
+!/code/sci-graph/ui/.vscode/launch.json
+!/code/sci-graph/ui/.vscode/extensions.json
+/code/sci-graph/ui/.history/*
+
+# Miscellaneous
+/code/sci-graph/ui/.angular/cache
+/code/sci-graph/ui/.sass-cache/
+/code/sci-graph/ui/connect.lock
+/code/sci-graph/ui/coverage
+/code/sci-graph/ui/libpeerconnection.log
+/code/sci-graph/ui/testem.log
+/code/sci-graph/ui/typings
+
+# System files
+/code/sci-graph/ui/.DS_Store
+/code/sci-graph/ui/Thumbs.db
