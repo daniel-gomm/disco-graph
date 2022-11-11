@@ -1,4 +1,4 @@
-from model import publication
+from model import Publication
 
 from rdflib import Graph, Literal, URIRef, Namespace
 from rdflib.plugins.stores import sparqlstore
@@ -9,41 +9,39 @@ DATACITE = Namespace("https://purl.org/spar/datacite/")
 PRISM = Namespace("http://prismstandard.org/namespaces/basic/2.0/")
 
 
-graph = None
+class RDFConnector:
+    graph: Graph
 
-def init() -> None:
-    # for local debugging only
-    query_endpoint = 'http://localhost:3030/ds/query'
-    update_endpoint = 'http://localhost:3030/ds/update'
+    def __init__(self, hostname: str):
+        query_endpoint = hostname + '/query'
+        update_endpoint = hostname + '/update'
+        store = sparqlstore.SPARQLUpdateStore()
+        store.open((query_endpoint, update_endpoint))
+        self.graph = Graph(store, identifier=default_identifier)
 
-    store = sparqlstore.SPARQLStore()
-    store.open((query_endpoint, update_endpoint))
-    graph = Graph(store, identifier=default_identifier)
+    def add_to_graph(self, pub: Publication):
+        # Add publication
+        pub_ref = URIRef(pub.pub_id)
+        self.graph.add((pub_ref, RDF.type, FOAF.Document))
 
-def add_publication(pub:publication):
-    if not graph:
-        init()
-    #Add publication
-    pub_ref = URIRef(pub.pub_id)
-    graph.add((pub_ref, RDF.type, FOAF.Document))
+        # Add title
+        title_literal = Literal(pub.title, datatype=XSD.string)
+        self.graph.add((pub_ref, DCTERMS.title, title_literal))
 
-    #Add title
-    title_literal = Literal(pub.title, datatype=XSD.string)
-    graph.add((pub_ref, DCTERMS.title, title_literal))
+        # Add author
+        author_literal = Literal(pub.author, datatype=XSD.string)
+        self.graph.add((pub_ref, DCTERMS.creator, author_literal))
 
-    #Add author
-    author_literal = Literal(pub.author, datatype=XSD.string)
-    graph.add((pub_ref, DCTERMS.creator, author_literal))
+        # Add year issued
+        issued_literal = Literal(pub.issued, datatype=XSD.year)
+        self.graph.add((pub_ref, DCTERMS.issued, issued_literal))
 
-    #Add year issued
-    issued_literal = Literal(pub.issued, datatype=XSD.year)
-    graph.add((pub_ref, DCTERMS.issued, issued_literal))
+        # Add doi
+        doi_literal = Literal(pub.doi, datatype=XSD.string)
+        self.graph.add((pub_ref, DATACITE.doi, doi_literal))
 
-    #Add doi
-    doi_literal = Literal(pub.doi, datatype=XSD.string)
-    graph.add((pub_ref, DATACITE.doi, doi_literal))
-
-    #Add keywords
-    for keyword in pub.keywords:
-        keyword_literal = Literal(keyword, XSD.string)
-        graph.add((pub_ref, PRISM.keyword, keyword_literal))
+        # Add keywords
+        for keyword in pub.keywords:
+            keyword_literal = Literal(keyword, datatype=XSD.string)
+            self.graph.add((pub_ref, PRISM.keyword, keyword_literal))
+        return
