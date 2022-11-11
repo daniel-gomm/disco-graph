@@ -7,9 +7,8 @@ class publication:
     title: str
     doi: str
     issued: int
-    keywords: list(str)
+    keywords: list
     full_text: str
-    pdf: any
 
     def __init__(self, request:request=None) -> None:
         if not request:
@@ -23,5 +22,8 @@ class publication:
         if "keywords" in request.form:
             for keyword in request.form["keywords"]:
                 self.keywords.append(keyword)
+        
+    
+    def extract_text(self, pdf):
         self.pdf = request.files["publication_pdf"]
-        self.full_text = parse_publication_pdf(self.pdf)
+        self.full_text = parse_publication_pdf(pdf)

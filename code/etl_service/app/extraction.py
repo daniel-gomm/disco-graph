@@ -48,10 +48,10 @@ class keyword_extractor():
     def __init__(self, full_text:str) -> None:
         self.full_text = full_text
 
-    def extract_keywords()->list(str):
+    def extract_keywords()->list:
         pass
 
 class tfidf_keyword_extractot(keyword_extractor):
 
-    def extract_keywords() -> list(str):
+    def extract_keywords() -> list:
         pass
