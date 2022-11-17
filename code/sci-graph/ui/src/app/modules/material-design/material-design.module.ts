@@ -7,7 +7,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatIconModule} from '@angular/material/icon';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatCardModule} from '@angular/material/card';
 
 
 
@@ -23,8 +23,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     MatFormFieldModule,
     MatAutocompleteModule,
     MatIconModule,
-    FormsModule,
-    ReactiveFormsModule
+    MatCardModule
   ]
 })
 export class MaterialDesignModule { }

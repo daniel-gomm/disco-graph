@@ -9,7 +9,7 @@ import {map, startWith} from 'rxjs/operators';
 @Component({
   selector: 'app-keyword-input',
   templateUrl: './keyword-input.component.html',
-  styleUrls: ['./keyword-input.component.css']
+  styleUrls: ['./keyword-input.component.less']
 })
 export class KeywordInputComponent implements OnInit {
 
