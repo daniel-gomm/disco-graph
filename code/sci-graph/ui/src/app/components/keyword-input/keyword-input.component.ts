@@ -3,7 +3,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import {FormControl} from '@angular/forms';
 import {MatAutocompleteSelectedEvent} from '@angular/material/autocomplete';
 import {MatChipInputEvent} from '@angular/material/chips';
-import {Observable} from 'rxjs';
+import {Observable, of} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 
 @Component({
@@ -17,7 +17,9 @@ export class KeywordInputComponent implements OnInit {
   keywordControl = new FormControl('')
   filteredKeywords: Observable<string[]>;
   keywords: string[] = [];
-  allKeywords: string[] = ['Herstellung', 'Qualitätssicherung', 'Prognosemodell', 'Wanslungstreiber', 'Szenarien', 'Simulation'];
+  allKeywords: string[] = ['Herstellung', 'Qualitätssicherung', 'Prognosemodell', 'Wandlungstreiber', 'Szenarien', 'Simulation'];
+  keywordSuggestions: string[] = ["Produktallokation", "Produktionsnetzwerk"];
+  filteredKeywordSuggestions : Observable<string[]>;
 
   @ViewChild('keywordInput') keywordInput!: ElementRef<HTMLInputElement>;
 
@@ -27,6 +29,7 @@ export class KeywordInputComponent implements OnInit {
       map((keyword: string | null) => 
       (keyword ? this._filter(keyword) : this.allKeywords.slice()))
     );
+    this.filteredKeywordSuggestions = of(this.keywordSuggestions);
   }
 
   ngOnInit(): void {
@@ -46,8 +49,8 @@ export class KeywordInputComponent implements OnInit {
     this.keywordControl.setValue(null);
   }
 
-  remove(fruit: string): void {
-    const index = this.keywords.indexOf(fruit);
+  remove(keyword: string): void {
+    const index = this.keywords.indexOf(keyword);
 
     if (index >= 0) {
       this.keywords.splice(index, 1);
@@ -64,6 +67,15 @@ export class KeywordInputComponent implements OnInit {
     const filterValue = value.toLowerCase();
 
     return this.allKeywords.filter(keyword => keyword.toLowerCase().includes(filterValue));
+  }
+
+  removeSuggestion(keywordSuggestion: string): void {
+    const index = this.keywordSuggestions.indexOf(keywordSuggestion);
+
+    if (index >= 0) {
+      this.keywordSuggestions.splice(index, 1);
+    }
+    this.keywords.push(keywordSuggestion)
   }
 
 }

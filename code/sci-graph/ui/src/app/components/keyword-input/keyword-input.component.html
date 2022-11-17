@@ -26,6 +26,13 @@
       </mat-autocomplete>
     </mat-form-field>
     <mat-chip-listbox>
-      <mat-chip-option disabled>Mock Option</mat-chip-option>
+      <mat-chip class="keyword-chip"
+          *ngFor="let keywordSuggestion of keywordSuggestions"
+          (removed)="removeSuggestion(keywordSuggestion)">
+          <button matChipRemove [attr.aria-label]="'remove ' + keywordSuggestion">
+            <mat-icon>add</mat-icon>
+          </button>
+          {{keywordSuggestion}}
+        </mat-chip>
     </mat-chip-listbox>
   </mat-card>

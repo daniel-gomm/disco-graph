@@ -9,12 +9,14 @@ import { KeywordInputComponent } from './components/keyword-input/keyword-input.
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialDesignModule} from './modules/material-design/material-design.module'
 import { HttpClientModule } from "@angular/common/http";
+import { ResultsComponent } from './components/results/results.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    KeywordInputComponent
+    KeywordInputComponent,
+    ResultsComponent
   ],
   imports: [
     BrowserModule,

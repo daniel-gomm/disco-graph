@@ -8,6 +8,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatIconModule} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatButtonModule} from '@angular/material/button';
 
 
 
@@ -23,7 +25,9 @@ import {MatCardModule} from '@angular/material/card';
     MatFormFieldModule,
     MatAutocompleteModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
+    MatDividerModule,
+    MatButtonModule
   ]
 })
 export class MaterialDesignModule { }
