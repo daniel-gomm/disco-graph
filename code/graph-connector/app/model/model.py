@@ -56,13 +56,14 @@ class Keyword:
             self._from_dict(dictionary)
 
     def _from_dict(self, dictionary: dict) -> None:
-        self.values = get_field_or_exception(dictionary, "values")
-        self.verification_count = get_field_or_default(dictionary, "verification_count", 0)
+        values = get_field_or_exception(dictionary, "values")
+        self.values = [ValueWithLanguage(value) for value in values]
+        self.verification_status = get_field_or_default(dictionary, "verification_status", 0)
 
     def to_dict(self) -> dict:
         return {
             "values": [value.to_dict() for value in self.values],
-            "verification_count": self.verification_count
+            "verification_status": self.verification_status
         }
 
 
@@ -78,13 +79,13 @@ class AdditionalAttribute:
     def _from_dict(self, dictionary: dict) -> None:
         self.name = get_field_or_exception(dictionary, "name")
         self.value = get_field_or_exception(dictionary, "value")
-        self.verification_count = get_field_or_default(dictionary, "verification_count", 0)
+        self.verification_status = get_field_or_default(dictionary, "verification_status", 0)
 
     def to_dict(self) -> dict:
         return {
             "name": self.name,
             "value": self.value,
-            "verification_count": self.verification_count
+            "verification_status": self.verification_status
         }
 
 

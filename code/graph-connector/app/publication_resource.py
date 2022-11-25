@@ -3,9 +3,9 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-from auth import login_required
-from model.model import Publication
-from rdf_interface import RDFConnector
+from .auth import login_required
+from .model.model import Publication
+from .rdf_interface import RDFConnector
 
 bp = Blueprint('publication', __name__)
 
@@ -22,7 +22,7 @@ def add_publication(identifier):
     req_json = request.get_json()
     pub = Publication(req_json)
     rdf_connector.add_publication(pub)
-    return f"Successfully added new publication {pub.pub_id}", 200
+    return f"Successfully added new publication {pub.publication_id}", 200
 
 @bp.put("/publication/<string:identifier>")
 @login_required

@@ -1,6 +1,6 @@
 from rdflib.term import Node
 
-from model.model import Publication, Keyword, AdditionalAttribute
+from .model.model import Publication, Keyword, AdditionalAttribute
 
 from rdflib import Graph, Literal, URIRef, Namespace
 from rdflib.plugins.stores import sparqlstore
@@ -17,6 +17,8 @@ PRISM = Namespace("http://prismstandard.org/namespaces/basic/2.0/")
 SGC = Namespace(SG_PREFIX + "classes/")
 SGP = Namespace(SG_PREFIX + "properties/")
 
+def getId(value: str)-> str:
+    return value.replace(" ", "_").lower()
 
 class RDFConnector:
     graph: Graph
@@ -31,7 +33,7 @@ class RDFConnector:
         elif graph:
             self.graph = graph
 
-    def add_publication(self, pub: Publication):
+    def add_publication(self, pub: Publication) -> None:
         pub_ref = URIRef(PUBLICATION_PREFIX + pub.publication_id)
 
         title_literal = Literal(pub.title, datatype=XSD.string)
@@ -39,7 +41,7 @@ class RDFConnector:
         issued_literal = Literal(pub.issued, datatype=XSD.year)
         doi_literal = Literal(pub.doi, datatype=XSD.string)
         created_literal = Literal(pub.created, datatype=XSD.dateTimeStamp)
-        language_literal = Literal(pub.language, XSD.string)
+        language_literal = Literal(pub.language, datatype=XSD.language)
 
         self.add_if_new([
             (pub_ref, RDF.type, FOAF.Document),
@@ -69,14 +71,14 @@ class RDFConnector:
 
         # TODO: Get keywordClass reference by querying the kg and checking if the keyword is already in the kg
         #  otherwise adding a new keyword class
-        kw_class_ref = URIRef(KEYWORD_PREFIX + localized_default_value.value)
+        kw_class_ref = URIRef(KEYWORD_PREFIX + getId(localized_default_value.value))
         self.add_if_new([(kw_class_ref, RDFS.subClassOf, SGC.Keyword)])
 
         for kw_localized_value in keyword.values:
-            kw_value_literal = Literal(kw_localized_value.value, datatype=XSD.string, lang=kw_localized_value.language)
+            kw_value_literal = Literal(kw_localized_value.value, lang=kw_localized_value.language)
             self.add_if_new([(kw_class_ref, RDF.value, kw_value_literal)])
 
-        kw_instance_ref = URIRef(PUBLICATION_PREFIX + publication_id + "/keyword/" + localized_default_value.value)
+        kw_instance_ref = URIRef(PUBLICATION_PREFIX + publication_id + "/keyword/" + getId(localized_default_value.value))
         kw_verification_status_literal = Literal(keyword.verification_status, datatype=XSD.integer)
 
         self.add_if_new([
@@ -86,23 +88,23 @@ class RDFConnector:
         ])
 
     def add_attribute(self, attribute: AdditionalAttribute, publication_reference: URIRef, publication_id: str) -> None:
-        attr_class_ref = URIRef(ATTRIBUTE_PREFIX + attribute.name)
+        attr_flavor_ref = URIRef(ATTRIBUTE_PREFIX + getId(attribute.name))
         name_literal = Literal(attribute.name, datatype=XSD.string)
 
-        attr_ref = URIRef(ATTRIBUTE_PREFIX + attribute.name + "/" + attribute.value)
+        attr_ref = URIRef(ATTRIBUTE_PREFIX + getId(attribute.name) + "/" + getId(attribute.value))
         value_literal = Literal(attribute.value, datatype=XSD.string)
 
-        attr_instance_ref = URIRef(SG_PREFIX + "publication/" + publication_id + "/attribute/" + attribute.name)
+        attr_instance_ref = URIRef(SG_PREFIX + "publication/" + publication_id + "/attribute/" + getId(attribute.name))
         verification_status_literal = Literal(attribute.verification_status, datatype=XSD.integer)
 
         self.add_if_new([
-            (attr_class_ref, RDF.type, SGC.Attribute),
-            (attr_class_ref, SGP.name, name_literal),
+            (attr_flavor_ref, RDF.type, SGC.Attribute),
+            (attr_flavor_ref, SGP.name, name_literal),
 
-            (attr_ref, RDFS.subClassOf, attr_class_ref),
+            (attr_ref, RDFS.subClassOf, attr_flavor_ref),
             (attr_ref, RDF.value, value_literal),
 
-            (attr_instance_ref, RDFS.subClassOf, attr_class_ref),
+            (attr_instance_ref, RDFS.subClassOf, attr_ref),
             (attr_instance_ref, SGP.status, verification_status_literal),
 
             (publication_reference, SGP.attribute, attr_instance_ref)
