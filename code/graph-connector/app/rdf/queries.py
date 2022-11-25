@@ -82,13 +82,13 @@ def get_keyword_begins_with_query(begins_with: str, limit: int = 10,
     return f"""
 {_get_prefixes()}
 
-SELECT DISTINCT ?kw ?val
+SELECT DISTINCT ?keyword_value
 WHERE {{
     ?pub rdf:type foaf:Document .
     ?pub sgp:keyword ?kwi .
-    ?kwi rdf:type ?kw .
-    ?kw rdf:value ?val
-    FILTER regex(?val, "^{begins_with}", "i") .
+    ?kwi rdf:type ?keyword .
+    ?keyword rdf:value ?keyword_value
+    FILTER regex(?keyword_value, "^{begins_with}", "i") .
     {get_attributes_filter(attributes)}
     {get_release_year_filter(years_span)}
 }}

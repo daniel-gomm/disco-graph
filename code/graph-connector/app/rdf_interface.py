@@ -1,7 +1,7 @@
-from rdflib.term import Node
+from .model.model import Publication, Keyword, AdditionalAttribute, ValueWithLanguage
+from .rdf import queries
 
-from .model.model import Publication, Keyword, AdditionalAttribute
-
+from rdflib.term import Node, Variable
 from rdflib import Graph, Literal, URIRef, Namespace
 from rdflib.plugins.stores import sparqlstore
 from rdflib.graph import DATASET_DEFAULT_GRAPH_ID as default_identifier
@@ -17,8 +17,9 @@ PRISM = Namespace("http://prismstandard.org/namespaces/basic/2.0/")
 SGC = Namespace(SG_PREFIX + "classes/")
 SGP = Namespace(SG_PREFIX + "properties/")
 
-def getId(value: str)-> str:
+def getId(value: str) -> str:
     return value.replace(" ", "_").lower()
+
 
 class RDFConnector:
     graph: Graph
@@ -78,7 +79,8 @@ class RDFConnector:
             kw_value_literal = Literal(kw_localized_value.value, lang=kw_localized_value.language)
             self.add_if_new([(kw_class_ref, RDF.value, kw_value_literal)])
 
-        kw_instance_ref = URIRef(PUBLICATION_PREFIX + publication_id + "/keyword/" + getId(localized_default_value.value))
+        kw_instance_ref = URIRef(
+            PUBLICATION_PREFIX + publication_id + "/keyword/" + getId(localized_default_value.value))
         kw_verification_status_literal = Literal(keyword.verification_status, datatype=XSD.integer)
 
         self.add_if_new([
@@ -114,3 +116,23 @@ class RDFConnector:
         for triple in triples:
             if triple not in self.graph:
                 self.graph.add(triple)
+
+    def get_completed_keywords(self, start_keys: str, filter_attributes: list[AdditionalAttribute] = None,
+                               filter_year_range: tuple[int, int] = None, limit: int = None) -> list[dict]:
+        keyword_query = queries.get_keyword_begins_with_query(begins_with=start_keys, attributes=filter_attributes,
+                                                              years_span=filter_year_range, limit=limit)
+
+        values = []
+        query_results = self.graph.query(keyword_query)
+
+        for result in query_results.bindings:
+            keyword_value = result[Variable('keyword_value')]
+            values.append({
+                "value": keyword_value.value,
+                "language": keyword_value.language
+            })
+
+        return values
+
+
+BASE_CONNECTOR = RDFConnector("http://localhost:3030/ds")

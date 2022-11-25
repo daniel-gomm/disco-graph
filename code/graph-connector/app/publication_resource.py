@@ -1,22 +1,23 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, request
 )
-from werkzeug.exceptions import abort
 
 from .auth import login_required
 from .model.model import Publication
-from .rdf_interface import RDFConnector
+from .rdf_interface import BASE_CONNECTOR
 
-bp = Blueprint('publication', __name__)
+bp = Blueprint('publication', __name__, url_prefix='/publication')
 
-rdf_connector = RDFConnector("http://localhost:3030/ds")
+rdf_connector = BASE_CONNECTOR
 
-@bp.get("/publication/<string:identifier>")
+
+@bp.get("/<string:identifier>")
 def get_publication(identifier):
     # TODO: implement
     pass
 
-@bp.post("/publication/<string:identifier>")
+
+@bp.post("/<string:identifier>")
 @login_required
 def add_publication(identifier):
     req_json = request.get_json()
@@ -24,13 +25,15 @@ def add_publication(identifier):
     rdf_connector.add_publication(pub)
     return f"Successfully added new publication {pub.publication_id}", 200
 
-@bp.put("/publication/<string:identifier>")
+
+@bp.put("/<string:identifier>")
 @login_required
 def update_publication(identifier):
     # TODO: Implement
     pass
 
-@bp.delete("/publication/<string:identifier>")
+
+@bp.delete("/<string:identifier>")
 @login_required
 def delete_publication(identifier):
     # TODO: Implement
@@ -38,24 +41,27 @@ def delete_publication(identifier):
 
 
 # Keyword
-@bp.get("/publication/<string:pub_identifier>/keyword/<string:keyword_identifier>")
+@bp.get("/<string:pub_identifier>/keyword/<string:keyword_identifier>")
 def get_keyword(pub_identifier, keyword_identifier):
     # TODO: implement
     pass
 
-@bp.post("/publication/<string:pub_identifier>/keyword/<string:keyword_identifier>")
+
+@bp.post("/<string:pub_identifier>/keyword/<string:keyword_identifier>")
 @login_required
 def add_keyword(pub_identifier, keyword_identifier):
     # TODO: implement
     pass
 
-@bp.put("/publication/<string:pub_identifier>/keyword/<string:keyword_identifier>")
+
+@bp.put("/<string:pub_identifier>/keyword/<string:keyword_identifier>")
 @login_required
 def update_keyword(pub_identifier, keyword_identifier):
     # TODO: Implement
     pass
 
-@bp.delete("/publication/<string:pub_identifier>/keyword/<string:keyword_identifier>")
+
+@bp.delete("/<string:pub_identifier>/keyword/<string:keyword_identifier>")
 @login_required
 def delete_keyword(pub_identifier, keyword_identifier):
     # TODO: Implement
