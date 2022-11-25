@@ -17,6 +17,7 @@ PRISM = Namespace("http://prismstandard.org/namespaces/basic/2.0/")
 SGC = Namespace(SG_PREFIX + "classes/")
 SGP = Namespace(SG_PREFIX + "properties/")
 
+
 def getId(value: str) -> str:
     return value.replace(" ", "_").lower()
 
@@ -28,8 +29,9 @@ class RDFConnector:
         if hostname:
             query_endpoint = hostname + '/query'
             update_endpoint = hostname + '/update'
-            store = sparqlstore.SPARQLUpdateStore()
-            store.open((query_endpoint, update_endpoint))
+            store = sparqlstore.SPARQLUpdateStore(query_endpoint=query_endpoint, update_endpoint=update_endpoint,
+                                                  context_aware=False, returnFormat='json')
+            # store.open((query_endpoint, update_endpoint))
             self.graph = Graph(store, identifier=default_identifier)
         elif graph:
             self.graph = graph

@@ -1,28 +1,30 @@
-from typing import List, Any
-
 from flask import (
     Blueprint, request, session, jsonify
 )
 
 from .auth import login_required
-from .model.model import Publication, AdditionalAttribute
-from .rdf_interface import RDFConnector, BASE_CONNECTOR
+from .model.model import AdditionalAttribute
+from .rdf_interface import BASE_CONNECTOR
 
 bp = Blueprint('api', __name__, url_prefix='/api/v1')
 
 rdf_connector = BASE_CONNECTOR
 
 
-@bp.get("/keyword/load?q=<string:query>")
-def get_keywords_starting_with_keys(query):
-    try:
-        query_parameters = parse_query(query, required_values=['keys'])
-    except AttributeError:
+@bp.get("/keyword/load")
+def get_keywords_starting_with_keys():
+    keys = request.args.get('keys')
+    limit = request.args.get('limit')
+    if limit:
+        if limit.isnumeric():
+            limit = int(limit)
+        else:
+            limit = None
+
+    if not keys:
         return "Invalid query!", 400
 
-    limit = get_parameter_or_default(query_parameters, 'limit')
-    keywords = rdf_connector.get_completed_keywords(start_keys=query_parameters['keys'],
-                                                    filter_attributes=get_attribute_filters(),
+    keywords = rdf_connector.get_completed_keywords(start_keys=keys, filter_attributes=get_attribute_filters(),
                                                     filter_year_range=get_year_filter(), limit=limit)
     return jsonify(keywords), 200
 

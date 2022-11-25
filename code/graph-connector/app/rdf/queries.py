@@ -1,5 +1,6 @@
 from ..model.model import AdditionalAttribute
 
+default_limit = 100
 
 def _get_prefixes() -> str:
     return """
@@ -76,9 +77,11 @@ def get_keyword_cross_reference_query(keywords: list[str], language: str, limit:
     """
 
 
-def get_keyword_begins_with_query(begins_with: str, limit: int = 10,
+def get_keyword_begins_with_query(begins_with: str, limit: int = default_limit,
                                   attributes: list[AdditionalAttribute] = None,
                                   years_span: tuple[int, int] = None) -> str:
+    if limit is None:
+        limit = default_limit
     return f"""
 {_get_prefixes()}
 
