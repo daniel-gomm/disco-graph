@@ -14,12 +14,7 @@ rdf_connector = BASE_CONNECTOR
 @bp.get("/keyword/load")
 def get_keywords_starting_with_keys():
     keys = request.args.get('keys')
-    limit = request.args.get('limit')
-    if limit:
-        if limit.isnumeric():
-            limit = int(limit)
-        else:
-            limit = None
+    limit = get_numeric_query_parameter('limit')
 
     if not keys:
         return "Invalid query!", 400
@@ -27,6 +22,27 @@ def get_keywords_starting_with_keys():
     keywords = rdf_connector.get_completed_keywords(start_keys=keys, filter_attributes=get_attribute_filters(),
                                                     filter_year_range=get_year_filter(), limit=limit)
     return jsonify(keywords), 200
+
+
+@bp.get("keyword/cross-reference")
+def get_keyword_cross_reference():
+    keywords = request.args.get('keywords')
+    try:
+        keywords = parse_query_list(keywords)
+    except AttributeError:
+        return "Invalid query!", 400
+
+    language = request.args.get('lang')
+    if not language:
+        language = "en"
+
+    limit = get_numeric_query_parameter('limit')
+
+    cross_reference_keywords = rdf_connector.get_keyword_cross_reference(keywords=keywords,
+                                                                         filter_attributes=get_attribute_filters(),
+                                                                         filter_year_range=get_year_filter(),
+                                                                         language=language, limit=limit)
+    return jsonify(cross_reference_keywords), 200
 
 
 '''
@@ -74,6 +90,23 @@ def get_attribute_filters() -> list[AdditionalAttribute] | None:
 
 def get_year_filter() -> tuple[int, int]:
     return session.get('year_range')
+
+
+def parse_query_list(list_query: str):
+    if list_query:
+        result = []
+        for arg in list_query.split(','):
+            result.append(arg.strip())
+        return result
+    raise AttributeError("Provided parameter is of None value.")
+
+
+def get_numeric_query_parameter(parameter_name: str, default_value: int = None) -> int:
+    parameter = request.args.get('limit')
+    if parameter:
+        if parameter.isnumeric():
+            return int(parameter)
+    return default_value
 
 
 def parse_query(query: str, required_values: list[str] = None) -> dict:

@@ -119,6 +119,7 @@ class RDFConnector:
             if triple not in self.graph:
                 self.graph.add(triple)
 
+    # TODO: Add language filter to queries
     def get_completed_keywords(self, start_keys: str, filter_attributes: list[AdditionalAttribute] = None,
                                filter_year_range: tuple[int, int] = None, limit: int = None) -> list[dict]:
         keyword_query = queries.get_keyword_begins_with_query(begins_with=start_keys, attributes=filter_attributes,
@@ -135,6 +136,23 @@ class RDFConnector:
             })
 
         return values
+
+    def get_keyword_cross_reference(self, keywords: list[str], filter_attributes: list[AdditionalAttribute] = None,
+                                    filter_year_range: tuple[int, int] = None, language: str = None,
+                                    limit: int = None) -> list[str]:
+        cross_reference_query = queries.get_keyword_cross_reference_query(keywords=keywords, language=language,
+                                                                          limit=limit, attributes=filter_attributes,
+                                                                          years_span=filter_year_range)
+
+        values = []
+        query_results = self.graph.query(cross_reference_query)
+
+        for result in query_results:
+            keyword_value = result[Variable('cross_value')]
+            values.append(keyword_value.value)
+
+        return values
+
 
 
 BASE_CONNECTOR = RDFConnector("http://localhost:3030/ds")
