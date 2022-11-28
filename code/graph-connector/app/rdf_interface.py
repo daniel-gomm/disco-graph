@@ -137,11 +137,11 @@ class RDFConnector:
 
         return values
 
-    def get_keyword_cross_reference(self, keywords: list[str], filter_attributes: list[AdditionalAttribute] = None,
-                                    filter_year_range: tuple[int, int] = None, language: str = None,
+    def get_keyword_cross_reference(self, keywords: list[dict], filter_attributes: list[AdditionalAttribute] = None,
+                                    filter_year_range: tuple[int, int] = None,
                                     limit: int = None) -> list[str]:
-        cross_reference_query = queries.get_keyword_cross_reference_query(keywords=keywords, language=language,
-                                                                          limit=limit, attributes=filter_attributes,
+        cross_reference_query = queries.get_keyword_cross_reference_query(keywords=keywords, limit=limit,
+                                                                          attributes=filter_attributes,
                                                                           years_span=filter_year_range)
 
         values = []
@@ -153,6 +153,37 @@ class RDFConnector:
 
         return values
 
+    def get_results(self, keywords: list[dict], filter_attributes: list[AdditionalAttribute] = None,
+                    filter_year_range: tuple[int, int] = None,
+                    limit: int = None) -> list[dict]:
+        publication_query = queries.get_publications_result(keywords=keywords, limit=limit,
+                                                            attributes=filter_attributes, years_span=filter_year_range)
+        query_results = self.graph.query(publication_query)
+
+        publications = []
+        for result in query_results:
+            pub_ref_uri = result[Variable('pub')].toPython()
+            keywords = []
+            keyword_query = queries.get_keywords_query(pub_ref_uri)
+            keyword_result = self.graph.query(keyword_query)
+
+            for keyword in keyword_result:
+                keywords.append({
+                    'value': keyword[Variable('keyword_value')].value,
+                    'language': keyword[Variable('keyword_value')].language
+                })
+
+            publications.append({
+                'publication_id': pub_ref_uri.split("/")[-1],
+                'title': result[Variable('title')].value,
+                'issued': result[Variable('issued')].value,
+                'author': result[Variable('author')].value,
+                'doi': result[Variable('doi')].value,
+                'language': result[Variable('language')].value,
+                'keywords': keywords
+            })
+
+        return publications
 
 
 BASE_CONNECTOR = RDFConnector("http://localhost:3030/ds")

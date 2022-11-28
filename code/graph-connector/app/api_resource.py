@@ -24,11 +24,11 @@ def get_keywords_starting_with_keys():
     return jsonify(keywords), 200
 
 
-@bp.get("keyword/cross-reference")
+@bp.get("/keyword/cross-reference")
 def get_keyword_cross_reference():
     keywords = request.args.get('keywords')
     try:
-        keywords = parse_query_list(keywords)
+        keywords = parse_keyboard_query_list(keywords)
     except AttributeError:
         return "Invalid query!", 400
 
@@ -41,8 +41,29 @@ def get_keyword_cross_reference():
     cross_reference_keywords = rdf_connector.get_keyword_cross_reference(keywords=keywords,
                                                                          filter_attributes=get_attribute_filters(),
                                                                          filter_year_range=get_year_filter(),
-                                                                         language=language, limit=limit)
+                                                                         limit=limit)
     return jsonify(cross_reference_keywords), 200
+
+
+'''
+Get publications as results.
+'''
+
+
+@bp.get("publication/results")
+def get_results():
+    keywords = request.args.get('keywords')
+    try:
+        keywords = parse_keyboard_query_list(keywords)
+    except AttributeError:
+        return "Invalid query!", 400
+
+    limit = get_numeric_query_parameter('limit')
+
+    results = rdf_connector.get_results(keywords=keywords, filter_attributes=get_attribute_filters(),
+                                        filter_year_range=get_year_filter(), limit=limit)
+
+    return jsonify(results), 200
 
 
 '''
@@ -92,11 +113,12 @@ def get_year_filter() -> tuple[int, int]:
     return session.get('year_range')
 
 
-def parse_query_list(list_query: str):
+def parse_keyboard_query_list(list_query: str) -> list[dict]:
     if list_query:
         result = []
         for arg in list_query.split(','):
-            result.append(arg.strip())
+            keyword = arg.split("@")
+            result.append({"value": keyword[0], "language": keyword[1]})
         return result
     raise AttributeError("Provided parameter is of None value.")
 
