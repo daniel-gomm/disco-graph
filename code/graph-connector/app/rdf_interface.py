@@ -1,7 +1,7 @@
-from rdflib.term import Node
+from .model.model import Publication, Keyword, AdditionalAttribute, ValueWithLanguage
+from .rdf import queries
 
-from .model.model import Publication, Keyword, AdditionalAttribute
-
+from rdflib.term import Node, Variable
 from rdflib import Graph, Literal, URIRef, Namespace
 from rdflib.plugins.stores import sparqlstore
 from rdflib.graph import DATASET_DEFAULT_GRAPH_ID as default_identifier
@@ -17,8 +17,10 @@ PRISM = Namespace("http://prismstandard.org/namespaces/basic/2.0/")
 SGC = Namespace(SG_PREFIX + "classes/")
 SGP = Namespace(SG_PREFIX + "properties/")
 
-def getId(value: str)-> str:
+
+def getId(value: str) -> str:
     return value.replace(" ", "_").lower()
+
 
 class RDFConnector:
     graph: Graph
@@ -27,8 +29,9 @@ class RDFConnector:
         if hostname:
             query_endpoint = hostname + '/query'
             update_endpoint = hostname + '/update'
-            store = sparqlstore.SPARQLUpdateStore()
-            store.open((query_endpoint, update_endpoint))
+            store = sparqlstore.SPARQLUpdateStore(query_endpoint=query_endpoint, update_endpoint=update_endpoint,
+                                                  context_aware=False, returnFormat='json')
+            # store.open((query_endpoint, update_endpoint))
             self.graph = Graph(store, identifier=default_identifier)
         elif graph:
             self.graph = graph
@@ -78,7 +81,8 @@ class RDFConnector:
             kw_value_literal = Literal(kw_localized_value.value, lang=kw_localized_value.language)
             self.add_if_new([(kw_class_ref, RDF.value, kw_value_literal)])
 
-        kw_instance_ref = URIRef(PUBLICATION_PREFIX + publication_id + "/keyword/" + getId(localized_default_value.value))
+        kw_instance_ref = URIRef(
+            PUBLICATION_PREFIX + publication_id + "/keyword/" + getId(localized_default_value.value))
         kw_verification_status_literal = Literal(keyword.verification_status, datatype=XSD.integer)
 
         self.add_if_new([
@@ -114,3 +118,72 @@ class RDFConnector:
         for triple in triples:
             if triple not in self.graph:
                 self.graph.add(triple)
+
+    # TODO: Add language filter to queries
+    def get_completed_keywords(self, start_keys: str, filter_attributes: list[AdditionalAttribute] = None,
+                               filter_year_range: tuple[int, int] = None, limit: int = None) -> list[dict]:
+        keyword_query = queries.get_keyword_begins_with_query(begins_with=start_keys, attributes=filter_attributes,
+                                                              years_span=filter_year_range, limit=limit)
+
+        values = []
+        query_results = self.graph.query(keyword_query)
+
+        for result in query_results.bindings:
+            keyword_value = result[Variable('keyword_value')]
+            values.append({
+                "value": keyword_value.value,
+                "language": keyword_value.language
+            })
+
+        return values
+
+    def get_keyword_cross_reference(self, keywords: list[dict], filter_attributes: list[AdditionalAttribute] = None,
+                                    filter_year_range: tuple[int, int] = None,
+                                    limit: int = None) -> list[str]:
+        cross_reference_query = queries.get_keyword_cross_reference_query(keywords=keywords, limit=limit,
+                                                                          attributes=filter_attributes,
+                                                                          years_span=filter_year_range)
+
+        values = []
+        query_results = self.graph.query(cross_reference_query)
+
+        for result in query_results:
+            keyword_value = result[Variable('cross_value')]
+            values.append(keyword_value.value)
+
+        return values
+
+    def get_results(self, keywords: list[dict], filter_attributes: list[AdditionalAttribute] = None,
+                    filter_year_range: tuple[int, int] = None,
+                    limit: int = None) -> list[dict]:
+        publication_query = queries.get_publications_result(keywords=keywords, limit=limit,
+                                                            attributes=filter_attributes, years_span=filter_year_range)
+        query_results = self.graph.query(publication_query)
+
+        publications = []
+        for result in query_results:
+            pub_ref_uri = result[Variable('pub')].toPython()
+            keywords = []
+            keyword_query = queries.get_keywords_query(pub_ref_uri)
+            keyword_result = self.graph.query(keyword_query)
+
+            for keyword in keyword_result:
+                keywords.append({
+                    'value': keyword[Variable('keyword_value')].value,
+                    'language': keyword[Variable('keyword_value')].language
+                })
+
+            publications.append({
+                'publication_id': pub_ref_uri.split("/")[-1],
+                'title': result[Variable('title')].value,
+                'issued': result[Variable('issued')].value,
+                'author': result[Variable('author')].value,
+                'doi': result[Variable('doi')].value,
+                'language': result[Variable('language')].value,
+                'keywords': keywords
+            })
+
+        return publications
+
+
+BASE_CONNECTOR = RDFConnector("http://localhost:3030/ds")
