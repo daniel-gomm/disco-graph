@@ -20,8 +20,8 @@
           (matChipInputTokenEnd)="add($event)">
       </mat-chip-grid>
       <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-        <mat-option *ngFor="let keyword of filteredKeywords | async" [value]="keyword">
-          {{keyword}}
+        <mat-option *ngFor="let keyword of filteredKeywords" [value]="keyword">
+          {{keyword.value}}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
