@@ -10,13 +10,25 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialDesignModule} from './modules/material-design/material-design.module'
 import { HttpClientModule } from "@angular/common/http";
 import { ResultsComponent } from './components/results/results.component';
+import { KeywordSuggestionComponent } from './components/keyword-suggestion/keyword-suggestion.component';
+import { SearchInputComponent } from './components/search-input/search-input.component';
+import { ResultItemComponent } from './components/result-item/result-item.component';
+import { FilterPaneComponent } from './components/filter-pane/filter-pane.component';
+import { YearsFilterComponent } from './components/years-filter/years-filter.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     KeywordInputComponent,
-    ResultsComponent
+    ResultsComponent,
+    KeywordSuggestionComponent,
+    SearchInputComponent,
+    ResultItemComponent,
+    FilterPaneComponent,
+    YearsFilterComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

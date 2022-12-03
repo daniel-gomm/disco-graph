@@ -139,7 +139,7 @@ class RDFConnector:
 
     def get_keyword_cross_reference(self, keywords: list[dict], filter_attributes: list[AdditionalAttribute] = None,
                                     filter_year_range: tuple[int, int] = None,
-                                    limit: int = None) -> list[str]:
+                                    limit: int = None) -> list[dict]:
         cross_reference_query = queries.get_keyword_cross_reference_query(keywords=keywords, limit=limit,
                                                                           attributes=filter_attributes,
                                                                           years_span=filter_year_range)
@@ -149,7 +149,10 @@ class RDFConnector:
 
         for result in query_results:
             keyword_value = result[Variable('cross_value')]
-            values.append(keyword_value.value)
+            values.append({
+                "value": keyword_value.value,
+                "language": keyword_value.language
+            })
 
         return values
 
@@ -169,8 +172,11 @@ class RDFConnector:
 
             for keyword in keyword_result:
                 keywords.append({
-                    'value': keyword[Variable('keyword_value')].value,
-                    'language': keyword[Variable('keyword_value')].language
+                    'verification_status': keyword[Variable('verification_status')].value,
+                    'values': [{
+                        'value': keyword[Variable('keyword_value')].value,
+                        'language': keyword[Variable('keyword_value')].language
+                    }]
                 })
 
             publications.append({

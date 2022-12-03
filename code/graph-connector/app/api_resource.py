@@ -32,10 +32,6 @@ def get_keyword_cross_reference():
     except AttributeError:
         return "Invalid query!", 400
 
-    language = request.args.get('lang')
-    if not language:
-        language = "en"
-
     limit = get_numeric_query_parameter('limit')
 
     cross_reference_keywords = rdf_connector.get_keyword_cross_reference(keywords=keywords,
@@ -124,7 +120,7 @@ def parse_keyboard_query_list(list_query: str) -> list[dict]:
 
 
 def get_numeric_query_parameter(parameter_name: str, default_value: int = None) -> int:
-    parameter = request.args.get('limit')
+    parameter = request.args.get(parameter_name)
     if parameter:
         if parameter.isnumeric():
             return int(parameter)

@@ -1,6 +1,23 @@
 <div class="container">
   <app-header></app-header>
-  <app-keyword-input></app-keyword-input>
-  <mat-divider></mat-divider>
-  <app-results></app-results>
+  <mat-drawer-container autosize>
+    <mat-drawer #drawer mode="side" position="end" class="filter-sidenav">
+      <div class="filter-sidenav-content">
+        <app-filter-pane></app-filter-pane>
+      </div>
+    </mat-drawer>
+    <div class="centered-content">
+      <div class="input-wrapper">
+        <app-search-input class="keyword-input"></app-search-input>
+        <div class="filter-sidenav-toggle">
+          <button type="button" mat-fab (click)="drawer.toggle()">
+            <mat-icon>tune</mat-icon>
+          </button>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <app-results></app-results>
+    </div>
+    <app-footer></app-footer>
+  </mat-drawer-container>
 </div>

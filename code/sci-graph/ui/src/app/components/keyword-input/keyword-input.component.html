@@ -1,38 +1,26 @@
-<mat-card class="keyword-card">
-    <mat-form-field class="input-full-width" appearance="fill" class="chip-input">
-      <mat-label class="input-title">Keywords...</mat-label>
-      <mat-chip-grid #chipList aria-label="Keywords">
-        <mat-chip
-          *ngFor="let keyword of keywords"
-          (removed)="remove(keyword)">
-          {{keyword}}
-          <button matChipRemove>
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip>
-        <input
-          placeholder='Search for Keyword: e.g. "Herstellung"'
-          #keywordInput
-          [formControl]="keywordControl"
-          [matAutocomplete]="auto"
-          [matChipInputFor]="chipList"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          (matChipInputTokenEnd)="add($event)">
-      </mat-chip-grid>
-      <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-        <mat-option *ngFor="let keyword of filteredKeywords | async" [value]="keyword">
-          {{keyword}}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-    <mat-chip-listbox>
-      <mat-chip class="keyword-chip"
-          *ngFor="let keywordSuggestion of keywordSuggestions"
-          (removed)="removeSuggestion(keywordSuggestion)">
-          <button matChipRemove [attr.aria-label]="'remove ' + keywordSuggestion">
-            <mat-icon>add</mat-icon>
-          </button>
-          {{keywordSuggestion}}
-        </mat-chip>
-    </mat-chip-listbox>
-  </mat-card>
+<mat-form-field class="input-full-width" appearance="fill">
+  <mat-label>Keywords...</mat-label>
+  <mat-chip-grid #chipList aria-label="Keywords">
+    <mat-chip
+      *ngFor="let keyword of getSelectedKeywords()"
+      (removed)="remove(keyword)">
+      {{keyword.value}}
+      <button matChipRemove>
+        <mat-icon>cancel</mat-icon>
+      </button>
+    </mat-chip>
+    <input
+      placeholder='Search for Keyword: e.g. "Herstellung"'
+      #keywordInput
+      [formControl]="keywordControl"
+      [matAutocomplete]="auto"
+      [matChipInputFor]="chipList"
+      [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      (matChipInputTokenEnd)="add($event)">
+  </mat-chip-grid>
+  <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+    <mat-option *ngFor="let keyword of getFilteredKeywords()" [value]="keyword">
+      {{keyword.value}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
