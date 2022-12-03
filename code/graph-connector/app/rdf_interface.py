@@ -172,8 +172,11 @@ class RDFConnector:
 
             for keyword in keyword_result:
                 keywords.append({
-                    'value': keyword[Variable('keyword_value')].value,
-                    'language': keyword[Variable('keyword_value')].language
+                    'verification_status': keyword[Variable('verification_status')].value,
+                    'values': [{
+                        'value': keyword[Variable('keyword_value')].value,
+                        'language': keyword[Variable('keyword_value')].language
+                    }]
                 })
 
             publications.append({
