@@ -26,12 +26,4 @@ getResults(): Publication[]{
   return this.keywordService.searchResults;
 }
 
-extractKeyword(keyword: Keyword): ValueWithLanguage{
-  let value = keyword.values.at(0);
-  if(value){
-    return value;
-  }
-  return {value: '', language:'none'}
-}
-
 }

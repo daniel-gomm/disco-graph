@@ -1,4 +1,9 @@
 .padded-icon {
-    padding: 0 14px;
-    filter: invert(17%) sepia(33%) saturate(376%) hue-rotate(181deg) brightness(91%) contrast(89%);
-  }
+  transform: scale(2.5);
+  padding: 0 25px;
+}
+
+.header-title {
+  margin-left: 20px;
+  font-size: xx-large
+}

@@ -1,1 +1,17 @@
-<p>result-item works!</p>
+<mat-card class="result-card">
+    <mat-card-header *ngIf="publication">
+        <mat-card-title>{{publication.title}}</mat-card-title>
+        <mat-card-subtitle>{{publication.author}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <mat-chip-grid #chipList aria-label="Keywords">
+            <mat-chip *ngFor="let keyword of publication?.keywords">
+                {{this.extractKeyword(keyword).value}}
+            </mat-chip>
+        </mat-chip-grid>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-button>OPEN RESULT</button>
+        <button mat-button>DISMISS RESULT</button>
+    </mat-card-actions>
+</mat-card>
