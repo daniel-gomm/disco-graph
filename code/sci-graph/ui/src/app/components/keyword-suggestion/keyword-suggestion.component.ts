@@ -5,7 +5,7 @@ import { KeywordService } from 'src/app/services/keyword.service';
 @Component({
   selector: 'app-keyword-suggestion',
   templateUrl: './keyword-suggestion.component.html',
-  styleUrls: ['./keyword-suggestion.component.less']
+  styleUrls: ['./keyword-suggestion.component.scss']
 })
 export class KeywordSuggestionComponent implements OnInit {
 

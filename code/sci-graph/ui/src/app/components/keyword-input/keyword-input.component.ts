@@ -10,7 +10,7 @@ import { KeywordService } from 'src/app/services/keyword.service';
 @Component({
   selector: 'app-keyword-input',
   templateUrl: './keyword-input.component.html',
-  styleUrls: ['./keyword-input.component.less']
+  styleUrls: ['./keyword-input.component.scss']
 })
 export class KeywordInputComponent implements OnInit {
 
