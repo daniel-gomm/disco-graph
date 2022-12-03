@@ -10,13 +10,17 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MaterialDesignModule} from './modules/material-design/material-design.module'
 import { HttpClientModule } from "@angular/common/http";
 import { ResultsComponent } from './components/results/results.component';
+import { KeywordSuggestionComponent } from './components/keyword-suggestion/keyword-suggestion.component';
+import { SearchInputComponent } from './components/search-input/search-input.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     KeywordInputComponent,
-    ResultsComponent
+    ResultsComponent,
+    KeywordSuggestionComponent,
+    SearchInputComponent
   ],
   imports: [
     BrowserModule,
