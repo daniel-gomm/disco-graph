@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
-import { ValueWithLanguage } from "src/app/model/publication";
+import { Publication, ValueWithLanguage } from "src/app/model/publication";
 import { finalize, Observable, of, tap } from 'rxjs';
 
 @Injectable({
@@ -14,6 +14,9 @@ export class KeywordService {
   filteredKeywords: ValueWithLanguage[] = [];
   autocompletesuggestionLimit: number = 10;
   cachedPreviousInput: string = "";
+
+  searchResults: Publication[] = [];
+  loadingSearchResults: boolean = false;
 
   loadingKeywordSuggestions: boolean = false;
 
@@ -50,6 +53,7 @@ export class KeywordService {
   addKeywordSelection(selectedKeyword: ValueWithLanguage):void {
     this.selectedKeywords.push(selectedKeyword);
     this.loadKeywordSuggestions();
+    this.loadSearchResults();
   }
 
   removeKeywordSelection(keyword: ValueWithLanguage): void{
@@ -57,6 +61,7 @@ export class KeywordService {
     if(index >= 0){
       this.selectedKeywords.splice(index, 1);
       this.loadKeywordSuggestions();
+      this.loadSearchResults();
     }
   }
 
@@ -72,6 +77,18 @@ export class KeywordService {
     })
   }
 
+  private loadSearchResults(): void {
+    this.loadingSearchResults = true;
+    this.getResults().pipe(
+      finalize(() => {
+        this.loadingSearchResults = false;
+      })
+    )
+    .subscribe((res: Publication[]) => {
+      this.searchResults = res;
+    })
+  }
+
   getKeywordCrossRererence(limit: number = 10):Observable<ValueWithLanguage[]>{
     if (this.selectedKeywords.length === 0){
       return of([]);
@@ -80,10 +97,18 @@ export class KeywordService {
     (`/api/v1/keyword/cross-reference?keywords=${this.createKeywordQuery(this.selectedKeywords)}&limit=${limit}`);
   }
 
+  getResults(limit: number = 10): Observable<Publication[]>{
+    if (this.selectedKeywords.length === 0){
+      return of([]);
+    }
+    return this.http.get<Publication[]>
+    (`/api/v1/publication/results?keywords=${this.createKeywordQuery(this.selectedKeywords)}&limit=${limit}`)
+  }
+
   createKeywordQuery(keywords: ValueWithLanguage[]): string{
     let result = "";
     keywords.forEach(keyword => {
-      result += `${keyword.value}@${keyword.language}&`;
+      result += `${keyword.value}@${keyword.language},`;
     });
     return result.slice(0, -1);
   }

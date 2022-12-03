@@ -32,7 +32,7 @@ removeSuggestion(keywordSuggestion: ValueWithLanguage): void{
   //this.keywordService.selectedKeywords.push(keywordSuggestion);
 }
 
-isLoading(){
+isLoading(): boolean{
   return this.keywordService.loadingKeywordSuggestions;
 }
 

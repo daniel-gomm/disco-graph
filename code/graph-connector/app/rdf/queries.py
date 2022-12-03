@@ -132,14 +132,16 @@ LIMIT {limit}
 """
 
 
+# TODO: add support for language query in order to not get multiple values for the same keyword
 def get_keywords_query(publication_uri: str, limit: int = default_limit) -> str:
     return f"""
 {SG_PREFIXES}
 
-SELECT ?keyword_value
+SELECT ?keyword_value ?verification_status
 WHERE {{
     <{publication_uri}> sgp:keyword ?kwi .
     ?kwi rdf:type ?kw .
+    ?kwi sgp:status ?verification_status .
     ?kw rdf:value ?keyword_value .
 }}
 
