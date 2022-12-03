@@ -15,6 +15,7 @@ import { SearchInputComponent } from './components/search-input/search-input.com
 import { ResultItemComponent } from './components/result-item/result-item.component';
 import { FilterPaneComponent } from './components/filter-pane/filter-pane.component';
 import { YearsFilterComponent } from './components/years-filter/years-filter.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { YearsFilterComponent } from './components/years-filter/years-filter.com
     SearchInputComponent,
     ResultItemComponent,
     FilterPaneComponent,
-    YearsFilterComponent
+    YearsFilterComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

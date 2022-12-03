@@ -1,0 +1,13 @@
+<div class="years-filter">
+    <p>Publication year</p>
+    <mat-slider
+    min="1900" 
+    max="2022" 
+    discrete
+    [displayWith]="formatLabel" 
+    class="year-slider" 
+    color="accent">
+        <input matSliderStartThumb [(ngModel)]="minValue" (dragEnd)="valueChanged()">
+        <input matSliderEndThumb [(ngModel)]="maxValue" (dragEnd)="valueChanged()">
+    </mat-slider>
+</div>

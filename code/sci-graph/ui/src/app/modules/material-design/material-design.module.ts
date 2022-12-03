@@ -12,7 +12,8 @@ import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
-
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatSliderModule} from '@angular/material/slider';
 
 
 @NgModule({
@@ -31,7 +32,9 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
     MatDividerModule,
     MatButtonModule,
     MatProgressSpinnerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatSidenavModule,
+    MatSliderModule
   ]
 })
 export class MaterialDesignModule { }
