@@ -1,3 +1,5 @@
+@import "../../../../node_modules/nord/src/sass/nord.scss";
+
 .padded-icon {
   transform: scale(2.5);
   padding: 0 25px;
@@ -6,4 +8,8 @@
 .header-title {
   margin-left: 20px;
   font-size: xx-large
+}
+
+.header {
+  background-color: $nord2;
 }

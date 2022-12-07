@@ -182,7 +182,7 @@ class RDFConnector:
             publications.append({
                 'publication_id': pub_ref_uri.split("/")[-1],
                 'title': result[Variable('title')].value,
-                'issued': result[Variable('issued')].value,
+                'issued': result[Variable('issued')],
                 'author': result[Variable('author')].value,
                 'doi': result[Variable('doi')].value,
                 'language': result[Variable('language')].value,

@@ -91,12 +91,14 @@ Expects a request containing a json object that looks like this:
 
 @bp.route("/filter/year", methods=('POST', 'PUT', 'DELETE'))
 def filter_year():
-    req_json = request.get_json()
     if request.method in ['POST', 'PUT']:
+        req_json = request.get_json()
         session['year_range'] = (req_json['lower_limit'], req_json['upper_limit'])
 
     elif request.method == 'DELETE':
         session.pop('year_range', None)
+
+    return {}, 200
 
 
 def get_attribute_filters() -> list[AdditionalAttribute] | None:
