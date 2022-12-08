@@ -16,6 +16,7 @@ import { ResultItemComponent } from './components/result-item/result-item.compon
 import { FilterPaneComponent } from './components/filter-pane/filter-pane.component';
 import { YearsFilterComponent } from './components/years-filter/years-filter.component';
 import { FooterComponent } from './components/footer/footer.component';
+import { AttributeFilterComponent } from './components/attribute-filter/attribute-filter.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { FooterComponent } from './components/footer/footer.component';
     ResultItemComponent,
     FilterPaneComponent,
     YearsFilterComponent,
-    FooterComponent
+    FooterComponent,
+    AttributeFilterComponent
   ],
   imports: [
     BrowserModule,

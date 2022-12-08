@@ -15,24 +15,23 @@ PREFIX datacite: <https://purl.org/spar/datacite/>
 """
 
 
-def get_attribute_filter(attribute: AdditionalAttribute) -> str:
-    name = attribute.name
+def get_attribute_filter(name: str, value: str) -> str:
     return f"""
 ?pub sgp:attribute ?{name}_attribute_instance .
-?{name}_attribute_instance rdf:type ?{name}_attribute .
+?{name}_attribute_instance rdfs:subClassOf ?{name}_attribute .
 ?{name}_attribute rdfs:subClassOf ?{name}_attribute_flavor .
-?{name}_attribute_flavor sgp:name "{attribute.name}" .
-?{name}_attribute rdf:value "{attribute.value}" .
+?{name}_attribute_flavor sgp:name "{name}" .
+?{name}_attribute rdf:value "{value}" .
 """
 
 
-def get_attributes_filter(attributes: list[AdditionalAttribute] = None) -> str:
+def get_attributes_filter(attributes: list[tuple[str, str]] = None) -> str:
     # If not attributes are provided
     if not attributes:
         return ""
     attributes_filter = ""
     for attribute in attributes:
-        attributes_filter += get_attribute_filter(attribute)
+        attributes_filter += get_attribute_filter(attribute[0], attribute[1])
     return attributes_filter
 
 
@@ -146,4 +145,29 @@ WHERE {{
 }}
 
 LIMIT {limit}
+"""
+
+
+def get_attributes_names_query() -> str:
+    return f"""
+{SG_PREFIXES}
+
+SELECT ?attr_name
+WHERE {{
+    ?attr_flavour rdf:type sgc:Attribute .
+    ?attr_flavour sgp:name ?attr_name .
+}}
+"""
+
+def get_attribute_values_query(attribute_name:str) -> str:
+    return f"""
+{SG_PREFIXES}
+
+SELECT ?attr_value
+WHERE {{
+    ?attr_flavour rdf:type sgc:Attribute .
+    ?attr_flavour sgp:name "{attribute_name}" .
+    ?attr rdfs:subClassOf ?attr_flavour .
+    ?attr rdf:value ?attr_value .
+}}
 """

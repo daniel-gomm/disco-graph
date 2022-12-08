@@ -22,9 +22,10 @@
 
 .keyword-input {
     float: left;
-    width: 95%;
+    width: calc(98% - 60px);
 }
 
 .filter-sidenav-toggle {
     float: right;
+    width: 60px;
 }

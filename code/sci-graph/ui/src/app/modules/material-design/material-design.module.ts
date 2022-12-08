@@ -14,6 +14,9 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSliderModule} from '@angular/material/slider';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 
 @NgModule({
@@ -34,7 +37,9 @@ import {MatSliderModule} from '@angular/material/slider';
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatSidenavModule,
-    MatSliderModule
+    MatSliderModule,
+    MatExpansionModule,
+    MatCheckboxModule
   ]
 })
 export class MaterialDesignModule { }

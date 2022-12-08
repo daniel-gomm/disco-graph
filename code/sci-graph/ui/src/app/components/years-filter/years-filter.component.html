@@ -10,4 +10,5 @@
         <input matSliderStartThumb [(ngModel)]="minValue" (dragEnd)="valueChanged()">
         <input matSliderEndThumb [(ngModel)]="maxValue" (dragEnd)="valueChanged()">
     </mat-slider>
+    <p *ngIf="this.gotErrorResponse" class="error-msg-text">{{this.ERROR_MSG}}</p>
 </div>

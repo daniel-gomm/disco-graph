@@ -19,8 +19,13 @@ def get_keywords_starting_with_keys():
     if not keys:
         return "Invalid query!", 400
 
-    keywords = rdf_connector.get_completed_keywords(start_keys=keys, filter_attributes=get_attribute_filters(),
-                                                    filter_year_range=get_year_filter(), limit=limit)
+    #attributes = None
+    #if session.get('attributes'):
+    #    attributes = get_attribute_filters(session.get('attributes'))
+
+    keywords = rdf_connector.get_completed_keywords(start_keys=keys,
+                                                    filter_attributes=get_attribute_filters(session.get('attributes')),
+                                                    filter_year_range=session.get('year_range'), limit=limit)
     return jsonify(keywords), 200
 
 
@@ -35,8 +40,9 @@ def get_keyword_cross_reference():
     limit = get_numeric_query_parameter('limit')
 
     cross_reference_keywords = rdf_connector.get_keyword_cross_reference(keywords=keywords,
-                                                                         filter_attributes=get_attribute_filters(),
-                                                                         filter_year_range=get_year_filter(),
+                                                                         filter_attributes=get_attribute_filters(
+                                                                             session.get('attributes')),
+                                                                         filter_year_range=session.get('year_range'),
                                                                          limit=limit)
     return jsonify(cross_reference_keywords), 200
 
@@ -56,8 +62,9 @@ def get_results():
 
     limit = get_numeric_query_parameter('limit')
 
-    results = rdf_connector.get_results(keywords=keywords, filter_attributes=get_attribute_filters(),
-                                        filter_year_range=get_year_filter(), limit=limit)
+    results = rdf_connector.get_results(keywords=keywords, filter_attributes=get_attribute_filters(session
+                                                                                                   .get('attributes')),
+                                        filter_year_range=session.get('year_range'), limit=limit)
 
     return jsonify(results), 200
 
@@ -67,17 +74,29 @@ Expects a requests with a JSON serialization of an attribute (verification_statu
 '''
 
 
-@bp.route("/filter/attribute", methods=('POST', 'PUT', 'DELETE'))
+@bp.route("/filter/attribute", methods=('POST', 'PUT', 'GET'))
 def filter_attribute():
-    req_json = request.get_json()
-    attribute = AdditionalAttribute(req_json)
     if request.method in ['POST', 'PUT']:
+        req_json = request.get_json()
         if not session.get('attributes'):
             session['attributes'] = {}
-        session.get('attributes')[attribute.name] = attribute
+        session['attributes'][req_json['name']] = req_json['value']
 
-    if request.method == 'DELETE':
-        del session.get('attributes')[attribute.name]
+
+    elif request.method == 'GET':
+        attributes = rdf_connector.get_attributes()
+        return jsonify(attributes), 200
+
+    return {}, 200
+
+
+@bp.route('/filter/attribute/<string:name>', methods=['DELETE'])
+def delete_attribute_filter(name: str):
+    dictionary: dict = session.get('attributes')
+    dictionary.pop(name)
+    session.pop('attributes', None)
+    session['attributes'] = dictionary
+    return {}, 200
 
 
 '''
@@ -91,22 +110,22 @@ Expects a request containing a json object that looks like this:
 
 @bp.route("/filter/year", methods=('POST', 'PUT', 'DELETE'))
 def filter_year():
-    req_json = request.get_json()
     if request.method in ['POST', 'PUT']:
+        req_json = request.get_json()
         session['year_range'] = (req_json['lower_limit'], req_json['upper_limit'])
 
     elif request.method == 'DELETE':
         session.pop('year_range', None)
 
+    return {}, 200
 
-def get_attribute_filters() -> list[AdditionalAttribute] | None:
-    if session.get('attribute'):
-        return list(session.get('attribute').values())
+
+def get_attribute_filters(attributes: dict) -> list[tuple[str:str]] | None:
+    if attributes:
+        return [(k, v) for k, v in attributes.items()]
+    #if session.get('attributes'):
+    #    return [(k, v) for k, v in session.get('attributes').items()]
     return None
-
-
-def get_year_filter() -> tuple[int, int]:
-    return session.get('year_range')
 
 
 def parse_keyboard_query_list(list_query: str) -> list[dict]:
