@@ -120,7 +120,7 @@ class RDFConnector:
                 self.graph.add(triple)
 
     # TODO: Add language filter to queries
-    def get_completed_keywords(self, start_keys: str, filter_attributes: list[AdditionalAttribute] = None,
+    def get_completed_keywords(self, start_keys: str, filter_attributes: list[tuple[str, str]] = None,
                                filter_year_range: tuple[int, int] = None, limit: int = None) -> list[dict]:
         keyword_query = queries.get_keyword_begins_with_query(begins_with=start_keys, attributes=filter_attributes,
                                                               years_span=filter_year_range, limit=limit)
@@ -137,7 +137,7 @@ class RDFConnector:
 
         return values
 
-    def get_keyword_cross_reference(self, keywords: list[dict], filter_attributes: list[AdditionalAttribute] = None,
+    def get_keyword_cross_reference(self, keywords: list[dict], filter_attributes: list[tuple[str, str]] = None,
                                     filter_year_range: tuple[int, int] = None,
                                     limit: int = None) -> list[dict]:
         cross_reference_query = queries.get_keyword_cross_reference_query(keywords=keywords, limit=limit,
@@ -156,7 +156,7 @@ class RDFConnector:
 
         return values
 
-    def get_results(self, keywords: list[dict], filter_attributes: list[AdditionalAttribute] = None,
+    def get_results(self, keywords: list[dict], filter_attributes: list[tuple[str, str]] = None,
                     filter_year_range: tuple[int, int] = None,
                     limit: int = None) -> list[dict]:
         publication_query = queries.get_publications_result(keywords=keywords, limit=limit,
@@ -190,6 +190,29 @@ class RDFConnector:
             })
 
         return publications
+
+    def get_attributes(self) -> list[dict]:
+        attribute_name_query = queries.get_attributes_names_query()
+
+        query_results = self.graph.query(attribute_name_query)
+
+        results = []
+
+        for result in query_results:
+            name = result[Variable('attr_name')].value
+            values = []
+            attribute_values_query = queries.get_attribute_values_query(name)
+
+            attribute_values_query_results = self.graph.query(attribute_values_query)
+            for attribute_value in attribute_values_query_results:
+                values.append(attribute_value[Variable('attr_value')].value)
+
+            results.append({
+                'attribute_name': name,
+                'values': values
+            })
+
+        return results
 
 
 BASE_CONNECTOR = RDFConnector("http://localhost:3030/ds")

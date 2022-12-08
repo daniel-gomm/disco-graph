@@ -1,0 +1,11 @@
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>{{this.attribute.attribute_name}}</mat-panel-title>
+    </mat-expansion-panel-header>
+    <li *ngFor="let value of this.attribute.values" class="value-list">
+        <mat-checkbox 
+        [disabled]="this.checkboxDisabled(value)"
+        (change)="checked($event, value)">{{value}}</mat-checkbox>
+    </li>
+    <p *ngIf="this.settingFilterFailed" class="error-msg-text">Failed to set the filter.</p>
+</mat-expansion-panel>

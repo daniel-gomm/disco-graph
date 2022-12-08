@@ -1,5 +1,5 @@
 import { CdkAriaLive } from '@angular/cdk/a11y';
-import { ChangeDetectorRef, Component, EventEmitter } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Output } from '@angular/core';
 import { FilterService } from 'src/app/services/filter.service';
 
 @Component({
@@ -8,6 +8,8 @@ import { FilterService } from 'src/app/services/filter.service';
   styleUrls: ['./years-filter.component.scss']
 })
 export class YearsFilterComponent {
+
+  @Output() filterChangedEvent = new EventEmitter();
 
   ERROR_MSG: string = "Currently unable to set the filter.";
   gotErrorResponse: boolean = false;
@@ -34,6 +36,7 @@ export class YearsFilterComponent {
       || this.cachedPreviousMaxValue !== this.maxValue){
         this.cachedPreviousMinValue = this.minValue.valueOf();
         this.cachedPreviousMaxValue = this.maxValue.valueOf();
+        this.filterChangedEvent.emit();
 
         let responseHandler = {
           error: (e: any) => {
