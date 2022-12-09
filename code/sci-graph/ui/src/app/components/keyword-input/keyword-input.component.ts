@@ -1,4 +1,4 @@
-import { COMMA, ENTER}  from '@angular/cdk/keycodes';
+import { COMMA, ENTER, BACKSPACE, DELETE}  from '@angular/cdk/keycodes';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -15,8 +15,10 @@ import { KeywordService } from 'src/app/services/keyword.service';
 export class KeywordInputComponent implements OnInit {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
+  deleteKeyCodes: number[] = [BACKSPACE, DELETE];
   keywordControl = new FormControl('');
   loading: boolean = true;
+  deleteLastKeyword: boolean = false;
   suggestionLimit: number = 10;
 
 
@@ -29,12 +31,12 @@ export class KeywordInputComponent implements OnInit {
 
   ngOnInit(): void {
     this.keywordControl.valueChanges.pipe(
-      filter(res => {
-        return res !== null && res.length >= 1;
-      }),
+      // filter(res => {
+      //   return res !== null && res.length >= 1;
+      // }),
       startWith(null),
       distinctUntilChanged(),
-      debounceTime(200),
+      debounceTime(275),
       switchMap(value => this.keywordService.getAutocompleteSuggestion(value)
       .pipe(
         finalize(() => {
@@ -56,6 +58,7 @@ export class KeywordInputComponent implements OnInit {
       this.keywordService.filteredKeywords.forEach(keyword => {
         if (keyword.value === value){
           this.keywordService.addKeywordSelection(keyword);
+          this.keywordService.filteredKeywords = [];
           //this.keywordService.selectedKeywords.push(keyword);
         }
       });
@@ -91,6 +94,23 @@ export class KeywordInputComponent implements OnInit {
 
   getFilteredKeywords(): ValueWithLanguage[]{
     return this.keywordService.filteredKeywords;
+  }
+
+  keydown(event: KeyboardEvent){
+    if (!this.keywordControl.value && event.key === "Backspace"){
+      if(this.deleteLastKeyword){
+        let kwToRemove = this.keywordService.selectedKeywords.at(-1);
+        if(kwToRemove){
+          this.keywordService.removeKeywordSelection(kwToRemove);
+        }
+        this.deleteLastKeyword = false;
+        return;
+      } else {
+        this.deleteLastKeyword = true;
+        return;
+      }
+    }
+    this.deleteLastKeyword = false;
   }
 
 }

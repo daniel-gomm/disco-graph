@@ -1,4 +1,13 @@
-.footer {
-    position: fixed;
-    bottom: 0;
+.toolbar-footer {
+    height: 75px;
+}
+
+.flex-space-between {
+    justify-content: space-between;
+  }
+
+.footer-element {
+    width: 25%;
+    margin: auto;
+    text-align: center;
 }

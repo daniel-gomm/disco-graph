@@ -1,9 +1,10 @@
-<mat-card-subtitle>Suggested keywords</mat-card-subtitle>
+<mat-card-subtitle class="small-bottom-margin">Suggested keywords</mat-card-subtitle>
+<p *ngIf="getKeywordSuggestions().length === 0">No suggestions.</p>
 <mat-chip-listbox class="full-width">
   <div *ngIf="this.isLoading()" class="full-width">
     <mat-progress-bar mode="indeterminate"></mat-progress-bar>
   </div>
-    <mat-chip class="keyword-chip"
+    <mat-chip
         *ngFor="let keywordSuggestion of getKeywordSuggestions()"
         (removed)="removeSuggestion(keywordSuggestion)">
         <button matChipRemove [attr.aria-label]="'remove ' + keywordSuggestion">

@@ -1,6 +1,7 @@
 <mat-expansion-panel>
     <mat-expansion-panel-header>
         <mat-panel-title>{{this.attribute.attribute_name}}</mat-panel-title>
+        <mat-icon class="align-right">edit_attributes</mat-icon>
     </mat-expansion-panel-header>
     <li *ngFor="let value of this.attribute.values" class="value-list">
         <mat-checkbox 

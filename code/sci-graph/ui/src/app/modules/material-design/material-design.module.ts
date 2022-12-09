@@ -16,6 +16,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatSliderModule} from '@angular/material/slider';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 
 
@@ -39,7 +40,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
     MatSidenavModule,
     MatSliderModule,
     MatExpansionModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatTooltipModule
   ]
 })
 export class MaterialDesignModule { }

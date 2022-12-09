@@ -1,9 +1,13 @@
-<div>
+<div class="full-height">
     <div *ngIf="this.isLoading()" class="full-width">
         <mat-progress-bar mode="indeterminate"></mat-progress-bar>
     </div>
-    <p>Results</p>
-    <mat-card-subtitle>Showing top {{getResults().length}} result(-s)</mat-card-subtitle>
+    <h4>Results</h4>
+    <mat-card-subtitle *ngIf="getResults().length !== 0">Showing top {{getResults().length}} result(-s)</mat-card-subtitle>
+    <div *ngIf="getResults().length === 0">
+        <h3 class="centered-text no-results-title">No results.</h3>
+        <h4 class="centered-text no-results-subtitle">Start entering keywords to get results.</h4>
+    </div>
     <app-result-item
     *ngFor="let result of this.getResults()"
     [publication]="result"></app-result-item>

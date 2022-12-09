@@ -1,3 +1,5 @@
+@import "../../node_modules/nord/src/sass/nord.scss";
+
 .centered-content {
     margin: auto;
     width: 95%;
@@ -22,10 +24,34 @@
 
 .keyword-input {
     float: left;
-    width: calc(98% - 60px);
+    width: calc(98% - 90px);
 }
 
 .filter-sidenav-toggle {
     float: right;
     width: 60px;
+    margin: 15px;
+}
+
+.main-container {
+    margin:0;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.page-wrap {
+    min-height: 100%;
+    /* equal to footer height */
+    margin-bottom: -75px; 
+}
+
+.page-wrap:after {
+    content: "";
+    display: block;
+}
+
+.site-footer, .page-wrap:after {
+    height: 75px;
 }

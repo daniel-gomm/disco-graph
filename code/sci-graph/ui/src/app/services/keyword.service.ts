@@ -25,8 +25,10 @@ export class KeywordService {
   ) { }
 
   getAutocompleteSuggestion(input: string | null): Observable<ValueWithLanguage[]>{
-    if(input === null){
-      input = "*";
+    if(input === null || input === ""){
+      //input = "*";
+      this.cachedPreviousInput = "__no_input";
+      return of([]);
     }
     if (input !== "*" && this.filteredKeywords.length < this.autocompletesuggestionLimit && input.startsWith(this.cachedPreviousInput)){
       this.cachedPreviousInput = input;
