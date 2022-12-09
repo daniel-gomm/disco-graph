@@ -1,4 +1,4 @@
-import { COMMA, ENTER, BACKSPACE, DELETE}  from '@angular/cdk/keycodes';
+import { COMMA, ENTER}  from '@angular/cdk/keycodes';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -15,7 +15,6 @@ import { KeywordService } from 'src/app/services/keyword.service';
 export class KeywordInputComponent implements OnInit {
 
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  deleteKeyCodes: number[] = [BACKSPACE, DELETE];
   keywordControl = new FormControl('');
   loading: boolean = true;
   deleteLastKeyword: boolean = false;
@@ -31,12 +30,9 @@ export class KeywordInputComponent implements OnInit {
 
   ngOnInit(): void {
     this.keywordControl.valueChanges.pipe(
-      // filter(res => {
-      //   return res !== null && res.length >= 1;
-      // }),
       startWith(null),
       distinctUntilChanged(),
-      debounceTime(275),
+      debounceTime(250),
       switchMap(value => this.keywordService.getAutocompleteSuggestion(value)
       .pipe(
         finalize(() => {
@@ -59,7 +55,6 @@ export class KeywordInputComponent implements OnInit {
         if (keyword.value === value){
           this.keywordService.addKeywordSelection(keyword);
           this.keywordService.filteredKeywords = [];
-          //this.keywordService.selectedKeywords.push(keyword);
         }
       });
     }
