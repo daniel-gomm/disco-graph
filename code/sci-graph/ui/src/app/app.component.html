@@ -1,16 +1,16 @@
-<div class="container">
+<div class="main-container page-wrap">
   <app-header></app-header>
-  <mat-drawer-container autosize>
-    <mat-drawer #drawer mode="side" position="end" class="filter-sidenav">
+  <mat-sidenav-container>
+    <mat-sidenav #sidenav mode="side" position="end" class="filter-sidenav">
       <div class="filter-sidenav-content">
         <app-filter-pane></app-filter-pane>
       </div>
-    </mat-drawer>
+    </mat-sidenav>
     <div class="centered-content">
       <div class="input-wrapper">
         <app-search-input class="keyword-input"></app-search-input>
         <div class="filter-sidenav-toggle">
-          <button type="button" mat-fab (click)="drawer.toggle()">
+          <button type="button" mat-fab (click)="sidenav.toggle()">
             <mat-icon>tune</mat-icon>
           </button>
         </div>
@@ -18,6 +18,6 @@
       <mat-divider></mat-divider>
       <app-results></app-results>
     </div>
-    <app-footer></app-footer>
-  </mat-drawer-container>
+  </mat-sidenav-container>
 </div>
+<app-footer class="site-footer"></app-footer>

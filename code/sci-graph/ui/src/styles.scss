@@ -1,4 +1,3 @@
-/* You can add global styles to this file, and also import other style files */
 @import "../node_modules/nord/src/sass/nord.scss";
 
 html, body { height: 100%; }
@@ -6,8 +5,53 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
     background-color: $nord6;
+    font-weight: lighter;
+ }
+
+h1 {
+   color: $nord3;
+   font-size: xx-large;
+   font-weight: lighter;
+ }
+
+h2 {
+   color: $nord3;
+   font-size: x-large;
+   font-weight: lighter;
+ }
+
+h3 {
+   color: $nord3;
+   font-size: larger;
+   font-weight: lighter;
+ }
+
+ h4 {
+   color: $nord3;
+   font-size: large;
+   font-weight: lighter;
+ }
+
+ p {
+   color: $nord3;
+   font-weight: lighter;
+   font-size: small;
  }
 
  .error-msg-text {
     color: $nord11;
  }
+
+ .small-vertical-margin {
+   margin-top: 10px;
+   margin-bottom: 10px;
+}
+
+.right-side-content {
+   display: flex;
+   justify-content: right;
+}
+
+.centered-text {
+   text-align: center;
+}

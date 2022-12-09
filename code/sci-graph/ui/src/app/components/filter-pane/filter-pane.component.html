@@ -3,20 +3,25 @@
     <app-years-filter (filterChangedEvent)="enableReload()"></app-years-filter>
     <p>Attributes</p>
     <div *ngIf="attributesLoaded">
-        <app-attribute-filter 
-        *ngFor="let attribute of attributes" 
-        [attribute]="attribute"
-        (filterChangedEvent)="enableReload()"></app-attribute-filter>
+        <mat-accordion multi="true" class="header-align">
+            <app-attribute-filter 
+            *ngFor="let attribute of attributes" 
+            [attribute]="attribute"
+            (filterChangedEvent)="enableReload()"></app-attribute-filter>
+        </mat-accordion>
     </div>
     <mat-spinner *ngIf="!attributesLoaded && !loadingError" color="accent" class="centered-spinner"></mat-spinner>
     <p class="error-msg-text" *ngIf="loadingError">Failed to load Attributes.</p>
-    <button 
-    mat-raised-button 
-    color="accent" 
-    [disabled]="reloadButtonDisabled"
-    (click)="reload()"
-    >
-        Reload results
-        <mat-icon>replay</mat-icon>
-    </button>
+    <div class="right-side-content">
+        <button 
+        class="small-vertical-margin"
+        mat-raised-button 
+        color="accent" 
+        [disabled]="reloadButtonDisabled"
+        (click)="reload()"
+        >
+            Reload results
+            <mat-icon>replay</mat-icon>
+        </button>
+    </div>
 </div>

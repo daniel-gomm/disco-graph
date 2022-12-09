@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit {
     ) { 
     this.matIconRegistry.addSvgIcon(
       "sci_graph",
-      this.domSanatizer.bypassSecurityTrustResourceUrl("../../../assets/sci-graph-logo.svg")
+      this.domSanatizer.bypassSecurityTrustResourceUrl("../../../assets/sci-graph-logo_no-text.svg")
     );
   }
 

@@ -1,8 +1,9 @@
 <div class="years-filter">
     <p>Publication year</p>
-    <mat-slider
-    min="1900" 
-    max="2022" 
+    <mat-slider 
+    #slider
+    min="{{this.firstYear}}" 
+    max="{{this.currentYear}}"
     discrete
     [displayWith]="formatLabel" 
     class="year-slider" 

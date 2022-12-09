@@ -16,7 +16,8 @@
       [matAutocomplete]="auto"
       [matChipInputFor]="chipList"
       [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-      (matChipInputTokenEnd)="add($event)">
+      (matChipInputTokenEnd)="add($event)"
+      (keydown)="this.keydown($event)">
   </mat-chip-grid>
   <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
     <mat-option *ngFor="let keyword of getFilteredKeywords()" [value]="keyword">
@@ -24,3 +25,4 @@
     </mat-option>
   </mat-autocomplete>
 </mat-form-field>
+<mat-error *ngIf="this.deleteLastKeyword" class="bottom-margin">Press backspace again to remove the last keyword.</mat-error>

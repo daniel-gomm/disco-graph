@@ -1,18 +1,31 @@
 <mat-card class="result-card">
     <mat-card-header *ngIf="publication">
-        <mat-card-title>{{publication.title}}</mat-card-title>
-        <mat-card-subtitle>{{publication.issued}}</mat-card-subtitle>
-        <mat-card-subtitle>{{publication.author}}</mat-card-subtitle>
+        <mat-card-title-group>
+            <mat-card-title>{{publication.title}}</mat-card-title>
+            <mat-card-subtitle>{{publication.issued}}</mat-card-subtitle>
+            <mat-card-subtitle>{{publication.author}}</mat-card-subtitle>
+        </mat-card-title-group>
+        <div fxFlex></div>
+        <button 
+        mat-icon-button 
+        matTooltip="Open in new tab."
+        matTooltipHideDelay="300">
+            <mat-icon>open_in_new</mat-icon>
+        </button>
     </mat-card-header>
     <mat-card-content>
         <mat-chip-grid #chipList aria-label="Keywords">
-            <mat-chip *ngFor="let keyword of publication?.keywords">
-                {{this.extractKeyword(keyword).value}}
-            </mat-chip>
+            <div *ngFor="let keyword of this.getKeywords()" [ngSwitch]="this.isMatched(keyword)">
+                <mat-chip *ngSwitchCase="true" class="assigned-chip">
+                    {{keyword.value}}
+                </mat-chip>
+                <mat-chip *ngSwitchCase="false">
+                    {{keyword.value}}
+                    <button matChipRemove (click)="addKeyword(keyword)">
+                        <mat-icon>add</mat-icon>
+                    </button>
+                </mat-chip>
+            </div>
         </mat-chip-grid>
     </mat-card-content>
-    <mat-card-actions align="end">
-        <button mat-button>OPEN RESULT</button>
-        <button mat-button>DISMISS RESULT</button>
-    </mat-card-actions>
 </mat-card>

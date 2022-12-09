@@ -1,7 +1,12 @@
+
 .result-card {
     margin: auto;
     margin-bottom: 10px;
     margin-top: 10px;
     width: 100%;
     padding: 10px;
+}
+
+.assigned-chip {
+    background-color: var(--accent-lighter-color)
 }

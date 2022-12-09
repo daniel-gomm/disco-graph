@@ -17,6 +17,7 @@ import { FilterPaneComponent } from './components/filter-pane/filter-pane.compon
 import { YearsFilterComponent } from './components/years-filter/years-filter.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { AttributeFilterComponent } from './components/attribute-filter/attribute-filter.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { AttributeFilterComponent } from './components/attribute-filter/attribut
     MaterialDesignModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    FontAwesomeModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -20,14 +20,17 @@ export class YearsFilterComponent {
   ) {}
 
   currentYear: number = new Date().getFullYear();
-  firstYear: number = 1900;
-  minValue: number = 1900;
+  firstYear: number = 1975;
+  minValue: number = this.firstYear.valueOf();
   maxValue: number = this.currentYear.valueOf();
-  cachedPreviousMinValue = 1900;
+  cachedPreviousMinValue = this.firstYear.valueOf();
   cachedPreviousMaxValue = this.currentYear.valueOf();
 
 
-  formatLabel(value: number): string{
+  formatLabel(value: number, baseYear:number = 1975): string{
+    if (baseYear >= value){
+      return `<${baseYear}`;
+    }
     return String(value);
   }
 
