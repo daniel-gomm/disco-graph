@@ -55,3 +55,9 @@ h3 {
 .centered-text {
    text-align: center;
 }
+
+.flex-row {
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+ }

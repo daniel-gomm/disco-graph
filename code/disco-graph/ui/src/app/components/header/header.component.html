@@ -1,6 +1,17 @@
 <mat-toolbar class="header">
     <mat-toolbar-row>
         <mat-icon class="padded-icon" svgIcon="disco_graph"></mat-icon>
-        <!-- <span class="header-title">Sci Graph</span> -->
+        <span class="header-spacer"></span>
+        <div [ngSwitch]="this.isUserLoggedIn()">
+            <button *ngSwitchCase="false" mat-flat-button color="accent" (click)="openLoginDialog()">
+                Login
+            </button>
+            <div *ngSwitchCase="true" class="flex-row">
+                <h4 class="username">Logged in as: {{this.getLoggedInUser()}}</h4>
+                <button mat-flat-button color="accent" (click)="logout()">
+                    Logout
+                </button>
+            </div>
+        </div>
     </mat-toolbar-row>
 </mat-toolbar>

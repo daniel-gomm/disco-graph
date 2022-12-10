@@ -13,3 +13,12 @@
 .header {
   background-color: $nord2;
 }
+
+.header-spacer {
+  flex: 1 1 auto;
+}
+
+.username {
+  margin: 15px;
+  color: $nord6;
+}
