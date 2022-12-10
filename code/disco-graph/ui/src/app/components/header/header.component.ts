@@ -12,10 +12,10 @@ export class HeaderComponent implements OnInit {
   constructor(
     private matIconRegistry: MatIconRegistry,
     private domSanatizer: DomSanitizer
-    ) { 
+    ) {
     this.matIconRegistry.addSvgIcon(
-      "sci_graph",
-      this.domSanatizer.bypassSecurityTrustResourceUrl("../../../assets/sci-graph-logo_no-text.svg")
+      "disco_graph",
+      this.domSanatizer.bypassSecurityTrustResourceUrl("../../../assets/disco-graph-logo_no-text.svg")
     );
   }
 

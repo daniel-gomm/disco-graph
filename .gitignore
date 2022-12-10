@@ -138,15 +138,15 @@ deploy/docker/etl_service/*.pem
 .idea
 
 # Compiled output
-/code/sci-graph/ui/dist
-/code/sci-graph/ui/tmp
-/code/sci-graph/ui/out-tsc
-/code/sci-graph/ui/bazel-out
+/code/disco-graph/ui/dist
+/code/disco-graph/ui/tmp
+/code/disco-graph/ui/out-tsc
+/code/disco-graph/ui/bazel-out
 
 # Node
-/code/sci-graph/ui/node_modules
-/code/sci-graph/ui/npm-debug.log
-/code/sci-graph/ui/yarn-error.log
+/code/disco-graph/ui/node_modules
+/code/disco-graph/ui/npm-debug.log
+/code/disco-graph/ui/yarn-error.log
 
 # IDEs and editors
 .idea/
@@ -158,22 +158,22 @@ deploy/docker/etl_service/*.pem
 *.sublime-workspace
 
 # Visual Studio Code
-/code/sci-graph/ui/.vscode/*
-!/code/sci-graph/ui/.vscode/settings.json
-!/code/sci-graph/ui/.vscode/tasks.json
-!/code/sci-graph/ui/.vscode/launch.json
-!/code/sci-graph/ui/.vscode/extensions.json
-/code/sci-graph/ui/.history/*
+/code/disco-graph/ui/.vscode/*
+!/code/disco-graph/ui/.vscode/settings.json
+!/code/disco-graph/ui/.vscode/tasks.json
+!/code/disco-graph/ui/.vscode/launch.json
+!/code/disco-graph/ui/.vscode/extensions.json
+/code/disco-graph/ui/.history/*
 
 # Miscellaneous
-/code/sci-graph/ui/.angular/cache
-/code/sci-graph/ui/.sass-cache/
-/code/sci-graph/ui/connect.lock
-/code/sci-graph/ui/coverage
-/code/sci-graph/ui/libpeerconnection.log
-/code/sci-graph/ui/testem.log
-/code/sci-graph/ui/typings
+/code/disco-graph/ui/.angular/cache
+/code/disco-graph/ui/.sass-cache/
+/code/disco-graph/ui/connect.lock
+/code/disco-graph/ui/coverage
+/code/disco-graph/ui/libpeerconnection.log
+/code/disco-graph/ui/testem.log
+/code/disco-graph/ui/typings
 
 # System files
-/code/sci-graph/ui/.DS_Store
-/code/sci-graph/ui/Thumbs.db
+/code/disco-graph/ui/.DS_Store
+/code/disco-graph/ui/Thumbs.db
