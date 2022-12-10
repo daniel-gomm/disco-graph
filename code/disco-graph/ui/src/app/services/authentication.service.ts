@@ -1,6 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { finalize, Observable, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,14 @@ export class AuthenticationService {
       username: username,
       password: password
     },
-    {responseType: 'text'});
+    {responseType: 'text'})
+    .pipe(
+      tap({
+        complete: () => {
+          this.loggedInUser = username;
+        }
+      })
+    );
   }
 
   login_admin(username: string, password: string): Observable<any>{
@@ -38,7 +45,14 @@ export class AuthenticationService {
   }
 
   logout(): Observable<any> {
-    return this.http.post('/auth/logout', {}, {responseType: 'text'});
+    return this.http.post('/auth/logout', {}, {responseType: 'text'})
+    .pipe(
+      tap({
+        complete: () => {
+          this.loggedInUser = '';
+        }
+      })
+    );
   }
 
   getLoginErrorMessage(error: HttpErrorResponse): string{
@@ -50,6 +64,10 @@ export class AuthenticationService {
         return 'An error occured when trying to log you in.';
       }
     }
+  }
+
+  isUserLoggedIn(): boolean{
+    return Boolean(this.loggedInUser);
   }
 
 }

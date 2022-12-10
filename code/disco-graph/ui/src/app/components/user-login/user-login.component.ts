@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Inject, Output } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
@@ -9,18 +10,15 @@ import { AuthenticationService } from 'src/app/services/authentication.service';
 })
 export class UserLoginComponent {
 
-  @ViewChild('passwordInput') passwordInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('usernameInput') usernameInput!: ElementRef<HTMLInputElement>;
-
   hidePassword: boolean = true;
   errorMessage: string = '';
-  loginSuccessful: boolean = false;
 
   username: string = '';
   password: string = '';
 
   constructor(
-    private authServie: AuthenticationService
+    private authServie: AuthenticationService,
+    public dialogRef: MatDialogRef<UserLoginComponent>
   ) {}
 
 
@@ -34,9 +32,12 @@ export class UserLoginComponent {
         this.errorMessage = this.authServie.getLoginErrorMessage(error);
       },
       complete: () => {
-        this.authServie.loggedInUser = this.username;
-        this.loginSuccessful = true;
+        this.dialogRef.close(true);
       }
     });
+  }
+
+  closeWithoutLogin() {
+    this.dialogRef.close(false);
   }
 }

@@ -5,11 +5,13 @@
         <div [ngSwitch]="this.isUserLoggedIn()">
             <button *ngSwitchCase="false" mat-flat-button color="accent" (click)="openLoginDialog()">
                 Login
+                <mat-icon>login</mat-icon>
             </button>
             <div *ngSwitchCase="true" class="flex-row">
                 <h4 class="username">Logged in as: {{this.getLoggedInUser()}}</h4>
                 <button mat-flat-button color="accent" (click)="logout()">
                     Logout
+                    <mat-icon>logout</mat-icon>
                 </button>
             </div>
         </div>

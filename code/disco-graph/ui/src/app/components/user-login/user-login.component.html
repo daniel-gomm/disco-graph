@@ -1,15 +1,15 @@
-<h1 mat-dialog-title>Login</h1>
-<div class="login-dialog" [ngSwitch]="this.loginSuccessful">
-    <mat-dialog-content *ngSwitchCase="false">
+<div class="login-dialog">
+    <h1 mat-dialog-title>Login</h1>
+    <mat-dialog-content >
         <div class="input-container" >
-            <mat-form-field #usernameInput appearance="fill" class="fullsize-input">
+            <mat-form-field appearance="fill" class="fullsize-input">
                 <mat-label>Enter your username</mat-label>
-                <input matInput type="text" [(ngModel)]="username">
+                <input matInput type="text" [(ngModel)]="username" (keyup.enter)="passwordInput.select()">
             </mat-form-field>
     
-            <mat-form-field #passwordInput appearance="fill" class="fullsize-input">
+            <mat-form-field appearance="fill" class="fullsize-input">
                 <mat-label>Enter your password</mat-label>
-                <input matInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="password">
+                <input matInput #passwordInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="password" (keyup.enter)="login()">
                 <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
                     <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
@@ -17,11 +17,8 @@
         </div>
         <mat-error *ngIf="errorMessage.length > 0">{{errorMessage}}</mat-error>
     </mat-dialog-content>
-    <mat-dialog-content *ngSwitchCase="true">
-        Successfully logged in.
-    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-flat-button (click)="login()" color="accent">Login</button>
+        <button mat-flat-button (click)="closeWithoutLogin()" color="accent">Close</button>
+    </mat-dialog-actions>
 </div>
-<mat-dialog-actions align="end">
-    <button mat-button (click)="login()" *ngIf="!this.loginSuccessful">Login</button>
-    <button mat-button mat-dialog-close>Close</button>
-</mat-dialog-actions>

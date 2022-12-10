@@ -37,8 +37,10 @@ export class HeaderComponent implements OnInit {
   openLoginDialog(){
     const dialogRef = this.dialog.open(UserLoginComponent);
     
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('Login dialog closed. Result: ' + result)
+    dialogRef.afterClosed().subscribe(loggedIn => {
+      if(loggedIn){
+        this.openSnackBar('Logged in successfully.')
+      }
     });
   }
 
@@ -49,7 +51,6 @@ export class HeaderComponent implements OnInit {
         console.log(error);
       },
       complete: () => {
-        this.authService.loggedInUser = '';
         this.openSnackBar('Logged out successfully.')
       }
     })

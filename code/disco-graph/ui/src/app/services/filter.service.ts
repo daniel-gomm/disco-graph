@@ -8,7 +8,7 @@ import { AttributeResponse } from '../model/responses';
 })
 export class FilterService {
 
-  filtersChanged: boolean = false;
+  //filtersChanged: boolean = false;
 
   constructor(
     private http: HttpClient,
