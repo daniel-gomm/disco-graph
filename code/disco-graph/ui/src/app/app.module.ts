@@ -18,6 +18,7 @@ import { YearsFilterComponent } from './components/years-filter/years-filter.com
 import { FooterComponent } from './components/footer/footer.component';
 import { AttributeFilterComponent } from './components/attribute-filter/attribute-filter.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { UserLoginComponent } from './components/user-login/user-login.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FilterPaneComponent,
     YearsFilterComponent,
     FooterComponent,
-    AttributeFilterComponent
+    AttributeFilterComponent,
+    UserLoginComponent,
   ],
   imports: [
     BrowserModule,
