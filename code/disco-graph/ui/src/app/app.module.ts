@@ -19,6 +19,10 @@ import { FooterComponent } from './components/footer/footer.component';
 import { AttributeFilterComponent } from './components/attribute-filter/attribute-filter.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserLoginComponent } from './components/user-login/user-login.component';
+import { SearchComponent } from './components/search/search.component';
+import { DocumentComponent } from './components/document/document.component';
+import { PageNotFoundComponent } from './components/util/page-not-found/page-not-found.component';
+import { SearchModule } from './search/search.module';
 
 @NgModule({
   declarations: [
@@ -34,6 +38,9 @@ import { UserLoginComponent } from './components/user-login/user-login.component
     FooterComponent,
     AttributeFilterComponent,
     UserLoginComponent,
+    SearchComponent,
+    DocumentComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -43,7 +50,8 @@ import { UserLoginComponent } from './components/user-login/user-login.component
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    SearchModule
   ],
   providers: [],
   bootstrap: [AppComponent]
