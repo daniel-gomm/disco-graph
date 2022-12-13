@@ -1,0 +1,81 @@
+<div *ngIf="document">
+    <!-- <h4>Author</h4>
+    <p>{{document.author}}</p>
+    <mat-divider></mat-divider>
+    <h4>Issued</h4>
+    <p>{{document.issued}}</p> -->
+
+    <mat-card class="main-container">
+        <div class="doc-container">
+            <div>
+                <h3>{{document.title}}</h3>
+            </div>
+            <div class="doc-details-container">
+                <div class="doc-content-item">
+                    <div>
+                        <p>Author</p>
+                        <h4>{{document.author}} - {{document.issued}}</h4>
+                    </div>
+                    <mat-divider class="divider"></mat-divider>
+                    <div>
+                        <p>Abstract</p>
+                        <P>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</P>
+                    </div>
+                    <mat-card class="card">
+                        <mat-card-header>
+                            Keywords
+                        </mat-card-header>
+                        <mat-card-content>
+                            <mat-chip-grid>
+                                <div *ngFor="let keyword of document.keywords">
+                                    <mat-chip>
+                                        {{this.extractValueInPublicationLanguage(keyword).value}}
+                                    </mat-chip>
+                                </div>
+                            </mat-chip-grid>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <mat-card class="doc-atributes-item card">
+                    <mat-card-header>
+                        Details
+                    </mat-card-header>
+                    <mat-card-content>
+                    <p>Language: {{document.language}}</p>
+                    <mat-divider class="divider"></mat-divider>
+                    <p>ID: {{document.publication_id}}</p>
+                    <mat-divider class="divider"></mat-divider>
+                    <div *ngFor="let attribute of document.additional_attributes">
+                        <p>
+                            {{attribute.name}}: {{attribute.value}}
+                        </p>
+                        <mat-divider class="divider"></mat-divider>
+                    </div>
+                    </mat-card-content>
+                </mat-card>
+                <!-- <div class="doc-atributes-item colored-border">
+                </div> -->
+            </div>
+        </div>
+    </mat-card>
+
+
+    <!-- <mat-grid-list cols="4" rowHeight="fit">
+        <mat-grid-tile colspan="4" rowspan="1">
+            <mat-grid-tile-header>Title</mat-grid-tile-header>
+            <h2>{{document.title}}</h2>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="3" rowspan="1">
+            <h3>{{document.author}} - {{document.issued}}</h3>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="1" rowspan="3">
+            <mat-grid-tile-header>Attributes</mat-grid-tile-header>
+        </mat-grid-tile>
+        <mat-grid-tile colspan="3" rowspan="1">
+            Abstract here
+        </mat-grid-tile>
+        <mat-grid-tile colspan="3" rowspan="1">
+            Keywords
+        </mat-grid-tile>
+    </mat-grid-list> -->
+</div>

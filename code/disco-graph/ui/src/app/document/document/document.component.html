@@ -1,1 +1,14 @@
-<p>document works!</p>
+<div *ngIf="document$ | async as document" class="centered-content">
+    <h3>{{document.title}}</h3>
+    <mat-tab-group preserveContent mat-stretch-tabs="false" mat-align-tabs="start" color="accent">
+        <mat-tab label="Overview">
+            <app-document-overview [document]="document"></app-document-overview>
+        </mat-tab>
+        <mat-tab label="Details">
+            <app-document-details></app-document-details>
+        </mat-tab>
+        <mat-tab label="Edit" [disabled]="!isUserLoggedIn()">
+            <app-document-edit></app-document-edit>
+        </mat-tab>
+    </mat-tab-group>
+</div>

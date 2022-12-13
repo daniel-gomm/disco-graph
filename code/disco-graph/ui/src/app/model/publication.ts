@@ -1,5 +1,5 @@
 export interface Publication {
-    publcation_id: string,
+    publication_id: string,
     author: string,
     title: string,
     doi?: string,
