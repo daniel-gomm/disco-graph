@@ -1,5 +1,5 @@
-<mat-card class="result-card">
-    <mat-card-header *ngIf="publication">
+<mat-card class="result-card" (click)="openDocument()">
+    <mat-card-header *ngIf="publication" >
         <mat-card-title-group>
             <mat-card-title>{{publication.title}}</mat-card-title>
             <mat-card-subtitle>{{publication.issued}}</mat-card-subtitle>
@@ -9,7 +9,8 @@
         <button 
         mat-icon-button 
         matTooltip="Open in new tab."
-        matTooltipHideDelay="300">
+        matTooltipHideDelay="300"
+        (click)="openDocumentInNewTab()">
             <mat-icon>open_in_new</mat-icon>
         </button>
     </mat-card-header>

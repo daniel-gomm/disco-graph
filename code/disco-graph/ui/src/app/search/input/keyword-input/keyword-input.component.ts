@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { startWith, filter, distinctUntilChanged, debounceTime, switchMap, finalize } from 'rxjs/operators';
-import { ValueWithLanguage } from '../../model/publication';
+import { ValueWithLanguage } from '../../../model/publication';
 import { KeywordService } from 'src/app/services/keyword.service';
 
 @Component({

@@ -1,38 +1,5 @@
 @import "../../node_modules/nord/src/sass/nord.scss";
 
-.centered-content {
-    margin: auto;
-    width: 95%;
-    padding: 10px;
-}
-
-.filter-sidenav {
-    padding: 20px;
-}
-
-.filter-sidenav-content {
-    display: flex;
-    height: 100%;
-    width: auto;
-    justify-content: center;
-}
-
-.input-wrapper {
-    width: 100%;
-    overflow: hidden;
-}
-
-.keyword-input {
-    float: left;
-    width: calc(98% - 90px);
-}
-
-.filter-sidenav-toggle {
-    float: right;
-    width: 60px;
-    margin: 15px;
-}
-
 .main-container {
     margin:0;
   top: 0;

@@ -1,9 +1,11 @@
 <mat-toolbar class="header">
     <mat-toolbar-row>
-        <mat-icon class="padded-icon" svgIcon="disco_graph"></mat-icon>
+        <button mat-button routerLink="/search" color="primary">
+            <mat-icon class="padded-icon" svgIcon="disco_graph"></mat-icon>
+        </button>
         <span class="header-spacer"></span>
         <div [ngSwitch]="this.isUserLoggedIn()">
-            <button *ngSwitchCase="false" mat-flat-button color="accent" (click)="openLoginDialog()">
+            <button *ngSwitchCase="false" mat-flat-button color="primary" (click)="openLoginDialog()">
                 Login
                 <mat-icon>login</mat-icon>
             </button>

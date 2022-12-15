@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Keyword, Publication, ValueWithLanguage } from 'src/app/model/publication';
 import { KeywordService } from 'src/app/services/keyword.service';
 
@@ -13,6 +14,7 @@ export class ResultItemComponent implements OnInit{
 
   constructor (
     private keywordService: KeywordService,
+    private router: Router
   ) {}
   
   ngOnInit():void {
@@ -45,5 +47,18 @@ export class ResultItemComponent implements OnInit{
   addKeyword(kw: ValueWithLanguage){
     this.keywordService.addKeywordSelection(kw);
   }
+
+  openDocument(){
+    this.router.navigate(['/document', this.publication?.publication_id]);
+  }
+
+  openDocumentInNewTab(){
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree(['/document', this.publication?.publication_id])
+    );
+
+    window.open(url, '_blank');
+  }
+
 
 }

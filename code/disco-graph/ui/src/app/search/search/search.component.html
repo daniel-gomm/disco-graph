@@ -1,0 +1,19 @@
+<mat-sidenav-container>
+    <mat-sidenav #sidenav mode="side" position="end" class="filter-sidenav">
+      <div class="filter-sidenav-content">
+        <app-filter-pane></app-filter-pane>
+      </div>
+    </mat-sidenav>
+    <div class="centered-content">
+      <div class="input-wrapper">
+        <app-search-input class="keyword-input"></app-search-input>
+        <div class="filter-sidenav-toggle">
+          <button type="button" mat-fab (click)="sidenav.toggle()">
+            <mat-icon>tune</mat-icon>
+          </button>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+      <app-results></app-results>
+    </div>
+</mat-sidenav-container>
