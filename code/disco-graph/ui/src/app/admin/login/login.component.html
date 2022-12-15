@@ -1,0 +1,23 @@
+<div class="login-container">
+    <h1>Admin login</h1>
+    <div>
+        <div>
+            <mat-form-field appearance="fill" class="login-input">
+                <mat-label>Enter admin username</mat-label>
+                <input matInput type="text" [(ngModel)]="username" (keyup.enter)="passwordInput.select()">
+            </mat-form-field>
+    
+            <mat-form-field appearance="fill" class="login-input">
+                <mat-label>Enter admin password</mat-label>
+                <input matInput #passwordInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="password" (keyup.enter)="login()">
+                <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+        </div>
+        <mat-error *ngIf="errorMessage.length > 0">{{errorMessage}}</mat-error>
+    </div>
+    <div align="end">
+        <button mat-flat-button (click)="login()" color="accent">Login</button>
+    </div>
+</div>

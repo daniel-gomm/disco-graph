@@ -8,6 +8,7 @@ import { finalize, Observable, tap } from 'rxjs';
 export class AuthenticationService {
 
   loggedInUser: string = '';
+  loggedInAdmin: string= '';
 
   constructor(
     private http: HttpClient,
@@ -33,7 +34,14 @@ export class AuthenticationService {
       username: username,
       password: password
     },
-    {responseType: 'text'});
+    {responseType: 'text'})
+    .pipe(
+      tap({
+        complete: () => {
+          this.loggedInAdmin = username;
+        }
+      })
+    );
   }
 
   register_user(username:string, password: string): Observable<any>{
@@ -68,6 +76,10 @@ export class AuthenticationService {
 
   isUserLoggedIn(): boolean{
     return Boolean(this.loggedInUser);
+  }
+
+  isAdminLoggedIn(): boolean{
+    return Boolean(this.loggedInAdmin);
   }
 
 }

@@ -11,10 +11,11 @@ import { HttpClientModule } from "@angular/common/http";
 import { FooterComponent } from './components/footer/footer.component';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { UserLoginComponent } from './components/user-login/user-login.component';
-import { DocumentComponent } from './document/document/document.component';
 import { PageNotFoundComponent } from './components/util/page-not-found/page-not-found.component';
 import { SearchModule } from './search/search.module';
 import { DocumentModule } from './document/document.module';
+import { AdminModule } from './admin/admin.module';
+import { DeleteDialogComponent } from './components/dialogs/delete-dialog/delete-dialog.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { DocumentModule } from './document/document.module';
     FooterComponent,
     UserLoginComponent,
     PageNotFoundComponent,
+    DeleteDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,6 +37,7 @@ import { DocumentModule } from './document/document.module';
 
     SearchModule,
     DocumentModule,
+    AdminModule,
     AppRoutingModule,
   ],
   providers: [],

@@ -1,0 +1,32 @@
+<div class="main-container">
+    <button 
+    mat-flat-button 
+    color="accent"
+    class="create-user-button" 
+    (click)="this.createUser()">Create new user</button>
+    <div>
+        <h3>Browse registered users</h3>
+        <div 
+            infinite-scroll
+            [infiniteScrollDistance]="2"
+            [infiniteScrollThrottle]="1000"
+            (scrolled)="onScroll()"
+        >
+            <mat-card *ngFor="let user of users" class="spaced-card">
+                <div class="card-content-container">
+                    <p>User: {{user.username}}</p>
+                    <button
+                    mat-flat-button
+                    color="accent"
+                    (click)="deleteUser(user.username)"
+                    >
+                        Delete
+                    </button>
+                </div>
+            </mat-card>
+            <div *ngIf="this.loadingUsers">
+                <mat-progress-bar mode="indeterminate" color="accent"></mat-progress-bar>
+            </div>
+        </div>
+    </div>
+</div>

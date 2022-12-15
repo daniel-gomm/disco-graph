@@ -40,7 +40,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     HttpClientModule,
     FontAwesomeModule,
     CommonModule,
-    MaterialDesignModule,
     SearchRoutingModule
   ]
 })

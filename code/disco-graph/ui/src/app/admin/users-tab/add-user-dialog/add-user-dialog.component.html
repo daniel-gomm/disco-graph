@@ -1,0 +1,24 @@
+<div class="add-user-dialog">
+    <h1 mat-dialog-title>Add user</h1>
+    <mat-dialog-content >
+        <div class="input-container" >
+            <mat-form-field appearance="fill" class="fullsize-input">
+                <mat-label>Enter username</mat-label>
+                <input matInput type="text" [(ngModel)]="username" (keyup.enter)="passwordInput.select()">
+            </mat-form-field>
+    
+            <mat-form-field appearance="fill" class="fullsize-input">
+                <mat-label>Enter password</mat-label>
+                <input matInput #passwordInput [type]="hidePassword ? 'password' : 'text'" [(ngModel)]="password" (keyup.enter)="registerUser()">
+                <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+                    <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+                </mat-form-field>
+        </div>
+        <mat-error *ngIf="errorMessage.length > 0">{{errorMessage}}</mat-error>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-flat-button (click)="registerUser()" color="accent">Add</button>
+        <button mat-flat-button (click)="close()" color="accent">Close</button>
+    </mat-dialog-actions>
+</div>
