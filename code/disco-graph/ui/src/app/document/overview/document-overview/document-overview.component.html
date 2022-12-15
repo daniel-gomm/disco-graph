@@ -13,8 +13,7 @@
             <div class="doc-details-container">
                 <div class="doc-content-item">
                     <div>
-                        <p>Author</p>
-                        <h4>{{document.author}} - {{document.issued}}</h4>
+                        <h4>{{document.author}}</h4>
                     </div>
                     <mat-divider class="divider"></mat-divider>
                     <div>
@@ -41,16 +40,18 @@
                         Details
                     </mat-card-header>
                     <mat-card-content>
-                    <p>Language: {{document.language}}</p>
-                    <mat-divider class="divider"></mat-divider>
-                    <p>ID: {{document.publication_id}}</p>
-                    <mat-divider class="divider"></mat-divider>
-                    <div *ngFor="let attribute of document.additional_attributes">
-                        <p>
-                            {{attribute.name}}: {{attribute.value}}
-                        </p>
+                        <p>Issued: {{document.issued}}</p>
                         <mat-divider class="divider"></mat-divider>
-                    </div>
+                        <p>Language: {{document.language}}</p>
+                        <mat-divider class="divider"></mat-divider>
+                        <p>ID: {{document.publication_id}}</p>
+                        <mat-divider class="divider"></mat-divider>
+                        <div *ngFor="let attribute of document.additional_attributes">
+                            <p>
+                                {{attribute.name}}: {{attribute.value}}
+                            </p>
+                            <mat-divider class="divider"></mat-divider>
+                        </div>
                     </mat-card-content>
                 </mat-card>
                 <!-- <div class="doc-atributes-item colored-border">

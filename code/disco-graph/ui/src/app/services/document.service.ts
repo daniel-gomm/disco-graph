@@ -1,15 +1,22 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Publication } from '../model/publication';
+import { KeywordService } from './keyword.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DocumentService {
 
-  constructor() { }
+  constructor(
+    private keywordService: KeywordService,
+  ) { }
 
   getDocument(id: string): Observable<Publication> {
+    let cachedDoc = this.keywordService.searchResults.find((document) => document.publication_id === id);
+    if (cachedDoc){
+      return of(cachedDoc);
+    }
     return of({
     publication_id: 'test_id',
     author: 'daniel gomm',

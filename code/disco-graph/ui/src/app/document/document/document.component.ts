@@ -5,6 +5,7 @@ import { switchMap } from 'rxjs/operators';
 import { Publication } from 'src/app/model/publication';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { DocumentService } from 'src/app/services/document.service';
+import { KeywordService } from 'src/app/services/keyword.service';
 
 @Component({
   selector: 'app-document',
@@ -13,7 +14,7 @@ import { DocumentService } from 'src/app/services/document.service';
 })
 export class DocumentComponent implements OnInit {
 
-  @Input() document$!: Observable<Publication>
+  document$!: Observable<Publication>
 
   constructor (
     private route: ActivatedRoute,
@@ -22,14 +23,11 @@ export class DocumentComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if(this.document$){
-      return;
-    }
-      this.document$ = this.route.paramMap.pipe(
-        switchMap((params: ParamMap) => 
-          this.documentService.getDocument(params.get('id')!)
-        )
-      );
+    this.document$ = this.route.paramMap.pipe(
+      switchMap((params: ParamMap) => 
+        this.documentService.getDocument(params.get('id')!)
+      )
+    );
   }
 
   isUserLoggedIn(): boolean {
