@@ -5,7 +5,8 @@ CREATE TABLE user (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   username TEXT UNIQUE NOT NULL,
   salt TEXT NOT NULL,
-  password TEXT NOT NULL
+  password TEXT NOT NULL,
+  deleted INTEGER NOT NULL
 );
 
 CREATE TABLE admin (

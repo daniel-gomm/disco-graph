@@ -1,6 +1,6 @@
 import os
 from flask import Flask
-from . import db, auth, publication_resource, api_resource
+from . import db, auth, publication_resource, api_resource, user_resource
 
 def create_app(test_config=None):
     # create and configure the app
@@ -28,5 +28,6 @@ def create_app(test_config=None):
     app.register_blueprint(auth.bp)
     app.register_blueprint(publication_resource.bp)
     app.register_blueprint(api_resource.bp)
+    app.register_blueprint(user_resource.bp)
 
     return app

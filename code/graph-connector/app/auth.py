@@ -14,7 +14,8 @@ SALT_LENGTH = 16
 SECRET_TOKEN = os.getenv('SECRET_TOKEN')
 if not SECRET_TOKEN:
     SECRET_TOKEN = 'debug'
-    print('No secret defined! Please provide secret to ensure safe operations! Not for production use!')
+    print('\n\nWARNING:\nNo secret defined! Please provide secret to ensure safe operations! Not for production '
+          'use!\n\n')
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -39,37 +40,6 @@ def admin_login_required(view):
         return view(**kwargs)
 
     return wrapped_view
-
-
-@bp.post('/user/register')
-@admin_login_required
-def register():
-    registration_data = request.get_json()
-
-    username = registration_data["username"]
-    password = registration_data["password"]
-    db = get_db()
-    error = None
-
-    if not username:
-        error = 'Username is required.'
-    elif not password:
-        error = 'Password is required.'
-
-    if error is None:
-        try:
-            salt = gen_salt(SALT_LENGTH)
-            db.execute(
-                "INSERT INTO user (username, salt, password) VALUES (?, ?, ?)",
-                (username, salt, generate_password_hash(password + salt)),
-            )
-            db.commit()
-        except db.IntegrityError:
-            error = f"User {username} is already registered."
-        else:
-            return f"Successfully created user {username}", 200
-
-    return error, 409
 
 
 @bp.post('/admin/register')
@@ -118,7 +88,7 @@ def login():
     db = get_db()
     error = None
     user = db.execute(
-        'SELECT * FROM user WHERE username = ?', (username,)
+        'SELECT * FROM user WHERE username = ? AND deleted = 0', (username,)
     ).fetchone()
 
     if user is None:
