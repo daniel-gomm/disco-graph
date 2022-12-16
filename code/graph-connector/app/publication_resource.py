@@ -1,20 +1,38 @@
 from flask import (
-    Blueprint, request
+    Blueprint, request, jsonify
 )
 
 from .auth import login_required
 from .model.model import Publication
 from .rdf_interface import BASE_CONNECTOR
+from .request_utils import get_numeric_query_parameter
 
 bp = Blueprint('publication', __name__, url_prefix='/publication')
 
 rdf_connector = BASE_CONNECTOR
 
 
+@bp.get('/list')
+def get_publications():
+    search_input = request.args.get('keys')
+    if not search_input:
+        search_input = '*'
+    limit = get_numeric_query_parameter('limit', 10)
+    page = get_numeric_query_parameter('page', 1)
+
+    documents = rdf_connector.get_publication_names(search_input, limit, page)
+
+    return documents, 200
+
+
 @bp.get("/<string:identifier>")
 def get_publication(identifier):
-    # TODO: implement
-    pass
+    # Return full publication with all info
+    try:
+        publication = rdf_connector.get_publication(identifier)
+        return jsonify(publication), 200
+    except AttributeError:
+        return {}, 404
 
 
 @bp.post("/<string:identifier>")

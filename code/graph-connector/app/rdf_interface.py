@@ -1,5 +1,5 @@
 from .model.model import Publication, Keyword, AdditionalAttribute, ValueWithLanguage
-from .rdf import queries
+from .rdf import queries, document_queries
 
 from rdflib.term import Node, Variable
 from rdflib import Graph, Literal, URIRef, Namespace
@@ -213,6 +213,43 @@ class RDFConnector:
             })
 
         return results
+
+    def get_publication_names(self, keys: str, limit: int, page: int) -> list[dict]:
+        publication_names_query = document_queries.get_document_name_list_query(keys, limit, page)
+
+        query_results = self.graph.query(publication_names_query)
+
+        results = []
+
+        for result in query_results:
+            results.append({
+                'title': result[Variable('title')],
+                'publication_id': result[Variable('pub')].toPython().split("/")[-1]
+            })
+
+        return results
+
+
+    def get_publication(self, publication_id:str) -> dict:
+        doc_query = document_queries.get_document(PUBLICATION_PREFIX+publication_id)
+
+        query_result = self.graph.query(doc_query)
+
+        if len(query_result) != 1:
+            raise AttributeError(f'No publication with id {publication_id} exists.')
+
+        pub_result = query_result[0]
+
+        return {
+            'title': pub_result[Variable('title')],
+            'language': pub_result[Variable('language')],
+            'issued': pub_result[Variable('issues')],
+            'doi': pub_result[Variable('doi')],
+            'authors': pub_result[Variable('authors')],
+            'keywords': pub_result[Variable('keywords')],
+            'attributes': pub_result[Variable('attributes')]
+        }
+
 
 
 BASE_CONNECTOR = RDFConnector("http://localhost:3030/ds")
