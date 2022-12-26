@@ -1,0 +1,24 @@
+@import "../common-styles.scss";
+
+.button-container{
+    display: flex;
+    align-items: stretch;
+    align-content: space-between;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.small-margin {
+    margin: 7px;
+}
+
+.spaced-card {
+    margin: 10px;
+    overflow-y: auto;
+    width: 60%;
+}
+
+.search-input {
+    width: 60%;
+    margin: 10px;
+}
