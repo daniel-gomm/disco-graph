@@ -1,24 +1,25 @@
-from .common import SG_PREFIXES
+from .common import SG_PREFIXES, PREFIXES
 
 
-def get_document_name_list_query(keys: str = '*', limit: int = 10, page: int = 1)-> str:
+def get_document_name_list_query(keys: str = '*', limit: int = 10, page: int = 1) -> str:
     return f"""
-{SG_PREFIXES}
+    {PREFIXES}
 
 SELECT ?pub ?title
 WHERE {{
     ?pub rdf:type foaf:Document .
     ?pub dc:title ?title .
-    FILTER regex(?keyword_value, "^{keys}", "i") .
+    FILTER regex(?title, "^{keys}", "i") .
 }}
 
 LIMIT {limit}
-OFFSET {(page - 1) * limit}
+OFFSET {((page - 1) * limit)}
 """
 
-def get_document(publication_uri: str)-> str:
+
+def get_document(publication_uri: str) -> str:
     return f"""
-{SG_PREFIXES}
+{PREFIXES}
 
 SELECT ?title ?issued ?doi ?language (concat('[',GROUP_CONCAT(?author;separator=","),']') as ?authors)
 (CONCAT('[',GROUP_CONCAT(DISTINCT ?kw_c;separator=","),']') as ?keywords)
@@ -36,13 +37,13 @@ WHERE {{
     ?atr rdf:value ?atr_v ;
         rdfs:subClassOf ?atrf .
     ?atrf sgp:name ?atr_n .
-    BIND(CONCAT('{"name":"',?atr_n,'","value":"',?atr_v,'","status":',STR(?atri_s),'}') as ?att) .
+    BIND(CONCAT('{{"name":"',?atr_n,'","value":"',?atr_v,'","status":',STR(?atri_s),'}}') as ?att) .
     
     ?kwi rdf:type ?kw ;
         sgp:status ?kwi_s .
     ?kw rdf:value ?kw_val 
     FILTER (lang(?kw_val) = ?language)
-    BIND(CONCAT('{"value":"',?kw_val,'","status":',STR(?kwi_s),'}') as ?kw_c) .
+    BIND(CONCAT('{{"value":"',?kw_val,'","status":',STR(?kwi_s),'}}') as ?kw_c) .
 }}
 GROUP BY ?title ?issued ?doi ?language
 """

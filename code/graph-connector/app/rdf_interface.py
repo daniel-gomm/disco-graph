@@ -229,27 +229,25 @@ class RDFConnector:
 
         return results
 
-
-    def get_publication(self, publication_id:str) -> dict:
-        doc_query = document_queries.get_document(PUBLICATION_PREFIX+publication_id)
+    def get_publication(self, publication_id: str) -> dict:
+        doc_query = document_queries.get_document(PUBLICATION_PREFIX + publication_id)
 
         query_result = self.graph.query(doc_query)
 
         if len(query_result) != 1:
             raise AttributeError(f'No publication with id {publication_id} exists.')
 
-        pub_result = query_result[0]
+        pub_result = query_result.bindings[0]
 
         return {
             'title': pub_result[Variable('title')],
             'language': pub_result[Variable('language')],
-            'issued': pub_result[Variable('issues')],
+            'issued': pub_result[Variable('issued')],
             'doi': pub_result[Variable('doi')],
             'authors': pub_result[Variable('authors')],
             'keywords': pub_result[Variable('keywords')],
             'attributes': pub_result[Variable('attributes')]
         }
-
 
 
 BASE_CONNECTOR = RDFConnector("http://localhost:3030/ds")

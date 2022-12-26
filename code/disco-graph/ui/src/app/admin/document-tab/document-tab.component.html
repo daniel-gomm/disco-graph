@@ -1,0 +1,34 @@
+<div>
+    <h3>Search existing publciations</h3>
+    <mat-form-field appearance="fill">
+        <mat-label>Search for publication by title</mat-label>
+        <input matInput type="text" [(ngModel)]="inputValue" (keyup.enter)="search()">
+    </mat-form-field>
+    <div
+        infinite-scroll
+        [infiniteScrollDistance]="2"
+        [infiniteScrollThrottle]="1000"
+        (scrolled)="onScroll()"
+        >
+        <mat-card *ngFor="let documentTitle of documentTitles">
+            <p>Title: {{documentTitle.title}}</p>
+            <button 
+            mat-flat-button
+            color="accent"
+            >
+                Edit
+            </button>
+            <button
+            mat-flat-button
+            color="accent"
+            >
+                Delete
+            </button>
+        </mat-card>
+
+        <div *ngIf="this.loadingDocuments">
+            <mat-progress-bar mode="indeterminate" color="accent"></mat-progress-bar>
+        </div>
+    </div>
+    
+</div>

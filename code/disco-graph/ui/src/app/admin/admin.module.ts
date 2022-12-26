@@ -9,6 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { UsersTabComponent } from './users-tab/users-tab.component';
 import { AddUserDialogComponent } from './users-tab/add-user-dialog/add-user-dialog.component';
+import { DocumentTabComponent } from './document-tab/document-tab.component';
 
 
 @NgModule({
@@ -16,7 +17,8 @@ import { AddUserDialogComponent } from './users-tab/add-user-dialog/add-user-dia
     AdminComponent,
     LoginComponent,
     UsersTabComponent,
-    AddUserDialogComponent
+    AddUserDialogComponent,
+    DocumentTabComponent
   ],
   imports: [
     CommonModule,
