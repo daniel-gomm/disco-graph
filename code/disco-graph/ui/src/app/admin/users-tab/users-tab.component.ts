@@ -25,6 +25,7 @@ export class UsersTabComponent implements OnInit {
   users: User[] = [];
   loadingUsers: boolean = true;
   lastResultSize: number = 0;
+  inputValue: string = '';
 
   constructor (
     private userService: UserService,
@@ -35,7 +36,24 @@ export class UsersTabComponent implements OnInit {
   ngOnInit(): void {
     this.loadingUsers = true;
     this.userService
-      .getUsers(this.nextPageToLoad, this.INITIAL_USER_LOADING_LIMIT)
+      .getUsers(this.nextPageToLoad, this.inputValue, this.INITIAL_USER_LOADING_LIMIT)
+      .pipe(
+        finalize(() => {
+          this.loadingUsers = false;
+        })
+      )
+      .subscribe((users: User[]) => {
+        this.users = users;
+        this.lastResultSize = users.length;
+      });
+  }
+
+  search(): void {
+    this.loadingUsers = true;
+    this.nextPageToLoad = 1;
+    this.users = [];
+    this.userService
+      .getUsers(this.nextPageToLoad, this.inputValue, this.INITIAL_USER_LOADING_LIMIT)
       .pipe(
         finalize(() => {
           this.loadingUsers = false;
@@ -54,7 +72,7 @@ export class UsersTabComponent implements OnInit {
     }
     this.loadingUsers = true;
     this.userService
-    .getUsers(++this.nextPageToLoad, this.USER_LOADING_LIMIT)
+    .getUsers(++this.nextPageToLoad, this.inputValue, this.USER_LOADING_LIMIT)
     .pipe(
       finalize(() => {
         this.loadingUsers = false;

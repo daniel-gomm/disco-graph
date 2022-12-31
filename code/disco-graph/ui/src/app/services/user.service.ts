@@ -12,8 +12,8 @@ export class UserService {
     private http: HttpClient
   ) { }
 
-  getUsers(page: number, limit: number = 20): Observable<User[]> {
-    return this.http.get<User[]>(`/user?limit=${limit}&page=${page}`);
+  getUsers(page: number, keys: string = '', limit: number = 20): Observable<User[]> {
+    return this.http.get<User[]>(`/user?limit=${limit}&page=${page}${keys === '' ? '' : '&keys=' + keys}`);
   }
 
   deleteUser(username: string): Observable<any> {

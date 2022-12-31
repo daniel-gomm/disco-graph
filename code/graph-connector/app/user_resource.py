@@ -22,16 +22,30 @@ def get_users():
 
     db = get_db()
 
+    user_name_search_input = request.args.get('keys')
+
     try:
-        found_users = db.execute(
-            f"""
-            SELECT username FROM user
-            WHERE deleted = 0
-            LIMIT {limit}
-            OFFSET {page * limit}
-            """
-        ).fetchall()
-    except db.Error:
+        if user_name_search_input:
+            found_users = db.execute(
+                f"""
+                SELECT username FROM user
+                WHERE deleted = 0
+                AND username REGEXP '.*{user_name_search_input}.*'
+                LIMIT {limit}
+                OFFSET {page * limit}
+                """
+            ).fetchall()
+        else:
+            found_users = db.execute(
+                f"""
+                SELECT username FROM user
+                WHERE deleted = 0
+                LIMIT {limit}
+                OFFSET {page * limit}
+                """
+            ).fetchall()
+    except db.Error as e:
+        print(e)
         return {}, 500
 
     users = []

@@ -1,11 +1,10 @@
 <div class="main-container">
-    <button 
-    mat-flat-button 
-    color="accent"
-    class="create-user-button" 
-    (click)="this.createUser()">Create new user</button>
     <div>
         <h3>Browse registered users</h3>
+        <mat-form-field appearance="fill" class="search-input">
+            <mat-label>Search for users by username</mat-label>
+            <input matInput type="text" [(ngModel)]="inputValue" (keyup.enter)="search()">
+        </mat-form-field>
         <div 
             infinite-scroll
             [infiniteScrollDistance]="2"
@@ -29,4 +28,10 @@
             </div>
         </div>
     </div>
+    <mat-divider vertical="true"></mat-divider>
+    <button 
+    mat-flat-button 
+    color="accent"
+    class="create-user-button" 
+    (click)="this.createUser()">Create new user</button>
 </div>
