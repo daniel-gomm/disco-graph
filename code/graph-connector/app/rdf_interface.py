@@ -133,13 +133,13 @@ class RDFConnector:
 
     def update_keyword_confirmation(self, pub_id: str, keyword_id: str, updated_status: int) -> None:
         kwi_ref = URIRef(PUBLICATION_PREFIX + pub_id + "/keyword/" + getId(keyword_id))
-        updated_status_literal = Literal(updated_status, XSD.integer)
+        updated_status_literal = Literal(int(updated_status), datatype=XSD.integer)
         self._update_triple(kwi_ref, SGP.status, updated_status_literal)
 
     def update_attribute_confirmation(self, pub_id: str, attribute_flavor: str,
                                       updated_status: int) -> None:
         attr_instance_ref = URIRef(SG_PREFIX + "publication/" + pub_id + "/attribute/" + getId(attribute_flavor))
-        updated_status_literal = Literal(updated_status, XSD.integer)
+        updated_status_literal = Literal(int(updated_status), datatype=XSD.integer)
         self._update_triple(attr_instance_ref, SGP.status, updated_status_literal)
 
     def add_author(self, pub_id: str, author_name: str):

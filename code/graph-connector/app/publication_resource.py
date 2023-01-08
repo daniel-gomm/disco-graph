@@ -77,7 +77,7 @@ def update_publication_doi(pub_id):
 
 @bp.put("/<string:pub_id>/issued")
 @login_required
-def update_publication_title(pub_id):
+def update_publication_issued(pub_id):
     req_json = request.get_json()
     new_issued = req_json['issued']
     try:

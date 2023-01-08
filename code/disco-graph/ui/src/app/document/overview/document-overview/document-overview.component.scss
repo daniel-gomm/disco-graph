@@ -47,3 +47,8 @@
 .card {
     background-color: var(--text-primary-color);
 }
+
+.chip {
+    display: flex;
+    flex-direction: row;
+}
