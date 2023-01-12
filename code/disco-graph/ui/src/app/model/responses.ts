@@ -7,3 +7,7 @@ export interface DocumentTitleResponse {
     publication_id: string,
     title: string
 }
+
+export interface LoggedInUserRespone {
+    username: string
+}
