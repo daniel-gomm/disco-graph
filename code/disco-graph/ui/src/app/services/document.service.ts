@@ -1,6 +1,8 @@
+import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { Publication } from '../model/publication';
+import { DocumentTitleResponse } from '../model/responses';
 import { KeywordService } from './keyword.service';
 
 @Injectable({
@@ -10,6 +12,7 @@ export class DocumentService {
 
   constructor(
     private keywordService: KeywordService,
+    private http: HttpClient
   ) { }
 
   getDocument(id: string): Observable<Publication> {
@@ -49,5 +52,9 @@ export class DocumentService {
     })
   }
 
+  getDocumentTitles(searchInput: string, limit: number, page: number): Observable<DocumentTitleResponse[]>{
+    return this.http
+    .get<DocumentTitleResponse[]>(`/publication/list?limit=${limit}&keys=${searchInput}&page=${page}`);
+  }
 
 }

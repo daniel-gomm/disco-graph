@@ -1,0 +1,37 @@
+<div class="main-container">
+    <div>
+        <h3>Browse registered users</h3>
+        <mat-form-field appearance="fill" class="search-input">
+            <mat-label>Search for users by username</mat-label>
+            <input matInput type="text" [(ngModel)]="inputValue" (keyup.enter)="search()">
+        </mat-form-field>
+        <div 
+            infinite-scroll
+            [infiniteScrollDistance]="2"
+            [infiniteScrollThrottle]="1000"
+            (scrolled)="onScroll()"
+        >
+            <mat-card *ngFor="let user of users" class="spaced-card">
+                <div class="card-content-container">
+                    <p>User: {{user.username}}</p>
+                    <button
+                    mat-flat-button
+                    color="accent"
+                    (click)="deleteUser(user.username)"
+                    >
+                        Delete
+                    </button>
+                </div>
+            </mat-card>
+            <div *ngIf="this.loadingUsers">
+                <mat-progress-bar mode="indeterminate" color="accent"></mat-progress-bar>
+            </div>
+        </div>
+    </div>
+    <mat-divider vertical="true"></mat-divider>
+    <button 
+    mat-flat-button 
+    color="accent"
+    class="create-user-button" 
+    (click)="this.createUser()">Create new user</button>
+</div>

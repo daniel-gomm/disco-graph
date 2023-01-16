@@ -1,14 +1,13 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 
 @Component({
-  selector: 'app-user-login',
-  templateUrl: './user-login.component.html',
-  styleUrls: ['./user-login.component.scss']
+  selector: 'app-login',
+  templateUrl: './login.component.html',
+  styleUrls: ['./login.component.scss']
 })
-export class UserLoginComponent {
+export class LoginComponent {
 
   hidePassword: boolean = true;
   errorMessage: string = '';
@@ -16,28 +15,23 @@ export class UserLoginComponent {
   username: string = '';
   password: string = '';
 
-  constructor(
-    private authService: AuthenticationService,
-    public dialogRef: MatDialogRef<UserLoginComponent>
+  constructor (
+    private authService: AuthenticationService
   ) {}
-
 
   login(){
     if (!(this.username && this.password)){
-      this.errorMessage = 'Please provide username and password.';
+      this.errorMessage = 'Please provide admin username and password.';
       return;
     }
-    this.authService.login_user(this.username, this.password).subscribe({
+    this.authService.login_admin(this.username, this.password).subscribe({
       error: (error: HttpErrorResponse) => {
         this.errorMessage = this.authService.getLoginErrorMessage(error);
       },
       complete: () => {
-        this.dialogRef.close(true);
+        this.errorMessage = "Successfully logged in!";
       }
     });
   }
 
-  closeWithoutLogin() {
-    this.dialogRef.close(false);
-  }
 }

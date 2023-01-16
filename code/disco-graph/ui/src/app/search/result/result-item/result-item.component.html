@@ -1,5 +1,5 @@
-<mat-card class="result-card" (click)="openDocument()">
-    <mat-card-header *ngIf="publication" >
+<mat-card class="result-card">
+    <mat-card-header class="cursor-hand" *ngIf="publication" (click)="openDocument()">
         <mat-card-title-group>
             <mat-card-title>{{publication.title}}</mat-card-title>
             <mat-card-subtitle>{{publication.issued}}</mat-card-subtitle>

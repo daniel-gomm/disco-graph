@@ -1,0 +1,16 @@
+<div [ngSwitch]="this.adminLoggedIn()" class="centered-content">
+    <app-login *ngSwitchCase="false"></app-login>
+    <div *ngSwitchCase="true">
+        <mat-tab-group preserveContent mat-stretch-tabs="false" mat-align-tabs="start" color="accent">
+            <mat-tab label="Users">
+                <app-users-tab></app-users-tab>
+            </mat-tab>
+            <mat-tab label="Documents">
+                <app-document-tab></app-document-tab>
+            </mat-tab>
+            <mat-tab label="Reviews">
+                <p>Reviews tab</p>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

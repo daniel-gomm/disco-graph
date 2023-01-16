@@ -1,5 +1,5 @@
 from .model.model import Publication, Keyword, AdditionalAttribute, ValueWithLanguage
-from .rdf import queries
+from .rdf import queries, document_queries
 
 from rdflib.term import Node, Variable
 from rdflib import Graph, Literal, URIRef, Namespace
@@ -119,6 +119,63 @@ class RDFConnector:
             if triple not in self.graph:
                 self.graph.add(triple)
 
+    def update_title(self, pub_id: str, new_title: str) -> None:
+        self._update_publication_attribute(pub_id, new_title, DCTERMS.title, datatype=XSD.string)
+
+    def update_doi(self, pub_id: str, new_doi: str) -> None:
+        self._update_publication_attribute(pub_id, new_doi, DATACITE.doi, XSD.string)
+
+    def update_language(self, pub_id: str, new_language: str) -> None:
+        self._update_publication_attribute(pub_id, new_language, DCTERMS.language, XSD.language)
+
+    def update_issued(self, pub_id: str, new_issued: str) -> None:
+        self._update_publication_attribute(pub_id, new_issued, DCTERMS.issued, XSD.year)
+
+    def update_keyword_confirmation(self, pub_id: str, keyword_id: str, updated_status: int) -> None:
+        kwi_ref = URIRef(PUBLICATION_PREFIX + pub_id + "/keyword/" + getId(keyword_id))
+        updated_status_literal = Literal(int(updated_status), datatype=XSD.integer)
+        self._update_triple(kwi_ref, SGP.status, updated_status_literal)
+
+    def update_attribute_confirmation(self, pub_id: str, attribute_flavor: str,
+                                      updated_status: int) -> None:
+        attr_instance_ref = URIRef(SG_PREFIX + "publication/" + pub_id + "/attribute/" + getId(attribute_flavor))
+        updated_status_literal = Literal(int(updated_status), datatype=XSD.integer)
+        self._update_triple(attr_instance_ref, SGP.status, updated_status_literal)
+
+    def add_author(self, pub_id: str, author_name: str):
+        pub_ref = URIRef(PUBLICATION_PREFIX + pub_id)
+        author_name_literal = Literal(author_name, datatype=XSD.string)
+        self.add_if_new([
+            (pub_ref, DCTERMS.creator, author_name_literal)
+        ])
+
+    def delete_author(self, pub_id: str, author_name: str):
+        pub_ref = URIRef(PUBLICATION_PREFIX + pub_id)
+        author_name_literal = Literal(author_name, datatype=XSD.string)
+        self._delete_if_exists([
+            (pub_ref, DCTERMS.creator, author_name_literal)
+        ])
+
+    def _delete_if_exists(self, triples: list[tuple[Node, Node, Node]]) -> None:
+        for triple in triples:
+            if triple in self.graph:
+                self.graph.remove(triple)
+
+    def _update_publication_attribute(self, pub_id: str, new_value: any, predicate: Node, datatype: str) -> None:
+        pub_ref = URIRef(PUBLICATION_PREFIX + pub_id)
+        new_value_literal = Literal(new_value, datatype=datatype)
+        self._update_triple(pub_ref, predicate, new_value_literal)
+
+    def _update_triple(self, subject: Node, predicate: Node, new_object: Node):
+        prev_value = self.graph.value(subject, predicate)
+        if prev_value:
+            self._delete_if_exists([
+                (subject, predicate, prev_value)
+            ])
+        self.add_if_new([
+            (subject, predicate, new_object)
+        ])
+
     # TODO: Add language filter to queries
     def get_completed_keywords(self, start_keys: str, filter_attributes: list[tuple[str, str]] = None,
                                filter_year_range: tuple[int, int] = None, limit: int = None) -> list[dict]:
@@ -213,6 +270,41 @@ class RDFConnector:
             })
 
         return results
+
+    def get_publication_names(self, keys: str, limit: int, page: int) -> list[dict]:
+        publication_names_query = document_queries.get_document_name_list_query(keys, limit, page)
+
+        query_results = self.graph.query(publication_names_query)
+
+        results = []
+
+        for result in query_results:
+            results.append({
+                'title': result[Variable('title')],
+                'publication_id': result[Variable('pub')].toPython().split("/")[-1]
+            })
+
+        return results
+
+    def get_publication(self, publication_id: str) -> dict:
+        doc_query = document_queries.get_document(PUBLICATION_PREFIX + publication_id)
+
+        query_result = self.graph.query(doc_query)
+
+        if len(query_result) != 1:
+            raise AttributeError(f'No publication with id {publication_id} exists.')
+
+        pub_result = query_result.bindings[0]
+
+        return {
+            'title': pub_result[Variable('title')],
+            'language': pub_result[Variable('language')],
+            'issued': pub_result[Variable('issued')],
+            'doi': pub_result[Variable('doi')],
+            'authors': pub_result[Variable('authors')],
+            'keywords': pub_result[Variable('keywords')],
+            'attributes': pub_result[Variable('attributes')]
+        }
 
 
 BASE_CONNECTOR = RDFConnector("http://localhost:3030/ds")

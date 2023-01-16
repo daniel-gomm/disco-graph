@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { finalize, Observable, tap } from 'rxjs';
+import { LoggedInUserRespone } from '../model/responses';
 
 @Injectable({
   providedIn: 'root'
@@ -8,10 +9,19 @@ import { finalize, Observable, tap } from 'rxjs';
 export class AuthenticationService {
 
   loggedInUser: string = '';
+  loggedInAdmin: string= '';
 
   constructor(
     private http: HttpClient,
-  ) { }
+  ) {
+    //see if there is already a logged in user
+    this.http.get<LoggedInUserRespone>('/auth/user').subscribe({
+      next:(loggedInUser: LoggedInUserRespone) => {
+          this.loggedInUser = loggedInUser.username;
+      },
+    }
+      )
+  }
 
   login_user(username: string, password: string): Observable<any>{
     return this.http.post('/auth/user/login', {
@@ -33,7 +43,14 @@ export class AuthenticationService {
       username: username,
       password: password
     },
-    {responseType: 'text'});
+    {responseType: 'text'})
+    .pipe(
+      tap({
+        complete: () => {
+          this.loggedInAdmin = username;
+        }
+      })
+    );
   }
 
   register_user(username:string, password: string): Observable<any>{
@@ -68,6 +85,10 @@ export class AuthenticationService {
 
   isUserLoggedIn(): boolean{
     return Boolean(this.loggedInUser);
+  }
+
+  isAdminLoggedIn(): boolean{
+    return Boolean(this.loggedInAdmin);
   }
 
 }

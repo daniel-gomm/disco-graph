@@ -5,9 +5,12 @@
     margin-top: 10px;
     width: 100%;
     padding: 10px;
-    cursor: pointer;
 }
 
 .assigned-chip {
     background-color: var(--accent-lighter-color)
+}
+
+.cursor-hand {
+    cursor: pointer;
 }

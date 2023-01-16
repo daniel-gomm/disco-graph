@@ -2,13 +2,14 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { AuthenticationService } from 'src/app/services/authentication.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-user-login',
-  templateUrl: './user-login.component.html',
-  styleUrls: ['./user-login.component.scss']
+  selector: 'app-add-user-dialog',
+  templateUrl: './add-user-dialog.component.html',
+  styleUrls: ['./add-user-dialog.component.scss']
 })
-export class UserLoginComponent {
+export class AddUserDialogComponent {
 
   hidePassword: boolean = true;
   errorMessage: string = '';
@@ -16,28 +17,29 @@ export class UserLoginComponent {
   username: string = '';
   password: string = '';
 
-  constructor(
-    private authService: AuthenticationService,
-    public dialogRef: MatDialogRef<UserLoginComponent>
+  constructor (
+    private userService: UserService,
+    private dialogRef: MatDialogRef<AddUserDialogComponent>
   ) {}
 
-
-  login(){
+  registerUser(): void {
     if (!(this.username && this.password)){
       this.errorMessage = 'Please provide username and password.';
       return;
     }
-    this.authService.login_user(this.username, this.password).subscribe({
+    this.userService.createUser(this.username, this.password)
+    .subscribe({
       error: (error: HttpErrorResponse) => {
-        this.errorMessage = this.authService.getLoginErrorMessage(error);
+        this.errorMessage = 'Failed to create user ' + this.username;
       },
       complete: () => {
         this.dialogRef.close(true);
       }
-    });
+    })
   }
 
-  closeWithoutLogin() {
+  close() {
     this.dialogRef.close(false);
   }
+
 }
