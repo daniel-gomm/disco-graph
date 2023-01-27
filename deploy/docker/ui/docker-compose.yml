@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+  ui:
+    hostname: disco-ui
+    image: disco-graph-ui:latest
+    ports:
+      - "80:80"
+    networks:
+      - disco-graph
+
+networks:
+  disco-graph:
+    name: disco-graph
+    external: true

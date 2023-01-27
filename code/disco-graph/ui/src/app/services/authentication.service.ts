@@ -15,7 +15,7 @@ export class AuthenticationService {
     private http: HttpClient,
   ) {
     //see if there is already a logged in user
-    this.http.get<LoggedInUserRespone>('/auth/user').subscribe({
+    this.http.get<LoggedInUserRespone>('/api/auth/user').subscribe({
       next:(loggedInUser: LoggedInUserRespone) => {
           this.loggedInUser = loggedInUser.username;
       },
@@ -24,7 +24,7 @@ export class AuthenticationService {
   }
 
   login_user(username: string, password: string): Observable<any>{
-    return this.http.post('/auth/user/login', {
+    return this.http.post('/api/auth/user/login', {
       username: username,
       password: password
     },
@@ -39,7 +39,7 @@ export class AuthenticationService {
   }
 
   login_admin(username: string, password: string): Observable<any>{
-    return this.http.post('/auth/admin/login', {
+    return this.http.post('/api/auth/admin/login', {
       username: username,
       password: password
     },
@@ -54,7 +54,7 @@ export class AuthenticationService {
   }
 
   register_user(username:string, password: string): Observable<any>{
-    return this.http.post('/auth/user/register', {
+    return this.http.post('/api/auth/user/register', {
       username: username,
       password: password
     },
@@ -62,7 +62,7 @@ export class AuthenticationService {
   }
 
   logout(): Observable<any> {
-    return this.http.post('/auth/logout', {}, {responseType: 'text'})
+    return this.http.post('/api/auth/logout', {}, {responseType: 'text'})
     .pipe(
       tap({
         complete: () => {

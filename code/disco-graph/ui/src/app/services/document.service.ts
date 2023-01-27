@@ -54,7 +54,7 @@ export class DocumentService {
 
   getDocumentTitles(searchInput: string, limit: number, page: number): Observable<DocumentTitleResponse[]>{
     return this.http
-    .get<DocumentTitleResponse[]>(`/publication/list?limit=${limit}&keys=${searchInput}&page=${page}`);
+    .get<DocumentTitleResponse[]>(`/api/publication/list?limit=${limit}&keys=${searchInput}&page=${page}`);
   }
 
 }

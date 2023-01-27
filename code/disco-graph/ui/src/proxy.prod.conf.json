@@ -1,0 +1,9 @@
+{
+  "/api": {
+    "target": "http://graph-connector:5000",
+    "secure": false,
+    "pathRewrite": {
+      "^/api": ""
+    }
+  }
+}
