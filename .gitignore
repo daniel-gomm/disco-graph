@@ -130,6 +130,8 @@ dmypy.json
 
 deploy/docker/fuseki/databases/DB2/*
 deploy/docker/fuseki/logs/*
+deploy/docker/fuseki/dev_databases/DB2/*
+deploy/docker/fuseki/dev_logs/*
 
 # ignore ssl certificates
 deploy/docker/etl_service/*.pem
@@ -177,3 +179,6 @@ deploy/docker/etl_service/*.pem
 # System files
 /code/disco-graph/ui/.DS_Store
 /code/disco-graph/ui/Thumbs.db
+
+/deploy/docker/graph-connector/db/
+/deploy/docker/graph-connector/dev_db/

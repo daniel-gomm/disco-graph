@@ -12,7 +12,7 @@ export class StatusService {
   ) { }
 
   updateKeywordVerification(publicationIdentifier: string, keywordIdentifier: string, newVerificationStatus: number): Observable<any>{
-    return this.http.put(`/publication/${publicationIdentifier}/keyword/${keywordIdentifier}/verification_status`, 
+    return this.http.put(`/api/publication/${publicationIdentifier}/keyword/${keywordIdentifier}/verification_status`, 
     {verification_status: newVerificationStatus},
     {responseType: 'text'});
   }

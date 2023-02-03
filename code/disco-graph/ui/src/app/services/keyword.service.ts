@@ -49,7 +49,7 @@ export class KeywordService {
     if (inputValue === ""){
       inputValue = "*";
     }
-    return this.http.get<ValueWithLanguage[]>(`/api/v1/keyword/load?keys=${inputValue}&limit=${limit}`);
+    return this.http.get<ValueWithLanguage[]>(`/api/api/v1/keyword/load?keys=${inputValue}&limit=${limit}`);
   }
 
   addKeywordSelection(selectedKeyword: ValueWithLanguage):void {
@@ -96,7 +96,7 @@ export class KeywordService {
       return of([]);
     }
     return this.http.get<ValueWithLanguage[]>
-    (`/api/v1/keyword/cross-reference?keywords=${this.createKeywordQuery(this.selectedKeywords)}&limit=${limit}`);
+    (`/api/api/v1/keyword/cross-reference?keywords=${this.createKeywordQuery(this.selectedKeywords)}&limit=${limit}`);
   }
 
   getResults(limit: number = 10): Observable<Publication[]>{
@@ -104,7 +104,7 @@ export class KeywordService {
       return of([]);
     }
     return this.http.get<Publication[]>
-    (`/api/v1/publication/results?keywords=${this.createKeywordQuery(this.selectedKeywords)}&limit=${limit}`)
+    (`/api/api/v1/publication/results?keywords=${this.createKeywordQuery(this.selectedKeywords)}&limit=${limit}`)
   }
 
   createKeywordQuery(keywords: ValueWithLanguage[]): string{

@@ -13,15 +13,15 @@ export class UserService {
   ) { }
 
   getUsers(page: number, keys: string = '', limit: number = 20): Observable<User[]> {
-    return this.http.get<User[]>(`/user?limit=${limit}&page=${page}${keys === '' ? '' : '&keys=' + keys}`);
+    return this.http.get<User[]>(`/api/user?limit=${limit}&page=${page}${keys === '' ? '' : '&keys=' + keys}`);
   }
 
   deleteUser(username: string): Observable<any> {
-    return this.http.delete(`/user/${username}`, {responseType: 'text'});
+    return this.http.delete(`/api/user/${username}`, {responseType: 'text'});
   }
 
   createUser(username: string, password: string): Observable<any>{
-    return this.http.post(`/user/${username}`, 
+    return this.http.post(`/api/user/${username}`, 
     {password: password},
     {responseType: 'text'});
   }
