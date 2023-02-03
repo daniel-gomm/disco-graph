@@ -5,6 +5,22 @@ Knowledge graph powered information discovery based on keyword associations.
 This project is just starting out. Documentation will come once the dust of starting out settles.
 
 
+## Deployment
+disco-graph can be deployed with a single command on Linux and MacOS if docker and docker-compose are installed:\
+Using the shell navigate to the [deploy/docker directory](../deploy/docker) and run the following command:
+```shell
+bash disco-graph.bash start
+```
+To stop it run:
+```shell
+bash disco-graph.bash stop
+```
+A more in depth description of the deployment can be found in the **[Deployment Guide](documentation/deployment.md)**.
+
+## Setting up development environment
+The **[Development Guide](documentation/development.md)** details how to set up your machine to contribute to disco-graph.
+
+## Description of disco.graph
 The disco graph application consists of three major components: The Knowledge Graph, the Backend services and the 
 Frontend. A short description of these components is given in the following paragraphs:
 
