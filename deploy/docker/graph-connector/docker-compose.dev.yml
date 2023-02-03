@@ -4,16 +4,10 @@ services:
     hostname: graph-connector
     image: graph-connector:latest
     volumes:
-      - ./db:/home/graph-connector/instance
+      - ./dev_db:/home/graph-connector/instance
       - ./gunicorn.conf.py:/home/conf/gunicorn.conf.py
       - ./gunicorn-logging.conf:/home/conf/gunicorn-logging.conf
     environment:
-      - SECRET_TOKEN=change_to_secure_token
+      - SECRET_TOKEN=debug
     ports:
       - "5000:5000"
-    networks:
-      - disco-graph
-networks:
-  disco-graph:
-    name: disco-graph
-    external: true
