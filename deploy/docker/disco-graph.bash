@@ -42,19 +42,19 @@ start_production() {
 }
 
 start_development() {
-  echo "Deploying images..."
+  echo "Deploying images in development mode..."
 
-  if [[ "$*" == *"kg"* ]]; then
+  if [[ "$*" == *" kg"* ]]; then
     echo "Starting knowledge graph..."
     docker-compose -f fuseki/docker-compose.dev.yml up -d
   fi
 
-  if [[ "$*" == *"gc"* ]]; then
+  if [[ "$*" == *" gc"* ]]; then
     echo "Starting graph-connector..."
     docker-compose -f graph-connector/docker-compose.dev.yml up -d
   fi
 
-  if [[ "$*" == *"ui"* ]]; then
+  if [[ "$*" == *" ui"* ]]; then
     echo "Starting ui..."
     docker-compose -f ui/docker-compose.dev.yml up -d
     echo -e "UI started on http://localhost:8080"
@@ -136,7 +136,7 @@ ${CYAN}Commands:${NC}   ${GREEN}Options:${NC}           Description:
   ${CYAN}help${NC}                         show this help page
 
 Examples:
-  bash $cli_name ${CYAN}start${NC} ${GREEN}dev kg gc${NC}    Starts the knowledge graph and the graph-connector in development mode
+  bash $cli_name ${CYAN}start${NC} ${GREEN}--dev kg gc${NC}    Starts the knowledge graph and the graph-connector in development mode
   bash $cli_name ${CYAN}stop${NC}               Stops the production deployment of disco-graph
 "
 exit 1
@@ -174,13 +174,13 @@ if [[ "$1" == "build" ]]; then
   fi
   show_help
 elif [[ "$1" == "start" ]]; then
-  if [[ "$2" == "dev" ]]; then
+  if [[ "$2" == "--dev" ]]; then
     start_development "$@"
   else
     start_production
   fi
 elif [[ "$1" == "stop" ]]; then
-  if [[ "$2" == "dev" ]]; then
+  if [[ "$2" == "--dev" ]]; then
     stop_development
   else
     stop_production

@@ -3,7 +3,7 @@ import abc
 
 LANGUAGES = {
     "english": "en",
-    "german": "ger"
+    "german": "de"
 }
 
 
@@ -91,11 +91,12 @@ class AdditionalAttribute:
 
 class Publication:
     publication_id: str
-    author: str
+    authors: list[str]
     title: str
     doi: str
     issued: int
     created: int
+    abstract: str
     language: str
     keywords: list[Keyword]
     additional_attributes: list[AdditionalAttribute]
@@ -106,12 +107,12 @@ class Publication:
 
     def _from_dict(self, dictionary: dict) -> None:
         self.publication_id = get_field_or_exception(dictionary, "publication_id")
-        self.author = get_field_or_exception(dictionary, "author")
+        self.authors = get_field_or_exception(dictionary, "authors")
         self.title = get_field_or_exception(dictionary, "title")
         self.doi = get_field_or_default(dictionary, "doi")
+        self.abstract = get_field_or_default(dictionary, "abstract", '-')
         self.issued = get_field_or_default(dictionary, "issued")
         self.created = get_field_or_default(dictionary, "created", datetime.now().timestamp())
-        self.author = get_field_or_default(dictionary, "author")
         self.language = get_field_or_default(dictionary, "language", LANGUAGES["english"])
         kw = get_field_or_default(dictionary, "keywords", [])
         self.keywords = []
@@ -125,10 +126,11 @@ class Publication:
     def to_dict(self) -> dict:
         return {
             "publication_id": self.publication_id,
-            "author": self.author,
+            "authors": self.authors,
             "title": self.title,
             "doi": self.doi,
             "issued": self.issued,
+            "abstract": self.abstract,
             "created": self.created,
             "language": self.language,
             "keywords": [keyword.to_dict() for keyword in self.keywords],

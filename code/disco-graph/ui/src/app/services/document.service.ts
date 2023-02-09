@@ -22,7 +22,7 @@ export class DocumentService {
     }
     return of({
     publication_id: 'test_id',
-    author: 'daniel gomm',
+    authors: ['daniel gomm'],
     title: 'disco graph - graph based knwoledge discovery gone disco!',
     doi: '0932u487934857',
     issued: 2023,

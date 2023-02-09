@@ -2,7 +2,7 @@ from flask import (
     Blueprint, request, jsonify
 )
 
-from .auth import login_required
+from .auth import login_required, admin_login_required
 from .model.model import Publication, Keyword
 from .rdf_interface import BASE_CONNECTOR
 from .request_utils import get_numeric_query_parameter
@@ -36,7 +36,7 @@ def get_publication(identifier):
 
 
 @bp.post("/<string:identifier>")
-@login_required
+@admin_login_required
 def add_publication(identifier):
     req_json = request.get_json()
     pub = Publication(req_json)
@@ -45,14 +45,14 @@ def add_publication(identifier):
 
 
 @bp.put("/<string:identifier>")
-@login_required
+@admin_login_required
 def update_publication(identifier):
     # TODO: Implement
     pass
 
 
 @bp.put("/<string:pub_id>/title")
-@login_required
+@admin_login_required
 def update_publication_title(pub_id):
     req_json = request.get_json()
     new_title = req_json['title']
@@ -64,7 +64,7 @@ def update_publication_title(pub_id):
 
 
 @bp.put("/<string:pub_id>/doi")
-@login_required
+@admin_login_required
 def update_publication_doi(pub_id):
     req_json = request.get_json()
     new_doi = req_json['doi']
@@ -76,7 +76,7 @@ def update_publication_doi(pub_id):
 
 
 @bp.put("/<string:pub_id>/issued")
-@login_required
+@admin_login_required
 def update_publication_issued(pub_id):
     req_json = request.get_json()
     new_issued = req_json['issued']
@@ -88,7 +88,7 @@ def update_publication_issued(pub_id):
 
 
 @bp.put("/<string:pub_id>/language")
-@login_required
+@admin_login_required
 def update_publication_language(pub_id):
     req_json = request.get_json()
     new_language = req_json['language']
@@ -100,7 +100,7 @@ def update_publication_language(pub_id):
 
 
 @bp.post("/<string:pub_id>/author")
-@login_required
+@admin_login_required
 def add_publication_author(pub_id):
     req_json = request.get_json()
     author_name = req_json['author']
@@ -119,14 +119,14 @@ def add_publication_keyword(pub_id):
 
 
 @bp.post("/<string:pub_id>/attribute")
-@login_required
+@admin_login_required
 def add_publication_attribute(pub_id):
     # TODO: Implement
     pass
 
 
 @bp.delete("/<string:identifier>")
-@login_required
+@admin_login_required
 def delete_publication(identifier):
     # TODO: Implement
     pass
@@ -166,7 +166,7 @@ def update_keyword_verification(pub_identifier, keyword_identifier):
 
 
 @bp.delete("/<string:pub_identifier>/keyword/<string:keyword_identifier>")
-@login_required
+@admin_login_required
 def delete_keyword(pub_identifier, keyword_identifier):
     # TODO: Implement
     pass

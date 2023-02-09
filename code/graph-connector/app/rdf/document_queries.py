@@ -21,13 +21,14 @@ def get_document(publication_uri: str) -> str:
     return f"""
 {PREFIXES}
 
-SELECT ?title ?issued ?doi ?language (concat('[',GROUP_CONCAT(?author;separator=","),']') as ?authors)
-(CONCAT('[',GROUP_CONCAT(DISTINCT ?kw_c;separator=","),']') as ?keywords)
-(CONCAT('[',GROUP_CONCAT(DISTINCT ?att;separator=","),']') as ?attributes)
+SELECT ?title ?issued ?doi ?language ?abstract (concat('["',GROUP_CONCAT(?author;separator='","'),'"]') as ?authors)
+(CONCAT('["',GROUP_CONCAT(DISTINCT ?kw_c;separator='","'),'"]') as ?keywords)
+(CONCAT('["',GROUP_CONCAT(DISTINCT ?att;separator='","'),'"]') as ?attributes)
 WHERE {{
     <{publication_uri}> dc:title ?title;
         dc:issued ?issued ;
         dc:creator ?author ;
+        dc:abstract ?abstract ;
         datacite:doi ?doi ;
         dc:language ?language ;
         sgp:keyword ?kwi ;
@@ -45,5 +46,5 @@ WHERE {{
     FILTER (lang(?kw_val) = ?language)
     BIND(CONCAT('{{"value":"',?kw_val,'","status":',STR(?kwi_s),'}}') as ?kw_c) .
 }}
-GROUP BY ?title ?issued ?doi ?language
+GROUP BY ?title ?issued ?doi ?language ?abstract
 """

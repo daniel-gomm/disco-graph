@@ -62,7 +62,8 @@ def get_publications_result(keywords: list[dict], limit: int = default_limit,
     return f"""
 {PREFIXES}
 
-SELECT ?pub ?title ?issued ?author ?doi ?language (COUNT(?kwi) AS ?occurrences)
+SELECT ?pub ?title ?issued ?doi ?language (concat('["',GROUP_CONCAT(?author;separator='","'),'"]') as ?authors) 
+(COUNT(?kwi) AS ?occurrences)
 WHERE {{
     ?pub rdf:type foaf:Document .
     ?pub sgp:keyword ?kwi .
@@ -77,7 +78,7 @@ WHERE {{
     {get_attributes_filter(attributes)}
     {get_release_year_filter(years_span)}
 }}
-GROUP BY ?pub ?title ?issued ?author ?doi ?language
+GROUP BY ?pub ?title ?issued ?doi ?language
 
 ORDER BY DESC(?occurrences)
 

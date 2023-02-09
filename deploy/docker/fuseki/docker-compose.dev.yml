@@ -18,7 +18,7 @@
 version: '3.0'
 services:
   fuseki:
-    command: ["--tdb2", "--update", "--loc", "databases/DB2", "/ds" ]
+    command: [ "--tdb2", "--update", "--loc", "databases/DB2", "/ds" ]
     build:
       context: .
       dockerfile: Dockerfile
