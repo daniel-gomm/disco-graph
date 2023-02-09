@@ -1,10 +1,11 @@
 export interface Publication {
     publication_id: string,
-    author: string,
+    authors: string[],
     title: string,
     doi?: string,
     issued: number,
     created?: number,
+    abstract?: string,
     language: string,
     keywords?: Keyword[],
     additional_attributes?: AdditionalAttribute[]

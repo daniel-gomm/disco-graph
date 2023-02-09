@@ -132,9 +132,8 @@ deploy/docker/fuseki/databases/DB2/*
 deploy/docker/fuseki/logs/*
 deploy/docker/fuseki/dev_databases/DB2/*
 deploy/docker/fuseki/dev_logs/*
-
-# ignore ssl certificates
-deploy/docker/etl_service/*.pem
+deploy/docker/graph-connector/db/*
+deploy/docker/graph-connector/dev_db/*
 
 # ignore jetbrains ide files
 .idea

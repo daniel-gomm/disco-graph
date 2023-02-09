@@ -9,7 +9,9 @@ from rdflib.plugins.stores import sparqlstore
 from rdflib.graph import DATASET_DEFAULT_GRAPH_ID as default_identifier
 from rdflib.namespace import RDF, DCTERMS, FOAF, XSD, RDFS
 
-DG_PREFIX = "https://sci-graph.kit.edu/0.1/"
+import ast
+
+DG_PREFIX = "https://disco-graph.online/0.1/"
 PUBLICATION_PREFIX = DG_PREFIX + "publication/"
 KEYWORD_PREFIX = DG_PREFIX + "keyword/"
 ATTRIBUTE_PREFIX = DG_PREFIX + "attribute/"
@@ -42,7 +44,7 @@ class RDFConnector:
         pub_ref = URIRef(PUBLICATION_PREFIX + pub.publication_id)
 
         title_literal = Literal(pub.title, datatype=XSD.string)
-        author_literal = Literal(pub.author, datatype=XSD.string)
+        abstract_literal = Literal(pub.abstract, datatype=XSD.string)
         issued_literal = Literal(pub.issued, datatype=XSD.year)
         doi_literal = Literal(pub.doi, datatype=XSD.string)
         created_literal = Literal(pub.created, datatype=XSD.dateTimeStamp)
@@ -51,12 +53,17 @@ class RDFConnector:
         self.add_if_new([
             (pub_ref, RDF.type, FOAF.Document),
             (pub_ref, DCTERMS.title, title_literal),
-            (pub_ref, DCTERMS.creator, author_literal),
+            (pub_ref, DCTERMS.abstract, abstract_literal),
             (pub_ref, DCTERMS.issued, issued_literal),
             (pub_ref, DATACITE.doi, doi_literal),
             (pub_ref, DCTERMS.created, created_literal),
             (pub_ref, DCTERMS.language, language_literal)
         ])
+
+        for author in pub.authors:
+            self.add_if_new([
+                (pub_ref, DCTERMS.creator, Literal(author, datatype=XSD.string))
+            ])
 
         for keyword in pub.keywords:
             self.add_keyword(keyword, pub_ref, pub.publication_id, pub.language)
@@ -242,7 +249,7 @@ class RDFConnector:
                 'publication_id': pub_ref_uri.split("/")[-1],
                 'title': result[Variable('title')].value,
                 'issued': result[Variable('issued')],
-                'author': result[Variable('author')].value,
+                'authors': ast.literal_eval(result[Variable('authors')].value),
                 'doi': result[Variable('doi')].value,
                 'language': result[Variable('language')].value,
                 'keywords': keywords
@@ -303,7 +310,8 @@ class RDFConnector:
             'language': pub_result[Variable('language')],
             'issued': pub_result[Variable('issued')],
             'doi': pub_result[Variable('doi')],
-            'authors': pub_result[Variable('authors')],
+            'abstract': pub_result[Variable('abstract')],
+            'authors': ast.literal_eval(pub_result[Variable('authors')]),
             'keywords': pub_result[Variable('keywords')],
             'attributes': pub_result[Variable('attributes')]
         }

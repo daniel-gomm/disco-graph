@@ -1,6 +1,6 @@
 SG_PREFIXES = """
-PREFIX sgc: <https://sci-graph.kit.edu/0.1/classes/>
-PREFIX sgp: <https://sci-graph.kit.edu/0.1/properties/>
+PREFIX sgc: <https://disco-graph.online/0.1/classes/>
+PREFIX sgp: <https://disco-graph.online/0.1/properties/>
 """
 
 PREFIXES = SG_PREFIXES + """
