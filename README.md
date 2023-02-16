@@ -1,10 +1,6 @@
 # disco graph
 Knowledge graph powered information discovery based on keyword associations.
 
-## WIP
-This project is just starting out. Documentation will come once the dust of starting out settles.
-
-
 ## Deployment
 disco-graph can be deployed with a single command on Linux and MacOS if docker and docker-compose are installed:\
 Using the shell navigate to the [deploy/docker directory](../deploy/docker) and run the following command:
