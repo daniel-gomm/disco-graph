@@ -12,11 +12,17 @@ create_network() {
   ( echo "Network does not exist, creating disco-graph network..." ; docker network create disco-graph )
 }
 
+create_dev_network() {
+  # create docker network if it does not exist
+  docker network inspect disco-graph-dev >/dev/null 2>&1 || \
+  ( echo "Network does not exist, creating disco-graph-dev network..." ; docker network create disco-graph-dev )
+}
+
 start_production() {
   echo "Deploying images..."
   create_network
 
-  if [ "$( docker ps -a | grep fuseki | wc -l)" -gt 0 ]; then
+  if [ "$( docker images | grep fuseki | wc -l)" -gt 0 ]; then
     echo "Image fuseki found locally."
   else
     build_kg_image
@@ -24,7 +30,7 @@ start_production() {
   echo "Starting knowledge graph..."
   docker-compose -f fuseki/docker-compose.yml up -d
 
-  if [ "$( docker ps -a | grep graph-connector | wc -l)" -gt 0 ]; then
+  if [ "$( docker images | grep graph-connector | wc -l)" -gt 0 ]; then
     echo "Image graph-connector found locally."
   else
     build_graph_connector_image
@@ -32,7 +38,7 @@ start_production() {
   echo "Starting graph-connector (backend)..."
   docker-compose -f graph-connector/docker-compose.yml up -d
 
-  if [ "$( docker ps -a | grep disco-graph-ui | wc -l)" -gt 0 ]; then
+  if [ "$( docker images | grep disco-graph-ui | wc -l)" -gt 0 ]; then
     echo "Image disco-graph-ui found locally."
   else
     build_ui_image
@@ -43,6 +49,7 @@ start_production() {
 
 start_development() {
   echo "Deploying images in development mode..."
+  create_dev_network
 
   if [[ "$*" == *" kg"* ]]; then
     echo "Starting knowledge graph..."
@@ -57,7 +64,7 @@ start_development() {
   if [[ "$*" == *" ui"* ]]; then
     echo "Starting ui..."
     docker-compose -f ui/docker-compose.dev.yml up -d
-    echo -e "UI started on http://localhost:8080"
+    echo -e "UI started on http://localhost:4200"
   fi
 
 }

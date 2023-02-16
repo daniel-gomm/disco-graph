@@ -29,3 +29,9 @@ services:
     volumes:
       - ./dev_logs:/fuseki/logs
       - ./dev_databases:/fuseki/databases
+    networks:
+      - disco-graph-dev
+networks:
+  disco-graph-dev:
+    name: disco-graph-dev
+    external: true

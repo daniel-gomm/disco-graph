@@ -4,4 +4,10 @@ services:
     hostname: disco-ui
     image: disco-graph-ui:latest
     ports:
-      - "8080:80"
+      - "4200:80"
+    networks:
+      - disco-graph-dev
+networks:
+  disco-graph-dev:
+    name: disco-graph-dev
+    external: true
