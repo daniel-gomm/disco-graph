@@ -126,7 +126,10 @@ Usually one would launch the development container of the knowledge graph and th
 the IDE. Depending on the specific use-case your milage may vary.
 
 ### 3.4. Loading sample data into the Knowledge Graph
->_TODO: This is still an open point and has to be answered later_
+For how to insert publications take a look at the [documentation on the provided example notebook](../notebooks.md#load-example-publications).
 
 ### 3.5. Initializing users and admins
->_TODO_
+For how to add admins take a look at the [documentation on the provided example notebook](../notebooks.md#add-admin-user).\
+To add users you have to add an admin first. The log into the admin view by browsing to 
+[http://your_ip:your_port/admin](). This will show you the admin log-in in the UI. Log in with the previously created 
+admin user and open the user tab to add or remove regular (non-admin) users.

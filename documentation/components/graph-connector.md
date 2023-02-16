@@ -78,5 +78,7 @@ appropriate parameters.
 ## 3. Data Insertion
 
 ### 3.1. Insert Publications
+For how to insert publications take a look at the [documentation on the provided example notebook](../notebooks.md#load-example-publications).
 
 ### 3.2. Add Admins
+For how to add admins take a look at the [documentation on the provided example notebook](../notebooks.md#add-admin-user).
