@@ -93,9 +93,9 @@ build_graph_connector_image() {
 build_kg_image() {
   base_directory=$(pwd)
   cd ./fuseki || echo -e "${RED}Failed to locate disco-graph-kg directory${NC}"
-  mkdir databases/DB2
+  mkdir -p databases/DB2
   mkdir logs
-  mkdir dev_databases/DB2
+  mkdir -p dev_databases/DB2
   mkdir dev_logs
   echo "Building disco-graph-kg image..."
   docker-compose build --build-arg JENA_VERSION=3.16.0

@@ -157,6 +157,7 @@ deploy/docker/graph-connector/dev_db/*
 *.launch
 .settings/
 *.sublime-workspace
+*.vscode
 
 # Visual Studio Code
 /code/disco-graph/ui/.vscode/*
@@ -181,3 +182,5 @@ deploy/docker/graph-connector/dev_db/*
 
 /deploy/docker/graph-connector/db/
 /deploy/docker/graph-connector/dev_db/
+
+/example/notebooks/_*

@@ -87,12 +87,11 @@ OFFSET {(page - 1 ) * limit}
 """
 
 
-# TODO: add support for language query in order to not get multiple values for the same keyword
 def get_keywords_query(publication_uri: str, limit: int = default_limit, page: int = 1) -> str:
     return f"""
 {SG_PREFIXES}
 
-SELECT ?keyword_value ?verification_status
+SELECT ?keyword_value ?verification_status ?kw
 WHERE {{
     <{publication_uri}> sgp:keyword ?kwi .
     ?kwi rdf:type ?kw ;
