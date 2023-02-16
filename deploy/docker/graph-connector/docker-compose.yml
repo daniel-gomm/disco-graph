@@ -9,8 +9,6 @@ services:
       - ./gunicorn-logging.conf:/home/conf/gunicorn-logging.conf
     environment:
       - SECRET_TOKEN=change_to_secure_token
-    ports:
-      - "5000:5000"
     networks:
       - disco-graph
 networks:

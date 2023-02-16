@@ -24,8 +24,6 @@ services:
       dockerfile: Dockerfile
     image: fuseki
     hostname: disco-kg
-    ports:
-      - "3030:3030"
     volumes:
       - ./logs:/fuseki/logs
       - ./databases:/fuseki/databases
