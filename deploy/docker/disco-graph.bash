@@ -12,6 +12,12 @@ create_network() {
   ( echo "Network does not exist, creating disco-graph network..." ; docker network create disco-graph )
 }
 
+create_dev_network() {
+  # create docker network if it does not exist
+  docker network inspect disco-graph-dev >/dev/null 2>&1 || \
+  ( echo "Network does not exist, creating disco-graph-dev network..." ; docker network create disco-graph-dev )
+}
+
 start_production() {
   echo "Deploying images..."
   create_network
@@ -43,6 +49,7 @@ start_production() {
 
 start_development() {
   echo "Deploying images in development mode..."
+  create_dev_network
 
   if [[ "$*" == *" kg"* ]]; then
     echo "Starting knowledge graph..."
@@ -57,7 +64,7 @@ start_development() {
   if [[ "$*" == *" ui"* ]]; then
     echo "Starting ui..."
     docker-compose -f ui/docker-compose.dev.yml up -d
-    echo -e "UI started on http://localhost:8080"
+    echo -e "UI started on http://localhost:4200"
   fi
 
 }

@@ -11,3 +11,9 @@ services:
       - SECRET_TOKEN=debug
     ports:
       - "5000:5000"
+    networks:
+      - disco-graph-dev
+networks:
+  disco-graph-dev:
+    name: disco-graph-dev
+    external: true
