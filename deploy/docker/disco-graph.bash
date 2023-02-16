@@ -16,7 +16,7 @@ start_production() {
   echo "Deploying images..."
   create_network
 
-  if [ "$( docker ps -a | grep fuseki | wc -l)" -gt 0 ]; then
+  if [ "$( docker images | grep fuseki | wc -l)" -gt 0 ]; then
     echo "Image fuseki found locally."
   else
     build_kg_image
@@ -24,7 +24,7 @@ start_production() {
   echo "Starting knowledge graph..."
   docker-compose -f fuseki/docker-compose.yml up -d
 
-  if [ "$( docker ps -a | grep graph-connector | wc -l)" -gt 0 ]; then
+  if [ "$( docker images | grep graph-connector | wc -l)" -gt 0 ]; then
     echo "Image graph-connector found locally."
   else
     build_graph_connector_image
@@ -32,7 +32,7 @@ start_production() {
   echo "Starting graph-connector (backend)..."
   docker-compose -f graph-connector/docker-compose.yml up -d
 
-  if [ "$( docker ps -a | grep disco-graph-ui | wc -l)" -gt 0 ]; then
+  if [ "$( docker images | grep disco-graph-ui | wc -l)" -gt 0 ]; then
     echo "Image disco-graph-ui found locally."
   else
     build_ui_image
