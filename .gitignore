@@ -181,3 +181,5 @@ deploy/docker/graph-connector/dev_db/*
 
 /deploy/docker/graph-connector/db/
 /deploy/docker/graph-connector/dev_db/
+
+/example/notebooks/_*
