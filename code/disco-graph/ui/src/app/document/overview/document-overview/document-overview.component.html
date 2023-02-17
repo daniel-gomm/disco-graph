@@ -19,7 +19,7 @@
                             Keywords
                         </mat-card-header>
                         <mat-card-content>
-                            <mat-chip-grid>
+                            <mat-chip-set>
                                 <div *ngFor="let keyword of document.keywords" [ngSwitch]="this.keywordUpdateStatus(keyword)">
                                     <mat-chip class="chip">
                                         {{this.extractValueInPublicationLanguage(keyword).value}}
@@ -37,7 +37,7 @@
                                         </button>
                                     </mat-chip>
                                 </div>
-                            </mat-chip-grid>
+                            </mat-chip-set>
                             <mat-error *ngIf="this.errorMessage !== ''">
                                 {{this.errorMessage}}
                             </mat-error>

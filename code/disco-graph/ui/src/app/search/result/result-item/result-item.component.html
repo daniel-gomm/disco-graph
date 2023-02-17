@@ -17,7 +17,7 @@
         </button>
     </mat-card-header>
     <mat-card-content>
-        <mat-chip-grid #chipList aria-label="Keywords">
+        <mat-chip-set #chipList aria-label="Keywords">
             <div *ngFor="let keyword of this.getKeywords()" [ngSwitch]="this.isMatched(keyword)">
                 <mat-chip *ngSwitchCase="true" class="assigned-chip">
                     {{keyword.value}}
@@ -29,6 +29,6 @@
                     </button>
                 </mat-chip>
             </div>
-        </mat-chip-grid>
+        </mat-chip-set>
     </mat-card-content>
 </mat-card>
