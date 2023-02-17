@@ -1,9 +1,3 @@
-/**
-* Generated theme by Material Theme Generator
-* https://materialtheme.arcsine.dev
-* Fork at: https://materialtheme.arcsine.dev/?c=YHBhbGV0dGU$YHByaW1hcnk$YF48IzQzNGM1ZSIsIj9lcjwjNGM1NjZhIiwiO2VyPCMzYjQyNTJ$LCIlPmBePCM4MWExYzEiLCI~ZXI8Izg4YzBkMCIsIjtlcjwjNWU4MWFjfiwid2Fybj5gXjwjZDA4NzcwIiwiP2VyPCNlYmNiOGIiLCI7ZXI8I2JmNjE2YX4sIj9UZXh0PCMyZTM0NDAiLCI~PTwjZWNlZmY0IiwiO1RleHQ8I2VjZWZmNCIsIjs9PCMyZTM0NDB$LCJmb250cz5bYEA8KC00fixgQDwoLTN$LGBAPCgtMn4sYEA8KC0xfixgQDxoZWFkbGluZX4sYEA8dGl0bGV$LGBAPHN1YiktMn4sYEA8c3ViKS0xfixgQDxib2R5LTJ$LGBAPGJvZHktMX4sYEA8YnV0dG9ufixgQDxjYXB0aW9ufixgQDxpbnB1dCIsInNpemU$bnVsbH1dLCJpY29uczxPdXRsaW5lZCIsIj9uZXNzPnRydWUsInZlcnNpb24$MTN9
-*/
-
 @use '@angular/material' as mat;
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -148,15 +142,7 @@ $mat-dark-theme-background: (
 @include mat.core();
 
 // Theme Config
-
-body {
-  --primary-color: #434c5e;
-  --primary-lighter-color: #4c566a;
-  --primary-darker-color: #3b4252;
-  --text-primary-color: #{$light-primary-text};
-  --text-primary-lighter-color: #{$light-primary-text};
-  --text-primary-darker-color: #{$light-primary-text};
-}   
+   
 $nord-dark-palette: (
  50: #edf0fa,
  100: #d2dae8,
@@ -183,6 +169,14 @@ $nord-dark-palette: (
 );
 $theme-primary: mat.define-palette($nord-dark-palette, 800);
 
+body {
+  --primary-color: #eceff4;
+  --primary-lighter-color: #f9fafc;
+  --primary-darker-color: #e4e8ef;
+  --text-primary-color: #{$light-primary-text};
+  --text-primary-lighter-color: #{$light-primary-text};
+  --text-primary-darker-color: #{$light-primary-text};
+}
 $nord-light-palette: (
     900: #29323c,
     800: #3b4754,
@@ -296,23 +290,6 @@ $theme: mat.define-light-theme((
  ),
  density: -1,
 ));
-
-// $theme: (
-//   primary: $theme-primary,
-//   accent: $theme-accent,
-//   warn: $theme-warn,
-//   is-dark: false,
-//   foreground: $mat-light-theme-foreground,
-//   background: $mat-light-theme-background,
-// );
-// $altTheme: (
-//   primary: $theme-primary,
-//   accent: $theme-accent,
-//   warn: $theme-warn,
-//   is-dark: true,
-//   foreground: $mat-dark-theme-foreground,
-//   background: $mat-dark-theme-background,
-// );
 
 // Theme Init
 @include mat.all-component-themes($theme);
