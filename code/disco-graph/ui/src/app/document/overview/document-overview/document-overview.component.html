@@ -23,18 +23,20 @@
                                 <div *ngFor="let keyword of document.keywords" [ngSwitch]="this.keywordUpdateStatus(keyword)">
                                     <mat-chip class="chip">
                                         {{this.extractValueInPublicationLanguage(keyword).value}}
-                                        <button matChipRemove *ngSwitchCase="0" (click)="this.upvoteKeyword(keyword)">
-                                            <mat-icon>thumb_up</mat-icon>
-                                        </button>
-                                        <button matChipRemove *ngSwitchCase="0" (click)="this.downvoteKeyword(keyword)">
-                                            <mat-icon>thumb_down</mat-icon>
-                                        </button>
-                                        <button matChipRemove *ngSwitchCase="-1" (click)="this.rollbackDownvoteKeyword(keyword)">
-                                            <mat-icon color="warn">thumb_down</mat-icon>
-                                        </button>
-                                        <button matChipRemove *ngSwitchCase="1" (click)="this.rollbackUpvoteKeyword(keyword)">
-                                            <mat-icon color="accent">thumb_up</mat-icon>
-                                        </button>
+                                        <span *ngIf="this.isLoggedIn()">
+                                            <button matChipRemove *ngSwitchCase="0" (click)="this.upvoteKeyword(keyword)">
+                                                <mat-icon>thumb_up</mat-icon>
+                                            </button>
+                                            <button matChipRemove *ngSwitchCase="0" (click)="this.downvoteKeyword(keyword)">
+                                                <mat-icon>thumb_down</mat-icon>
+                                            </button>
+                                            <button matChipRemove *ngSwitchCase="-1" (click)="this.rollbackDownvoteKeyword(keyword)">
+                                                <mat-icon color="warn">thumb_down</mat-icon>
+                                            </button>
+                                            <button matChipRemove *ngSwitchCase="1" (click)="this.rollbackUpvoteKeyword(keyword)">
+                                                <mat-icon color="accent">thumb_up</mat-icon>
+                                            </button>
+                                        </span>
                                     </mat-chip>
                                 </div>
                             </mat-chip-set>
