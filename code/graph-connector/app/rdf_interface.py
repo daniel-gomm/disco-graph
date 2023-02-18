@@ -45,6 +45,7 @@ class RDFConnector:
 
         title_literal = Literal(pub.title, datatype=XSD.string)
         abstract_literal = Literal(pub.abstract, datatype=XSD.string)
+        website_literal = Literal(pub.website, datatype=XSD.string)
         issued_literal = Literal(pub.issued, datatype=XSD.year)
         doi_literal = Literal(pub.doi, datatype=XSD.string)
         created_literal = Literal(pub.created, datatype=XSD.dateTimeStamp)
@@ -54,6 +55,7 @@ class RDFConnector:
             (pub_ref, RDF.type, FOAF.Document),
             (pub_ref, DCTERMS.title, title_literal),
             (pub_ref, DCTERMS.abstract, abstract_literal),
+            (pub_ref, DGP.website, website_literal),
             (pub_ref, DCTERMS.issued, issued_literal),
             (pub_ref, DATACITE.doi, doi_literal),
             (pub_ref, DCTERMS.created, created_literal),
@@ -301,6 +303,7 @@ class RDFConnector:
             'issued': pub_result[Variable('issued')],
             'doi': pub_result[Variable('doi')],
             'abstract': pub_result[Variable('abstract')],
+            'website': pub_result[Variable('website')],
             'authors': ast.literal_eval(pub_result[Variable('authors')]),
             'keywords': list(keywords.values())
         }

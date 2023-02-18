@@ -8,7 +8,7 @@
                 <div class="doc-content-item">
                     <div>
                         <h4>{{document.authors.join(', ')}}</h4>
-                    </div>  
+                    </div>
                     <mat-divider class="divider"></mat-divider>
                     <div>
                         <p>Abstract</p>
@@ -65,6 +65,18 @@
                             </p>
                             <mat-divider class="divider"></mat-divider>
                         </div>
+                        <mat-divider class="divider"></mat-divider>
+                        <button 
+                        *ngIf="this.hasValidURL()"
+                        mat-flat-button 
+                        matTooltip="Open source website"
+                        matTooltipHideDelay="300"
+                        color="accent"
+                        class="website-button"
+                        (click)="openDocumentWebsite()">
+                            Website
+                            <mat-icon>open_in_new</mat-icon>
+                        </button>
                     </mat-card-content>
                 </mat-card>
             </div>

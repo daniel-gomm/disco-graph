@@ -6,6 +6,7 @@ export interface Publication {
     issued: number,
     created?: number,
     abstract?: string,
+    website?: string,
     language: string,
     keywords?: Keyword[],
     additional_attributes?: AdditionalAttribute[]

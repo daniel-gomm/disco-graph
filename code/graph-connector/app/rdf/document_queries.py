@@ -21,13 +21,14 @@ def get_document(publication_uri: str) -> str:
     return f"""
 {PREFIXES}
 
-SELECT ?title ?issued ?doi ?language ?abstract (concat('["',GROUP_CONCAT(?author;separator='","'),'"]') as ?authors)
+SELECT ?title ?issued ?doi ?language ?abstract ?website (concat('["',GROUP_CONCAT(?author;separator='","'),'"]') as ?authors)
 (CONCAT('["',GROUP_CONCAT(DISTINCT ?att;separator='","'),'"]') as ?attributes)
 WHERE {{
     <{publication_uri}> dc:title ?title;
         dc:issued ?issued ;
         dc:creator ?author ;
         dc:abstract ?abstract ;
+        sgp:website ?website;
         datacite:doi ?doi ;
         dc:language ?language .
         OPTIONAL {{
@@ -40,5 +41,5 @@ WHERE {{
             BIND(CONCAT('{{"name":"',?atr_n,'","value":"',?atr_v,'","status":',STR(?atri_s),'}}') as ?att) .
         }}
 }}
-GROUP BY ?title ?issued ?doi ?language ?abstract
+GROUP BY ?title ?issued ?doi ?language ?abstract ?website
 """
