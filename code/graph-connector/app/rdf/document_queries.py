@@ -22,7 +22,6 @@ def get_document(publication_uri: str) -> str:
 {PREFIXES}
 
 SELECT ?title ?issued ?doi ?language ?abstract (concat('["',GROUP_CONCAT(?author;separator='","'),'"]') as ?authors)
-(CONCAT('["',GROUP_CONCAT(DISTINCT ?kw_c;separator='","'),'"]') as ?keywords)
 (CONCAT('["',GROUP_CONCAT(DISTINCT ?att;separator='","'),'"]') as ?attributes)
 WHERE {{
     <{publication_uri}> dc:title ?title;
@@ -30,21 +29,16 @@ WHERE {{
         dc:creator ?author ;
         dc:abstract ?abstract ;
         datacite:doi ?doi ;
-        dc:language ?language ;
-        sgp:keyword ?kwi ;
-        sgp:attribute ?atri .
-        ?atri sgp:status ?atri_s;
-        rdfs:subClassOf ?atr .
-    ?atr rdf:value ?atr_v ;
-        rdfs:subClassOf ?atrf .
-    ?atrf sgp:name ?atr_n .
-    BIND(CONCAT('{{"name":"',?atr_n,'","value":"',?atr_v,'","status":',STR(?atri_s),'}}') as ?att) .
-    
-    ?kwi rdf:type ?kw ;
-        sgp:status ?kwi_s .
-    ?kw rdf:value ?kw_val 
-    FILTER (lang(?kw_val) = ?language)
-    BIND(CONCAT('{{"value":"',?kw_val,'","status":',STR(?kwi_s),'}}') as ?kw_c) .
+        dc:language ?language .
+        OPTIONAL {{
+            <{publication_uri}> sgp:attribute ?atri .
+            ?atri sgp:status ?atri_s;
+            rdfs:subClassOf ?atr .
+            ?atr rdf:value ?atr_v ;
+                rdfs:subClassOf ?atrf .
+            ?atrf sgp:name ?atr_n .
+            BIND(CONCAT('{{"name":"',?atr_n,'","value":"',?atr_v,'","status":',STR(?atri_s),'}}') as ?att) .
+        }}
 }}
 GROUP BY ?title ?issued ?doi ?language ?abstract
 """

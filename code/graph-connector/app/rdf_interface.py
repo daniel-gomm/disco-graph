@@ -232,34 +232,7 @@ class RDFConnector:
         publications = []
         for result in query_results:
             pub_ref_uri = result[Variable('pub')].toPython()
-            #keywords = []
-            keyword_query = queries.get_keywords_query(pub_ref_uri)
-            keyword_result = self.graph.query(keyword_query)
-
-            keywords = {}
-
-            for keyword in keyword_result:
-                keyword_uri = keyword[Variable('kw')].toPython()
-                if keyword_uri not in keywords:
-                    keywords[keyword_uri] = {
-                        'verification_status': keyword[Variable('verification_status')].value,
-                        'values': []
-                    }
-
-                keywords[keyword_uri]['values'].append({
-                    'value': keyword[Variable('keyword_value')].value,
-                    'language': keyword[Variable('keyword_value')].language
-                })
-
-            '''for key, value in keywords_dict:
-                keywords.append({
-                    'verification_status': keyword[Variable('verification_status')].value,
-                    'values': [{
-                        'value': keyword[Variable('keyword_value')].value,
-                        'language': keyword[Variable('keyword_value')].language
-                    }]
-                })'''
-
+            keywords = self.get_keywords(pub_ref_uri)
             publications.append({
                 'publication_id': pub_ref_uri.split("/")[-1],
                 'title': result[Variable('title')].value,
@@ -311,7 +284,8 @@ class RDFConnector:
         return results
 
     def get_publication(self, publication_id: str) -> dict:
-        doc_query = document_queries.get_document(PUBLICATION_PREFIX + publication_id)
+        pub_ref_uri = PUBLICATION_PREFIX + publication_id
+        doc_query = document_queries.get_document(pub_ref_uri)
 
         query_result = self.graph.query(doc_query)
 
@@ -319,17 +293,42 @@ class RDFConnector:
             raise AttributeError(f'No publication with id {publication_id} exists.')
 
         pub_result = query_result.bindings[0]
-
-        return {
+        keywords = self.get_keywords(pub_ref_uri)
+        publication = {
+            'publication_id': publication_id,
             'title': pub_result[Variable('title')],
             'language': pub_result[Variable('language')],
             'issued': pub_result[Variable('issued')],
             'doi': pub_result[Variable('doi')],
             'abstract': pub_result[Variable('abstract')],
             'authors': ast.literal_eval(pub_result[Variable('authors')]),
-            'keywords': pub_result[Variable('keywords')],
-            'attributes': pub_result[Variable('attributes')]
+            'keywords': list(keywords.values())
         }
+        try:
+            attributes = pub_result[Variable('attributes')]
+            publication['attributes'] = attributes
+        finally:
+            return publication
+
+    def get_keywords(self, pub_ref_uri: str) -> dict:
+        keyword_query = queries.get_keywords_query(pub_ref_uri)
+        keyword_result = self.graph.query(keyword_query)
+
+        keywords = {}
+
+        for keyword in keyword_result:
+            keyword_uri = keyword[Variable('kw')].toPython()
+            if keyword_uri not in keywords:
+                keywords[keyword_uri] = {
+                    'verification_status': keyword[Variable('verification_status')].value,
+                    'values': []
+                }
+
+            keywords[keyword_uri]['values'].append({
+                'value': keyword[Variable('keyword_value')].value,
+                'language': keyword[Variable('keyword_value')].language
+            })
+        return keywords
 
 
 BASE_CONNECTOR = RDFConnector(configuration.KG_HOSTNAME)
