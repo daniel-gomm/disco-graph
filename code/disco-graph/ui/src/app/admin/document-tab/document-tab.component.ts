@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { finalize } from 'rxjs';
 import { DocumentTitleResponse } from 'src/app/model/responses';
 import { DocumentService } from 'src/app/services/document.service';
@@ -21,7 +22,8 @@ export class DocumentTabComponent implements OnInit{
   currentSearchValue: string = '*';
 
   constructor (
-    private documentService: DocumentService
+    private documentService: DocumentService,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -55,6 +57,10 @@ export class DocumentTabComponent implements OnInit{
       this.documentTitles.push(...documents);
       this.lastResultSize = documents.length;
     })
+  }
+
+  showNotImplemented(): void {
+    this.snackBar.open('This feature is not yet available.', 'Dismiss');
   }
 
 }
