@@ -1,7 +1,7 @@
 from . import configuration
 
-from .model.model import Publication, Keyword, AdditionalAttribute, ValueWithLanguage
-from .rdf import queries, document_queries
+from .model.model import Publication, Keyword, AdditionalAttribute
+from .rdf import queries, document_queries, keyword_queries
 
 from rdflib.term import Node, Variable
 from rdflib import Graph, Literal, URIRef, Namespace
@@ -190,8 +190,9 @@ class RDFConnector:
     # TODO: Add language filter to queries
     def get_completed_keywords(self, start_keys: str, filter_attributes: list[tuple[str, str]] = None,
                                filter_year_range: tuple[int, int] = None, limit: int = None) -> list[dict]:
-        keyword_query = queries.get_keyword_begins_with_query(begins_with=start_keys, attributes=filter_attributes,
-                                                              years_span=filter_year_range, limit=limit)
+        keyword_query = keyword_queries.get_keyword_begins_with_query(begins_with=start_keys,
+                                                                      attributes=filter_attributes,
+                                                                      years_span=filter_year_range, limit=limit)
 
         values = []
         query_results = self.graph.query(keyword_query)
@@ -314,7 +315,7 @@ class RDFConnector:
             return publication
 
     def get_keywords(self, pub_ref_uri: str) -> dict:
-        keyword_query = queries.get_keywords_query(pub_ref_uri)
+        keyword_query = keyword_queries.get_keywords_query(pub_ref_uri)
         keyword_result = self.graph.query(keyword_query)
 
         keywords = {}
