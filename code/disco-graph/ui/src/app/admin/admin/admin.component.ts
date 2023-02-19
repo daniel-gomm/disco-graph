@@ -1,4 +1,3 @@
-import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 

@@ -1,7 +1,7 @@
 .spaced-card {
     margin: 10px;
     overflow-y: auto;
-    width: 300px;
+    width: max(350px, 150%);
 }
 
 .card-content-container {
@@ -15,7 +15,7 @@
 .centered-content {
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: flex-start;
     align-items: stretch;
 }
 
@@ -27,4 +27,9 @@
 
 .create-user-button {
     margin: 30px
+}
+
+.search-input {
+    width: max(350px, 60%);
+    margin: 10px;
 }

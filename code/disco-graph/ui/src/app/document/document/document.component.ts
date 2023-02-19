@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -15,6 +16,8 @@ import { KeywordService } from 'src/app/services/keyword.service';
 export class DocumentComponent implements OnInit {
 
   document$!: Observable<Publication>
+  publicationLoadingFailed: boolean = false;
+  publicationLoadingErrorMessage: string = 'Failed to load publication.';
 
   constructor (
     private route: ActivatedRoute,
@@ -28,6 +31,14 @@ export class DocumentComponent implements OnInit {
         this.documentService.getDocument(params.get('id')!)
       )
     );
+    this.document$.subscribe({
+      error: (e:HttpErrorResponse) => {
+        this.publicationLoadingFailed = true;
+        if(e.status == 404){
+          this.publicationLoadingErrorMessage = 'Could not find publication in knowledge graph.';
+        }
+      }
+    });
   }
 
   isUserLoggedIn(): boolean {

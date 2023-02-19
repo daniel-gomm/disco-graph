@@ -3,11 +3,16 @@
         <mat-tab label="Overview">
             <app-document-overview [document]="document"></app-document-overview>
         </mat-tab>
-        <mat-tab label="Details">
-            <app-document-details></app-document-details>
-        </mat-tab>
         <mat-tab label="Edit" [disabled]="!isUserLoggedIn()">
             <app-document-edit></app-document-edit>
         </mat-tab>
     </mat-tab-group>
+</div>
+<div *ngIf="this.publicationLoadingFailed" class="centered-text error-msg-text">
+    <h4>
+        We have trouble finding the requested publication.
+    </h4>
+    <h5>
+        {{this.publicationLoadingErrorMessage}}
+    </h5>
 </div>

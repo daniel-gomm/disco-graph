@@ -8,7 +8,7 @@
                 <div class="doc-content-item">
                     <div>
                         <h4>{{document.authors.join(', ')}}</h4>
-                    </div>  
+                    </div>
                     <mat-divider class="divider"></mat-divider>
                     <div>
                         <p>Abstract</p>
@@ -19,25 +19,27 @@
                             Keywords
                         </mat-card-header>
                         <mat-card-content>
-                            <mat-chip-grid>
+                            <mat-chip-set>
                                 <div *ngFor="let keyword of document.keywords" [ngSwitch]="this.keywordUpdateStatus(keyword)">
                                     <mat-chip class="chip">
                                         {{this.extractValueInPublicationLanguage(keyword).value}}
-                                        <button matChipRemove *ngSwitchCase="0" (click)="this.upvoteKeyword(keyword)">
-                                            <mat-icon>thumb_up</mat-icon>
-                                        </button>
-                                        <button matChipRemove *ngSwitchCase="0" (click)="this.downvoteKeyword(keyword)">
-                                            <mat-icon>thumb_down</mat-icon>
-                                        </button>
-                                        <button matChipRemove *ngSwitchCase="-1" (click)="this.rollbackDownvoteKeyword(keyword)">
-                                            <mat-icon color="warn">thumb_down</mat-icon>
-                                        </button>
-                                        <button matChipRemove *ngSwitchCase="1" (click)="this.rollbackUpvoteKeyword(keyword)">
-                                            <mat-icon color="accent">thumb_up</mat-icon>
-                                        </button>
+                                        <span *ngIf="this.isLoggedIn()">
+                                            <button matChipRemove *ngSwitchCase="0" (click)="this.upvoteKeyword(keyword)">
+                                                <mat-icon>thumb_up</mat-icon>
+                                            </button>
+                                            <button matChipRemove *ngSwitchCase="0" (click)="this.downvoteKeyword(keyword)">
+                                                <mat-icon>thumb_down</mat-icon>
+                                            </button>
+                                            <button matChipRemove *ngSwitchCase="-1" (click)="this.rollbackDownvoteKeyword(keyword)">
+                                                <mat-icon color="warn">thumb_down</mat-icon>
+                                            </button>
+                                            <button matChipRemove *ngSwitchCase="1" (click)="this.rollbackUpvoteKeyword(keyword)">
+                                                <mat-icon color="accent">thumb_up</mat-icon>
+                                            </button>
+                                        </span>
                                     </mat-chip>
                                 </div>
-                            </mat-chip-grid>
+                            </mat-chip-set>
                             <mat-error *ngIf="this.errorMessage !== ''">
                                 {{this.errorMessage}}
                             </mat-error>
@@ -53,6 +55,8 @@
                         <mat-divider class="divider"></mat-divider>
                         <p>Language: {{document.language}}</p>
                         <mat-divider class="divider"></mat-divider>
+                        <p>DOI: {{document.doi}}</p>
+                        <mat-divider class="divider"></mat-divider>
                         <p>ID: {{document.publication_id}}</p>
                         <mat-divider class="divider"></mat-divider>
                         <div *ngFor="let attribute of document.additional_attributes">
@@ -61,6 +65,18 @@
                             </p>
                             <mat-divider class="divider"></mat-divider>
                         </div>
+                        <mat-divider class="divider"></mat-divider>
+                        <button 
+                        *ngIf="this.hasValidURL()"
+                        mat-flat-button 
+                        matTooltip="Open source website"
+                        matTooltipHideDelay="300"
+                        color="accent"
+                        class="website-button"
+                        (click)="openDocumentWebsite()">
+                            Website
+                            <mat-icon>open_in_new</mat-icon>
+                        </button>
                     </mat-card-content>
                 </mat-card>
             </div>

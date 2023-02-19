@@ -97,6 +97,7 @@ class Publication:
     issued: int
     created: int
     abstract: str
+    website: str
     language: str
     keywords: list[Keyword]
     additional_attributes: list[AdditionalAttribute]
@@ -111,6 +112,7 @@ class Publication:
         self.title = get_field_or_exception(dictionary, "title")
         self.doi = get_field_or_default(dictionary, "doi")
         self.abstract = get_field_or_default(dictionary, "abstract", '-')
+        self.website = get_field_or_default(dictionary, "website", '-')
         self.issued = get_field_or_default(dictionary, "issued")
         self.created = get_field_or_default(dictionary, "created", datetime.now().timestamp())
         self.language = get_field_or_default(dictionary, "language", LANGUAGES["english"])
@@ -131,6 +133,7 @@ class Publication:
             "doi": self.doi,
             "issued": self.issued,
             "abstract": self.abstract,
+            "website": self.website,
             "created": self.created,
             "language": self.language,
             "keywords": [keyword.to_dict() for keyword in self.keywords],

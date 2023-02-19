@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
 import { Keyword, Publication, ValueWithLanguage } from 'src/app/model/publication';
+import { AuthenticationService } from 'src/app/services/authentication.service';
 import { StatusService } from 'src/app/services/status.service';
 
 @Component({
@@ -19,7 +20,8 @@ export class DocumentOverviewComponent {
   errorMessage: string = '';
 
   constructor (
-    private statusService: StatusService
+    private statusService: StatusService,
+    private authService: AuthenticationService
   ) { }
 
 
@@ -44,6 +46,10 @@ export class DocumentOverviewComponent {
       return val;
     }
     throw new Error(`Unable to extract the matching keyword value from: ${keyword}`);
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.isUserLoggedIn();
   }
 
   keywordUpdateStatus(keyword: Keyword): number {
@@ -94,6 +100,23 @@ export class DocumentOverviewComponent {
       },
       error: (e: HttpErrorResponse) => this.errorMessage = `Could not update the status. Error ${e.status}: ${e.statusText}`
     });;
+  }
+
+  openDocumentWebsite(){
+    window.open(this.document.website, '_blank');
+  }
+
+  hasValidURL(): boolean {
+    if (!this.document.website){
+      return false;
+    }
+    var pattern = new RegExp('^(https?:\\/\\/)?'+
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+
+      '((\\d{1,3}\\.){3}\\d{1,3}))'+
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+
+      '(\\?[;&a-z\\d%_.~+=-]*)?'+
+      '(\\#[-a-z\\d_]*)?$','i');
+    return !!pattern.test(this.document.website);
   }
 
 }

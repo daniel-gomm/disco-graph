@@ -1,9 +1,3 @@
-/**
-* Generated theme by Material Theme Generator
-* https://materialtheme.arcsine.dev
-* Fork at: https://materialtheme.arcsine.dev/?c=YHBhbGV0dGU$YHByaW1hcnk$YF48IzQzNGM1ZSIsIj9lcjwjNGM1NjZhIiwiO2VyPCMzYjQyNTJ$LCIlPmBePCM4MWExYzEiLCI~ZXI8Izg4YzBkMCIsIjtlcjwjNWU4MWFjfiwid2Fybj5gXjwjZDA4NzcwIiwiP2VyPCNlYmNiOGIiLCI7ZXI8I2JmNjE2YX4sIj9UZXh0PCMyZTM0NDAiLCI~PTwjZWNlZmY0IiwiO1RleHQ8I2VjZWZmNCIsIjs9PCMyZTM0NDB$LCJmb250cz5bYEA8KC00fixgQDwoLTN$LGBAPCgtMn4sYEA8KC0xfixgQDxoZWFkbGluZX4sYEA8dGl0bGV$LGBAPHN1YiktMn4sYEA8c3ViKS0xfixgQDxib2R5LTJ$LGBAPGJvZHktMX4sYEA8YnV0dG9ufixgQDxjYXB0aW9ufixgQDxpbnB1dCIsInNpemU$bnVsbH1dLCJpY29uczxPdXRsaW5lZCIsIj9uZXNzPnRydWUsInZlcnNpb24$MTN9
-*/
-
 @use '@angular/material' as mat;
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -148,27 +142,66 @@ $mat-dark-theme-background: (
 @include mat.core();
 
 // Theme Config
+   
+$nord-dark-palette: (
+ 50: #edf0fa,
+ 100: #d2dae8,
+ 200: #b8c1d3,
+ 300: #9da8be,
+ 400: #8894ad,
+ 500: #73819d,
+ 600: #65738c,
+ 700: #535f74,
+ 800: #434c5e,
+ 900: #303746,
+ contrast: (
+   50: #303746,
+   100: #303746,
+   200: #303746,
+   300: #303746,
+   400: #303746,
+   500: #303746,
+   600: #edf0fa,
+   700: #edf0fa,
+   800: #edf0fa,
+   900: #edf0fa,
+ )
+);
+$theme-primary: mat.define-palette($nord-dark-palette, 800);
 
 body {
-  --primary-color: #434c5e;
-  --primary-lighter-color: #4c566a;
-  --primary-darker-color: #3b4252;
+  --primary-color: #eceff4;
+  --primary-lighter-color: #f9fafc;
+  --primary-darker-color: #e4e8ef;
   --text-primary-color: #{$light-primary-text};
   --text-primary-lighter-color: #{$light-primary-text};
   --text-primary-darker-color: #{$light-primary-text};
-}   
-$mat-primary: (
-  main: #434c5e,
-  lighter: #4c566a,
-  darker: #3b4252,
-  200: #434c5e, // For slide toggle,
-  contrast : (
-    main: $light-primary-text,
-    lighter: $light-primary-text,
-    darker: $light-primary-text,
+}
+$nord-light-palette: (
+    900: #29323c,
+    800: #3b4754,
+    700: #4b596a,
+    600: #5b6d80,
+    500: #687c92,
+    400: #7f8fa2,
+    300: #95a3b4,
+    200: #b3beca,
+    100: #d0d8e0,
+    50: #eceff4,
+contrast: (
+    900: #eceff4,
+    800: #eceff4,
+    700: #eceff4,
+    600: #29323c,
+    500: #29323c,
+    400: #29323c,
+    300: #29323c,
+    200: #29323c,
+    100: #29323c,
+    50: #29323c,
   )
 );
-$theme-primary: mat.define-palette($mat-primary, main, lighter, darker);
+$theme-primary-light: mat.define-palette($nord-light-palette, 50);
 
 
 body {
@@ -179,18 +212,31 @@ body {
   --text-accent-lighter-color: #{$dark-primary-text};
   --text-accent-darker-color: #{$light-primary-text};
 }   
-$mat-accent: (
-  main: #81a1c1,
-  lighter: #88c0d0,
-  darker: #5e81ac,
-  200: #81a1c1, // For slide toggle,
-  contrast : (
-    main: $dark-primary-text,
-    lighter: $dark-primary-text,
-    darker: $light-primary-text,
+$nord-accent-palette: (
+    900: #112f46,
+    800: #25445e,
+    700: #335775,
+    600: #426a8c,
+    500: #50799d,
+    400: #698cae,
+    300: #81a1c1,
+    200: #a1bcd9,
+    100: #bed8f0,
+    50: #e0efff,
+contrast: (
+    900: #e0efff,
+    800: #e0efff,
+    700: #e0efff,
+    600: #e0efff,
+    500: #112f46,
+    400: #112f46,
+    300: #112f46,
+    200: #112f46,
+    100: #112f46,
+    50: #112f46,
   )
 );
-$theme-accent: mat.define-palette($mat-accent, main, lighter, darker);
+$theme-accent: mat.define-palette($nord-accent-palette, 300);;
 
 
 body {
@@ -201,36 +247,49 @@ body {
   --text-warn-lighter-color: #{$dark-primary-text};
   --text-warn-darker-color: #{$light-primary-text};
 }   
-$mat-warn: (
-  main: #d08770,
-  lighter: #ebcb8b,
-  darker: #bf616a,
-  200: #d08770, // For slide toggle,
-  contrast : (
-    main: $dark-primary-text,
-    lighter: $dark-primary-text,
-    darker: $light-primary-text,
-  )
+$nord-warn-palette: (
+ 50: #f0e8e7,
+ 100: #e9c9bf,
+ 200: #dca697,
+ 300: #d08670,
+ 400: #ca7054,
+ 500: #c95835,
+ 600: #bf5332,
+ 700: #b24c2e,
+ 800: #a54629,
+ 900: #8d3a21,
+ contrast: (
+   50: #8d3a21,
+   100: #8d3a21,
+   200: #8d3a21,
+   300: #8d3a21,
+   400: #8d3a21,
+   500: #f0e8e7,
+   600: #f0e8e7,
+   700: #f0e8e7,
+   800: #f0e8e7,
+   900: #f0e8e7,
+ )
 );
-$theme-warn: mat.define-palette($mat-warn, main, lighter, darker);
+$theme-warn: mat.define-palette($nord-warn-palette, 400);
 ;
 
-$theme: (
-  primary: $theme-primary,
-  accent: $theme-accent,
-  warn: $theme-warn,
-  is-dark: false,
-  foreground: $mat-light-theme-foreground,
-  background: $mat-light-theme-background,
-);
-$altTheme: (
-  primary: $theme-primary,
-  accent: $theme-accent,
-  warn: $theme-warn,
-  is-dark: true,
-  foreground: $mat-dark-theme-foreground,
-  background: $mat-dark-theme-background,
-);
+$altTheme: mat.define-dark-theme((
+    color: (
+   primary: $theme-primary,
+   accent: $theme-accent,
+   warn: $theme-warn
+ ),
+ density: 0,
+));
+$theme: mat.define-light-theme((
+    color: (
+   primary: $theme-primary-light,
+   accent: $theme-accent,
+   warn: $theme-warn
+ ),
+ density: -1,
+));
 
 // Theme Init
 @include mat.all-component-themes($theme);

@@ -29,23 +29,25 @@ export class ResultItemComponent implements OnInit{
     return {value: '', language:'none'}
   }
 
-  getKeywords(): ValueWithLanguage[] {
-    let result: ValueWithLanguage[] = [];
-    this.publication?.keywords?.forEach(kw => {
-      let value = kw.values.at(0);
-      if (value){
-        result.push(value);
-      }
-    })
-    return result;
+  extractFittingKeywordValue(keyword:Keyword): ValueWithLanguage{
+    // Try to extract the keyword value in the publication language,if not possible return any value
+    let valueWithLanguage = keyword.values.find(valueWithLanguage => valueWithLanguage.language === this.publication?.language);
+    if(valueWithLanguage){
+      return valueWithLanguage;
+    }
+    let valueWithUnfittingLanguage = keyword.values.at(0);
+    if(valueWithUnfittingLanguage){
+      return valueWithUnfittingLanguage;
+    }
+    return {value: '', language: 'undefined'};
   }
 
-  isMatched(keyword:ValueWithLanguage): boolean{
-    return Boolean(this.keywordService.selectedKeywords.find(kw => kw.value === keyword.value));
+  isMatched(keyword:Keyword): boolean{
+    return Boolean(keyword.values.find(kwValue => Boolean(this.keywordService.selectedKeywords.find(val => val.value == kwValue.value))));
   }
 
-  addKeyword(kw: ValueWithLanguage){
-    this.keywordService.addKeywordSelection(kw);
+  addKeyword(keyword: Keyword){
+    this.keywordService.addKeywordSelection(this.extractFittingKeywordValue(keyword));
   }
 
   openDocument(){
