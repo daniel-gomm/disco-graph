@@ -6,6 +6,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { startWith, filter, distinctUntilChanged, debounceTime, switchMap, finalize } from 'rxjs/operators';
 import { ValueWithLanguage } from '../../../model/publication';
 import { KeywordService } from 'src/app/services/keyword.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-keyword-input',
@@ -33,7 +34,7 @@ export class KeywordInputComponent implements OnInit {
       startWith(null),
       distinctUntilChanged(),
       debounceTime(250),
-      switchMap(value => this.keywordService.getAutocompleteSuggestion(value)
+      switchMap(value => this.getAutocompleteSugesstions(value)
       .pipe(
         finalize(() => {
           this.loading = false;
@@ -44,6 +45,11 @@ export class KeywordInputComponent implements OnInit {
     .subscribe((res: ValueWithLanguage[]) => {
       this.keywordService.filteredKeywords = res;
     });
+  }
+
+  getAutocompleteSugesstions(startKeys: string | null): Observable<ValueWithLanguage[]> {
+    this.loading = true;
+    return this.keywordService.getAutocompleteSuggestion(startKeys);
   }
 
   add(event: MatChipInputEvent): void {
