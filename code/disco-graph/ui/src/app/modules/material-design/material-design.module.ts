@@ -21,6 +21,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatGridListModule} from '@angular/material/grid-list';
+import {MatSelectModule} from '@angular/material/select';
 
 
 
@@ -50,7 +51,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MatDialogModule,
     MatSnackBarModule,
     MatTabsModule,
-    MatGridListModule
+    MatGridListModule,
+    MatSelectModule
   ]
 })
 export class MaterialDesignModule { }

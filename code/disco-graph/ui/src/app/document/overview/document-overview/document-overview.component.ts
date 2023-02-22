@@ -1,8 +1,11 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Keyword, Publication, ValueWithLanguage } from 'src/app/model/publication';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { StatusService } from 'src/app/services/status.service';
+import { AddKeywordDialogComponent } from '../../dialog/add-keyword-dialog/add-keyword-dialog.component';
 
 @Component({
   selector: 'app-document-overview',
@@ -19,9 +22,15 @@ export class DocumentOverviewComponent {
   downvotedKeywords: Keyword[] = [];
   errorMessage: string = '';
 
+  snackBarConfig: MatSnackBarConfig = {
+    duration: 4000,
+  }
+
   constructor (
     private statusService: StatusService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    public dialog: MatDialog,
+    private _snackBar: MatSnackBar,
   ) { }
 
 
@@ -104,6 +113,19 @@ export class DocumentOverviewComponent {
 
   openDocumentWebsite(){
     window.open(this.document.website, '_blank');
+  }
+
+  openKeywordDialog(){
+    const dialogRef = this.dialog.open(AddKeywordDialogComponent);
+    dialogRef.afterClosed().subscribe(keywordAdded => {
+      if(keywordAdded){
+        this.openSnackBar('Logged in successfully.')
+      }
+    });
+  }
+
+  openSnackBar(message: string){
+    this._snackBar.open(message, 'Dismiss', this.snackBarConfig);
   }
 
   hasValidURL(): boolean {
