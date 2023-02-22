@@ -59,7 +59,7 @@ def update_publication_title(pub_id):
     try:
         rdf_connector.update_title(pub_id, new_title)
     except:
-        return "Failed to update title", 404
+        return "Failed to update title", 500
     return f"Successfully updated title of {pub_id}", 200
 
 
@@ -71,7 +71,7 @@ def update_publication_doi(pub_id):
     try:
         rdf_connector.update_doi(pub_id, new_doi)
     except:
-        return "Failed to update doi", 404
+        return "Failed to update doi", 500
     return f"Successfully updated doi of {pub_id}", 200
 
 
@@ -83,7 +83,7 @@ def update_publication_issued(pub_id):
     try:
         rdf_connector.update_issued(pub_id, new_issued)
     except:
-        return "Failed to update publication year", 404
+        return "Failed to update publication year", 500
     return f"Successfully updated publication year of {pub_id}", 200
 
 
@@ -95,7 +95,7 @@ def update_publication_language(pub_id):
     try:
         rdf_connector.update_language(pub_id, new_language)
     except:
-        return "Failed to update language", 404
+        return "Failed to update language", 500
     return f"Successfully updated language of {pub_id}", 200
 
 
@@ -107,15 +107,18 @@ def add_publication_author(pub_id):
     try:
         rdf_connector.add_author(pub_id, author_name)
     except:
-        return "Failed to add author", 404
+        return "Failed to add author", 500
     return f"Successfully added author to {pub_id}", 200
 
 
 @bp.post("/<string:pub_id>/keyword")
 @login_required
 def add_publication_keyword(pub_id):
-    # TODO: Implement
-    pass
+    req_json = request.get_json()
+    try:
+        rdf_connector.add_keyword_to_publication(pub_id, req_json)
+    except:
+        return "Failed to add keyword", 500
 
 
 @bp.post("/<string:pub_id>/attribute")

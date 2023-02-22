@@ -160,6 +160,11 @@ class RDFConnector:
             (pub_ref, DCTERMS.creator, author_name_literal)
         ])
 
+    def add_keyword_to_publication(self, pub_id: str, keyword: dict) -> None:
+        pub_ref = URIRef(PUBLICATION_PREFIX + pub_id)
+        publication = self.get_publication(pub_id)
+        self.add_keyword(Keyword(keyword), pub_ref, pub_id, publication['language'])
+
     def delete_author(self, pub_id: str, author_name: str):
         pub_ref = URIRef(PUBLICATION_PREFIX + pub_id)
         author_name_literal = Literal(author_name, datatype=XSD.string)
@@ -333,6 +338,11 @@ class RDFConnector:
                 'language': keyword[Variable('keyword_value')].language
             })
         return keywords
+
+    def get_keyword_languages(self) -> list[str]:
+        languages_query = keyword_queries.get_keyword_languages_query()
+        languages_result = self.graph.query(languages_query)
+        return [value[Variable('lang')].value for value in languages_result]
 
 
 BASE_CONNECTOR = RDFConnector(configuration.KG_HOSTNAME)

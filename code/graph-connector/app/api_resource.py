@@ -2,8 +2,6 @@ from flask import (
     Blueprint, request, session, jsonify
 )
 
-from .auth import login_required
-from .model.model import AdditionalAttribute
 from .rdf_interface import BASE_CONNECTOR
 from .request_utils import get_numeric_query_parameter
 
@@ -19,10 +17,6 @@ def get_keywords_starting_with_keys():
 
     if not keys:
         return "Invalid query!", 400
-
-    #attributes = None
-    #if session.get('attributes'):
-    #    attributes = get_attribute_filters(session.get('attributes'))
 
     keywords = rdf_connector.get_completed_keywords(start_keys=keys,
                                                     filter_attributes=get_attribute_filters(session.get('attributes')),
@@ -83,7 +77,6 @@ def filter_attribute():
             session['attributes'] = {}
         session['attributes'][req_json['name']] = req_json['value']
 
-
     elif request.method == 'GET':
         attributes = rdf_connector.get_attributes()
         return jsonify(attributes), 200
@@ -124,8 +117,6 @@ def filter_year():
 def get_attribute_filters(attributes: dict) -> list[tuple[str:str]] | None:
     if attributes:
         return [(k, v) for k, v in attributes.items()]
-    #if session.get('attributes'):
-    #    return [(k, v) for k, v in session.get('attributes').items()]
     return None
 
 

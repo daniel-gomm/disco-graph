@@ -42,3 +42,16 @@ WHERE {{
 LIMIT {limit}
 OFFSET {(page - 1) * limit}
 """
+
+
+def get_keyword_languages_query() -> str:
+    return f"""
+{SG_PREFIXES}
+
+
+SELECT DISTINCT (lang(?kw_val) as ?lang)
+WHERE {{
+    ?kw rdfs:subClassOf dgc:Keyword .
+    ?kw rdf:value ?kw_val . 
+}}
+"""
