@@ -22,6 +22,9 @@
                             <mat-chip-set>
                                 <div *ngFor="let keyword of document.keywords" [ngSwitch]="this.keywordUpdateStatus(keyword)">
                                     <mat-chip class="chip">
+                                        <button matChipRemove (click)="openKeywordInfoDialog(keyword)">
+                                            <mat-icon>info</mat-icon>
+                                        </button>
                                         {{this.extractValueInPublicationLanguage(keyword).value}}
                                         <span *ngIf="this.isLoggedIn()">
                                             <button matChipRemove *ngSwitchCase="0" (click)="this.upvoteKeyword(keyword)">

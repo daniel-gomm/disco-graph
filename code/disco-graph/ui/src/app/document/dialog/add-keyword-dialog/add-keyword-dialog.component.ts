@@ -71,10 +71,10 @@ export class AddKeywordDialogComponent {
         this.loadingFailed = true;
       },
       complete: () => {
+        this.document.keywords?.push(keyword);
         this.dialogRef.close(true);
       }
     });
-    this.document.keywords?.push(keyword);
   }
 
   getAutocompleteSugesstions(startKeys: string | null): Observable<ValueWithLanguage[]> {

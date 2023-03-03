@@ -9,6 +9,7 @@ import { DocumentEditComponent } from './edit/document-edit/document-edit.compon
 import { DocumentDetailsComponent } from './details/document-details/document-details.component';
 import { MaterialDesignModule } from '../modules/material-design/material-design.module';
 import { AddKeywordDialogComponent } from './dialog/add-keyword-dialog/add-keyword-dialog.component';
+import { KeywordDetailsComponent } from './dialog/keyword-details/keyword-details.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { AddKeywordDialogComponent } from './dialog/add-keyword-dialog/add-keywo
     DocumentOverviewComponent,
     DocumentEditComponent,
     DocumentDetailsComponent,
-    AddKeywordDialogComponent
+    AddKeywordDialogComponent,
+    KeywordDetailsComponent
   ],
   imports: [
     CommonModule,

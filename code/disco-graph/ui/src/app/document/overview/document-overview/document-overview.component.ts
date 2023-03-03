@@ -1,11 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
 import { Keyword, Publication, ValueWithLanguage } from 'src/app/model/publication';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { StatusService } from 'src/app/services/status.service';
 import { AddKeywordDialogComponent } from '../../dialog/add-keyword-dialog/add-keyword-dialog.component';
+import { KeywordDetailsComponent } from '../../dialog/keyword-details/keyword-details.component';
 
 @Component({
   selector: 'app-document-overview',
@@ -120,9 +121,15 @@ export class DocumentOverviewComponent {
     dialogRef.componentInstance.document = this.document;
     dialogRef.afterClosed().subscribe(keywordAdded => {
       if(keywordAdded){
-        this.openSnackBar('Logged in successfully.')
+        this.openSnackBar('Successfully added Keyword.')
       }
     });
+  }
+
+  openKeywordInfoDialog(keyword: Keyword): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.data = keyword;
+    this.dialog.open(KeywordDetailsComponent, dialogConfig);
   }
 
   openSnackBar(message: string){
