@@ -119,6 +119,7 @@ def add_publication_keyword(pub_id):
         rdf_connector.add_keyword_to_publication(pub_id, req_json)
     except:
         return "Failed to add keyword", 500
+    return "Successfully added keyword", 200
 
 
 @bp.post("/<string:pub_id>/attribute")

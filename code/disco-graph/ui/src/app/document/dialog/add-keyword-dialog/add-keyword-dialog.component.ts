@@ -1,3 +1,4 @@
+import { transition } from '@angular/animations';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, ElementRef, Input, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -20,11 +21,13 @@ export class AddKeywordDialogComponent {
   loadingFailed: boolean = false;
   inputControl = new FormControl('');
   loading: boolean = false;
+  inputDisabled: boolean = false;
   selectedLanguage!: string;
-  languageSelectDiabled: boolean = true;
-  languageValueMap: Map<string, string> = new Map();
+  languageSelectDisabled: boolean = true;
+  translations: ValueWithLanguage[] = [];
 
-  @Input() document!:Publication;
+
+  document!:Publication;
 
   @ViewChild('keywordInput') keywordInput!: ElementRef<HTMLInputElement>;
   @ViewChild('languageSelect') languageSelect!: MatSelect;
@@ -41,10 +44,8 @@ export class AddKeywordDialogComponent {
       error: (e:HttpErrorResponse) => {
         this.loadingFailed = true;
       },
-      next: (languages: string[]) => {
-        for (let language in languages){
-          this.languageValueMap.set(language, '');
-        }
+      next: (langs: string[]) => {
+        this.initiateTranslations(langs);
       },
     });
     this.inputControl.valueChanges.pipe(
@@ -73,6 +74,7 @@ export class AddKeywordDialogComponent {
         this.dialogRef.close(true);
       }
     });
+    this.document.keywords?.push(keyword);
   }
 
   getAutocompleteSugesstions(startKeys: string | null): Observable<ValueWithLanguage[]> {
@@ -84,27 +86,45 @@ export class AddKeywordDialogComponent {
     return this.keywordService.filteredKeywords;
   }
 
+  initiateTranslations(languages: string[]) {
+    this.translations = [];
+    for (const lang of languages){
+      this.translations.push({
+        value: '',
+        language: lang
+      })
+    }
+  }
+
+  filterTranslations(languages: string[]): void {
+    this.initiateTranslations(languages);
+    this.translations = this.translations.filter(translation => translation.language !== this.selectedLanguage);
+  }
+
   selectKeyword(event: MatAutocompleteSelectedEvent): void {
     const selectedKeyword: ValueWithLanguage | undefined = this.keywordService.filteredKeywords.find(keyword => keyword.value === event.option.viewValue);
     if(selectedKeyword){
       this.inputControl.setValue(selectedKeyword.value);
       this.inputControl.disable();
+      this.inputDisabled = true;
       this.selectedLanguage = selectedKeyword.language;
-      this.languageSelect.value = selectedKeyword.language;
+      this.translations = [];
+      this.languageSelectDisabled = true;
     } else {
-      this.keywordInput.nativeElement.value = '';
       this.inputControl.setValue(null);
     }
   }
 
-  filterLanguages(languages: string[]): string[]{
-    return languages.filter(lang => lang !== this.selectedLanguage);
+  selectLanguage(languages: string[]): void {
+    this.filterTranslations(languages);
+    this.languageSelectDisabled = true;
   }
 
   keydown(event: KeyboardEvent){
     if(event.key === "Enter"){
       this.languageSelect.setDisabledState(false);
       this.inputControl.disable();
+      this.inputDisabled = true;
     }
   }
 
@@ -119,15 +139,11 @@ export class AddKeywordDialogComponent {
     }
     let main_val = this.inputControl.value;
     if (main_val && this.selectedLanguage){
-      this.languageValueMap.set(this.selectedLanguage, main_val);
-      this.languageValueMap.forEach((lang, value) => {
-        if(lang && value){
-          keyword.values.push({
-            value: value,
-            language: lang
-          });
-        }
+      this.translations.push({
+        value: main_val,
+        language: this.selectedLanguage
       });
+      keyword.values = this.translations.filter(trans => trans.value !== '');
       this.addKeyword(keyword)
     }
   }

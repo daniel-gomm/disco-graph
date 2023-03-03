@@ -9,5 +9,30 @@
 }
 
 .keyword-dialog {
-    width: 500px;
+    width: 100%;
+}
+
+.translations-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.keyword-input-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.keyword-input {
+    flex-grow: 3;
+    flex-basis: 50%;
+}
+
+.language-select {
+    flex-grow: 1;
+    flex-basis: 25%;
 }

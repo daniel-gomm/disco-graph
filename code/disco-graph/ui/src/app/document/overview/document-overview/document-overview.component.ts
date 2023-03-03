@@ -117,6 +117,7 @@ export class DocumentOverviewComponent {
 
   openKeywordDialog(){
     const dialogRef = this.dialog.open(AddKeywordDialogComponent);
+    dialogRef.componentInstance.document = this.document;
     dialogRef.afterClosed().subscribe(keywordAdded => {
       if(keywordAdded){
         this.openSnackBar('Logged in successfully.')
