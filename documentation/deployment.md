@@ -93,8 +93,19 @@ wsl.exe -l -v
 If you are using version 2, you should see a similar output to this:
 ![](resources/win_wsl_version.png)
 
-
 Check out [https://docs.docker.com/desktop/windows/wsl/](https://docs.docker.com/desktop/windows/wsl/) if you are not yet
 using version 2.
 
+You might have to install the terminal environment for a linux distribution in WSL2 to run the script. You can either
+install the Ubuntu distribution by running
+```shell
+wsl --install -d ubuntu
+```
+or by following the [official guide by canonical](https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-11-with-gui-support).
+
 With this setup you can follow the general guide and use the helper script.
+
+To shut down WSL run
+```shell
+wsl --shutdown
+```
