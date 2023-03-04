@@ -45,6 +45,7 @@ start_production() {
   fi
   echo "Starting ui..."
   docker-compose -f ui/docker-compose.yml up -d
+  echo -e "UI started on http://localhost:80"
 }
 
 start_development() {

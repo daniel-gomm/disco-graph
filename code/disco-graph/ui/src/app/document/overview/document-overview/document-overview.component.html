@@ -22,6 +22,9 @@
                             <mat-chip-set>
                                 <div *ngFor="let keyword of document.keywords" [ngSwitch]="this.keywordUpdateStatus(keyword)">
                                     <mat-chip class="chip">
+                                        <button matChipRemove (click)="openKeywordInfoDialog(keyword)">
+                                            <mat-icon>info</mat-icon>
+                                        </button>
                                         {{this.extractValueInPublicationLanguage(keyword).value}}
                                         <span *ngIf="this.isLoggedIn()">
                                             <button matChipRemove *ngSwitchCase="0" (click)="this.upvoteKeyword(keyword)">
@@ -43,6 +46,17 @@
                             <mat-error *ngIf="this.errorMessage !== ''">
                                 {{this.errorMessage}}
                             </mat-error>
+                            <button 
+                        *ngIf="this.isLoggedIn()"
+                        mat-flat-button 
+                        matTooltip="Add new keyword to publication"
+                        matTooltipHideDelay="300"
+                        color="accent"
+                        class="website-button"
+                        (click)="openKeywordDialog()">
+                            Add Keyword
+                            <mat-icon>add</mat-icon>
+                        </button>
                         </mat-card-content>
                     </mat-card>
                 </div>

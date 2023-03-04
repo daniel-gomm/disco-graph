@@ -115,4 +115,8 @@ export class KeywordService {
     return result.slice(0, -1);
   }
 
+  getLanguages(): Observable<[string]> {
+    return this.http.get<[string]>(`/api/keyword/languages`);
+  }
+
 }

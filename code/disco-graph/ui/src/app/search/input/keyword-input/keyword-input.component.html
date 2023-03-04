@@ -24,5 +24,8 @@
       {{keyword.value}}
     </mat-option>
   </mat-autocomplete>
+  <mat-progress-bar *ngIf="this.loading" mode="indeterminate">
+
+  </mat-progress-bar>
 </mat-form-field>
 <mat-error *ngIf="this.deleteLastKeyword" class="bottom-margin">Press backspace again to remove the last keyword.</mat-error>

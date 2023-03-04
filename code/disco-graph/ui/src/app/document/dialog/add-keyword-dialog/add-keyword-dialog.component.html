@@ -1,0 +1,57 @@
+<div *ngIf="languages$ | async as languages">
+    <h1 mat-dialog-title>Add Keyword</h1>
+    <mat-dialog-content >
+        <form class="input-container">
+            <div class="keyword-input-container">
+                <mat-form-field class="keyword-input" appearance="fill">
+                    <mat-label>Keywords...</mat-label>
+                        <input
+                        type="text"
+                        placeholder='Search for Keyword: e.g. "Herstellung"'
+                        #keywordInput
+                        matInput
+                        [disabled]="this.inputDisabled"
+                        [formControl]="inputControl"
+                        [matAutocomplete]="auto"
+                        (keydown)="this.keydown($event)">
+                    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selectKeyword($event)">
+                        <mat-option *ngFor="let keyword of getFilteredKeywords()" [value]="keyword">
+                        {{keyword.value}}
+                        </mat-option>
+                    </mat-autocomplete>
+                    <mat-progress-bar *ngIf="this.loading" mode="indeterminate">
+                    </mat-progress-bar>
+                </mat-form-field>
+                <mat-form-field class="language-select">
+                    <mat-label>Language</mat-label>
+                    <mat-select 
+                    #languageSelect
+                    (selectionChange)="this.selectLanguage(languages)"
+                    [(value)]="this.selectedLanguage"
+                    [disabled]="this.languageSelectDisabled">
+                        <mat-option *ngFor="let language of this.languages" [value]="language">{{language}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            
+            <div *ngIf="this.inputDisabled && this.selectedLanguage" class="translations-input-container">
+                <mat-form-field *ngFor="let translation of translations" class="fullsize-input" appearance="fill">
+                    <mat-label>Enter tranlation to "{{translation.language}}"</mat-label>
+                    <input
+                    type="text"
+                    placeholder='Keyword'
+                    name="{{translation.language}}"
+                    matInput
+                    [(ngModel)]="translation.value"
+                    value="{{translation.value}}"
+                    >
+                </mat-form-field>
+            </div>
+        </form>
+        <!-- <mat-error *ngIf="errorMessage.length > 0">{{errorMessage}}</mat-error> -->
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <button mat-flat-button (click)="add()" color="accent">Add</button>
+        <button mat-flat-button (click)="cancel()" color="accent">Cancel</button>
+    </mat-dialog-actions>
+</div>

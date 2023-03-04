@@ -1,0 +1,38 @@
+.input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.fullsize-input {
+    width: 100%;
+}
+
+.keyword-dialog {
+    width: 100%;
+}
+
+.translations-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.keyword-input-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.keyword-input {
+    flex-grow: 3;
+    flex-basis: 50%;
+}
+
+.language-select {
+    flex-grow: 1;
+    flex-basis: 25%;
+}

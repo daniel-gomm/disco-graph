@@ -1,6 +1,6 @@
 SG_PREFIXES = """
-PREFIX sgc: <https://disco-graph.online/0.1/classes/>
-PREFIX sgp: <https://disco-graph.online/0.1/properties/>
+PREFIX dgc: <https://disco-graph.online/0.1/classes/>
+PREFIX dgp: <https://disco-graph.online/0.1/properties/>
 """
 
 PREFIXES = SG_PREFIXES + """

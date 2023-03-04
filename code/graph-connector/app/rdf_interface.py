@@ -1,7 +1,7 @@
 from . import configuration
 
-from .model.model import Publication, Keyword, AdditionalAttribute, ValueWithLanguage
-from .rdf import queries, document_queries
+from .model.model import Publication, Keyword, AdditionalAttribute
+from .rdf import queries, document_queries, keyword_queries
 
 from rdflib.term import Node, Variable
 from rdflib import Graph, Literal, URIRef, Namespace
@@ -160,6 +160,11 @@ class RDFConnector:
             (pub_ref, DCTERMS.creator, author_name_literal)
         ])
 
+    def add_keyword_to_publication(self, pub_id: str, keyword: dict) -> None:
+        pub_ref = URIRef(PUBLICATION_PREFIX + pub_id)
+        publication = self.get_publication(pub_id)
+        self.add_keyword(Keyword(keyword), pub_ref, pub_id, publication['language'])
+
     def delete_author(self, pub_id: str, author_name: str):
         pub_ref = URIRef(PUBLICATION_PREFIX + pub_id)
         author_name_literal = Literal(author_name, datatype=XSD.string)
@@ -190,8 +195,9 @@ class RDFConnector:
     # TODO: Add language filter to queries
     def get_completed_keywords(self, start_keys: str, filter_attributes: list[tuple[str, str]] = None,
                                filter_year_range: tuple[int, int] = None, limit: int = None) -> list[dict]:
-        keyword_query = queries.get_keyword_begins_with_query(begins_with=start_keys, attributes=filter_attributes,
-                                                              years_span=filter_year_range, limit=limit)
+        keyword_query = keyword_queries.get_keyword_begins_with_query(begins_with=start_keys,
+                                                                      attributes=filter_attributes,
+                                                                      years_span=filter_year_range, limit=limit)
 
         values = []
         query_results = self.graph.query(keyword_query)
@@ -314,7 +320,7 @@ class RDFConnector:
             return publication
 
     def get_keywords(self, pub_ref_uri: str) -> dict:
-        keyword_query = queries.get_keywords_query(pub_ref_uri)
+        keyword_query = keyword_queries.get_keywords_query(pub_ref_uri)
         keyword_result = self.graph.query(keyword_query)
 
         keywords = {}
@@ -332,6 +338,11 @@ class RDFConnector:
                 'language': keyword[Variable('keyword_value')].language
             })
         return keywords
+
+    def get_keyword_languages(self) -> list[str]:
+        languages_query = keyword_queries.get_keyword_languages_query()
+        languages_result = self.graph.query(languages_query)
+        return [value[Variable('lang')].value for value in languages_result]
 
 
 BASE_CONNECTOR = RDFConnector(configuration.KG_HOSTNAME)
