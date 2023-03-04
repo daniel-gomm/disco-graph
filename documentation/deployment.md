@@ -1,7 +1,7 @@
 # Deploying disco-graph
 
 disco-graph can be easily deployed using docker containers. On Linux or MacOS you can use the disco-graph.bash bash script
-to follow this guide and be up and running in no time.
+to follow this guide and be up and running in no time. On Windows checkout [section 7](#7-windows-setup) before continuing.
 
 **Table of contents:**
 1. [Prerequisites](#1-prerequisites)
@@ -13,9 +13,7 @@ to follow this guide and be up and running in no time.
    1. [Knowledge Graph](#61-knowledge-graph)
    2. [graph-connector](#62-graph-connector)
    3. [ui](#63-ui)
-7. [Deploying on Windows](#7-deploying-on-windows)
-   1. [Creating the Network](#71-creating-the-network)
-   2. [Starting the Containers](#72-starting-the-containers)
+7. [Windows setup](#7-windows-setup)
 
 ## 1. Prerequisites
 To build and deploy disco-graph [docker](https://www.docker.com/) and [docker-compose](https://docs.docker.com/compose/)
@@ -86,8 +84,28 @@ the application is build and the output of this step is then given to the second
 web server is build. This server is used as single point of entry for web traffic, serving the ui and acting as reverse 
 proxy to the graph-connector. It is configured in the [nginx.conf](../code/disco-graph/ui/nginx.conf) file.
 
-## 7. Deploying on Windows
-> TODO
-### 7.1. Creating the Network
+## 7. Windows setup
+To deploy disco-graph on Windows install [Docker for Windows](https://docs.docker.com/desktop/install/windows-install/).
+Make sure you use the [WSL 2 backend](https://docs.docker.com/desktop/windows/wsl/). To check the WSL mode, run:
+```shell
+wsl.exe -l -v
+```
+If you are using version 2, you should see a similar output to this:
+![](resources/win_wsl_version.png)
 
-### 7.2. Starting the Containers
+Check out [https://docs.docker.com/desktop/windows/wsl/](https://docs.docker.com/desktop/windows/wsl/) if you are not yet
+using version 2.
+
+You might have to install the terminal environment for a linux distribution in WSL2 to run the script. You can either
+install the Ubuntu distribution by running
+```shell
+wsl --install -d ubuntu
+```
+or by following the [official guide by canonical](https://ubuntu.com/tutorials/install-ubuntu-on-wsl2-on-windows-11-with-gui-support).
+
+With this setup you can follow the general guide and use the helper script.
+
+To shut down WSL run
+```shell
+wsl --shutdown
+```
