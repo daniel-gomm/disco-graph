@@ -29,9 +29,9 @@ This guide details the graph-connector API and its usage.
         Check whether the user is logged in, if so, returns user information in the following form:
         <br />
         <code>
-            { <br />
-                username: string <br />
-            }
+{ <br />
+    username: string <br />
+}
         </code>
         </td>
     </tr>
@@ -44,10 +44,10 @@ This guide details the graph-connector API and its usage.
         Login request for a user. Expects a request of the form:
         <br />
         <code>
-            { <br />
-                username: string, <br />
-                password: string <br />
-            }
+{ <br />
+    username: string, <br />
+    password: string <br />
+}
         </code>
         </td>
     </tr>
@@ -60,10 +60,10 @@ This guide details the graph-connector API and its usage.
         Login request for an admin user. Expects a request of the form:
         <br />
         <code>
-            { <br />
-                username: string, <br />
-                password: string <br />
-            }
+{ <br />
+    username: string, <br />
+    password: string <br />
+}
         </code>
         </td>
     </tr>
@@ -99,12 +99,12 @@ This guide details the graph-connector API and its usage.
         Get a list of users. This list has the following form:
         <br />
         <code>
-        [ <br />
-            { <br />
-                username: string <br />
-            }, <br />
-            ... <br />
-        ]
+[ <br />
+    { <br />
+        username: string <br />
+    }, <br />
+    ... <br />
+]
         </code>
         </td>
         <td> limit: maximum number of results <br /> page: specify which page of results to return </td>
@@ -118,9 +118,9 @@ This guide details the graph-connector API and its usage.
         Register new user. Expects data of the form:
         <br />
         <code>
-            { <br />
-                password: string <br />
-            }
+{ <br />
+    password: string <br />
+}
         </code>
         </td>
         <td> - <td />
@@ -157,17 +157,17 @@ This guide details the graph-connector API and its usage.
         Get the publication with the specified id. Returns the publication with the following schema:
         <br />
         <code>
-        { <br />
-            publication_id: string, <br />
-            title: string, <br />
-            issued: integer, <br />
-            language: string, <br />
-            doi: string, <br />
-            abstract: string, <br />
-            website: string, <br />
-            authors: [ string, ... ], <br />
-            keywords: [ { <br /> values: [{value: string, language: string}, ...] <br /> }, ... ]
-        }
+{ <br />
+    publication_id: string, <br />
+    title: string, <br />
+    issued: integer, <br />
+    language: string, <br />
+    doi: string, <br />
+    abstract: string, <br />
+    website: string, <br />
+    authors: [ string, ... ], <br />
+    keywords: [ { <br /> values: [{value: string, language: string}, ...] <br /> }, ... ]
+}
         </code>
         </td>
         <td> - </td>
@@ -181,17 +181,17 @@ This guide details the graph-connector API and its usage.
         Add a new publication. Expects data of the following form:
         <br />
          <code>
-        { <br />
-            publication_id: string, <br />
-            title: string, <br />
-            issued: integer, <br />
-            language: string, <br />
-            doi: string, <br />
-            abstract: string, <br />
-            website: string, <br />
-            authors: [ string, ... ], <br />
-            keywords: [ { <br /> values: [{value: string, language: string}, ...] <br /> }, ... ]
-        }
+{ <br />
+    publication_id: string, <br />
+    title: string, <br />
+    issued: integer, <br />
+    language: string, <br />
+    doi: string, <br />
+    abstract: string, <br />
+    website: string, <br />
+    authors: [ string, ... ], <br />
+    keywords: [ { <br /> values: [{value: string, language: string}, ...] <br /> }, ... ]
+}
         </code>
         </td>
         <td> - <td />
@@ -243,12 +243,13 @@ This guide details the graph-connector API and its usage.
         <td> 
         Get keywords beginning with a specified sequence of keys.
         <br />
-        <code> [ <br />
-        { <br /> 
-            value: string, <br /> 
-            language: string <br />
-        }, ... <br />
-        ]
+        <code> 
+[ <br />
+{ <br /> 
+    value: string, <br /> 
+    language: string <br />
+}, ... <br />
+]
         </code>
         </td>
         <td> keys: the starting keys of the keywords that should be retrieved <br /> limit: maximum number of results </td>
@@ -261,15 +262,16 @@ This guide details the graph-connector API and its usage.
         <td> 
         Get keywords that are commonly associated with publications featuring keywords from a specified list of selected keywords.
         <br />
-        <code> [ <br />
-        { <br />
-        values: [
-        { <br /> 
-            value: string, <br /> 
-            language: string <br />
-        }, ... ] <br />
-        }, ... <br />
-        ]
+        <code> 
+[ <br />
+{ <br />
+values: [
+{ <br /> 
+    value: string, <br /> 
+    language: string <br />
+}, ... ] <br />
+}, ... <br />
+]
         </code>
         </td>
         <td> keywords: comma-separated list of keywords for which cross-reference keywords should be retrieved <br /> limit: maximum number of results </td>
@@ -282,17 +284,18 @@ This guide details the graph-connector API and its usage.
         <td> 
         Retrieve results for a specified list of keywords.
         <br />
-        <code> [ <br />
-        { <br />
-            publication_id: string, <br />
-            title: string, <br />
-            issued: integer, <br />
-            language: string, <br />
-            doi: string, <br />
-            authors: [ string, ... ], <br />
-            keywords: [ { <br /> values: [{value: string, language: string}, ...] <br /> }, ... ]
-        }, ... <br />
-        ]
+        <code> 
+[ <br />
+{ <br />
+    publication_id: string, <br />
+    title: string, <br />
+    issued: integer, <br />
+    language: string, <br />
+    doi: string, <br />
+    authors: [ string, ... ], <br />
+    keywords: [ { <br /> values: [{value: string, language: string}, ...] <br /> }, ... ]
+}, ... <br />
+]
         </code>
         </td>
         <td> keywords: comma-separated list of keywords for which cross-reference keywords should be retrieved <br /> limit: maximum number of results </td>
@@ -306,10 +309,10 @@ This guide details the graph-connector API and its usage.
         Get the filter selection for filtering for specific attributes. Returns:
         <br />
         <code>
-        { <br />
-            attribute_name: string, <br />
-            values: [string, ...] <br />
-        }
+{ <br />
+    attribute_name: string, <br />
+    values: [string, ...] <br />
+}
         </code>
         </td>
         <td> - </td>
@@ -323,10 +326,10 @@ This guide details the graph-connector API and its usage.
         Add or modify the filter selection for filtering for specific attributes. Expects data of the following form:
         <br />
         <code>
-        { <br />
-            name: string, <br />
-            value: string <br />
-        }
+{ <br />
+    name: string, <br />
+    value: string <br />
+}
         </code>
         </td>
         <td> - </td>
@@ -349,10 +352,10 @@ This guide details the graph-connector API and its usage.
         <td> 
         Add/modify a filter which range of years the knowledge graph should be queried for. Request has the following form:
         <code>
-        { <br />
-            upper_limit: integer, <br />
-            lower_limit: integer <br />
-        }
+{ <br />
+    upper_limit: integer, <br />
+    lower_limit: integer <br />
+}
         </code>
         </td>
         <td> - </td>
