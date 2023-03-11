@@ -79,12 +79,11 @@ def admin_register():
     return error, 409
 
 
-
 @bp.get('/user')
 @login_required
 def check_logged_in():
     user = g.user
-    return {'username' : user['username']}, 200
+    return {'username': user['username']}, 200
 
 
 @bp.post('/user/login')
