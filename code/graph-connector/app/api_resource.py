@@ -47,7 +47,7 @@ Get publications as results.
 '''
 
 
-@bp.get("publication/results")
+@bp.get("/publication/results")
 def get_results():
     keywords = request.args.get('keywords')
     try:

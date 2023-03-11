@@ -43,3 +43,7 @@ The backend acts as link between Frontend and Knowledge Graph and provides addit
 roles. \
 The Backend is a [Flask application](https://flask.palletsprojects.com/en/2.2.x/) that uses 
 [rdflib](https://rdflib.readthedocs.io/) to interface with the knowledge graph.
+
+
+## API
+Take a look at the [graph-connector API documentation](./documentation/api.md) to get insights into how and with what data to use the backend api.
